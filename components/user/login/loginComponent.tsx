@@ -11,6 +11,7 @@ const LoginComponent: React.FC = () =>{
                     <input type="text" />
                     <p>Password</p>
                     <input type="text" />
+                    <button>LOGIN</button>
                 </LoginContent>
             </LoginContainer>
         </LoginWrap>
@@ -23,7 +24,7 @@ const LoginWrap = styled.div`
 
 const LoginContainer = styled.div`
     width:360px;
-    margin: 200px auto 0 auto;  
+    margin: 150px auto;  
     &>h1{
         margin:0px 0px 20px 0px;
         font-size:26px;
@@ -32,13 +33,21 @@ const LoginContainer = styled.div`
 
 const LoginContent = styled.div`
     &>p{
-        margin:0;
+        margin:0px 0px 5px 0px;
+        font-size:12px;
     }
     &>input{
-        width:100%;
+        width:calc(100% - 25px);
         height:50px;
         outline:none;
         padding:0 10px;
+        margin-bottom:10px;
+    }
+    &>button{
+        width:100%;
+        height:40px;
+        cursor: pointer;
+        outline:none;
     }
 
 `;

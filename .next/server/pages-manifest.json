@@ -4,6 +4,7 @@
   "/_error": "pages/_error.js",
   "/": "pages/index.js",
   "/login": "pages/login.js",
-  "/qna": "pages/qna.js",
-  "/blog": "pages/blog.js"
+  "/blog": "pages/blog.js",
+  "/project": "pages/project.js",
+  "/join": "pages/join.js"
 }

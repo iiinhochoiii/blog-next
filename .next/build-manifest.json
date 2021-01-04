@@ -34,15 +34,20 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/blog.js"
     ],
+    "/join": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/join.js"
+    ],
     "/login": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
       "static/chunks/pages/login.js"
     ],
-    "/qna": [
+    "/project": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/qna.js"
+      "static/chunks/pages/project.js"
     ]
   },
   "ampFirstPages": []
