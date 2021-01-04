@@ -13,7 +13,9 @@ const BaseTemplate = ({children}:props) =>{
             <Header>
                 <Headers />
             </Header>
+                <Content>
                 {children}
+                </Content>
             <footer>
                 <Footer />
             </footer>
@@ -27,5 +29,8 @@ const Wrap = styled.div`
 
 const Header = styled.div`
     
+`;
+const Content = styled.div`
+    height:100vh;
 `;
 export default BaseTemplate;

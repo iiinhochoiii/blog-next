@@ -29,11 +29,6 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/blog": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/blog.js"
-    ],
     "/join": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
@@ -44,10 +39,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/login.js"
     ],
-    "/project": [
+    "/next/dist/pages/_error": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/project.js"
+      "static/chunks/pages/next/dist/pages/_error.js"
     ]
   },
   "ampFirstPages": []
