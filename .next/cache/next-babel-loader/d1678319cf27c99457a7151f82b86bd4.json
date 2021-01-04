@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './footer';","map":{"version":3,"sources":["D:/workspace/blog/components/layout/footer/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,UAAtB","sourcesContent":["export {default} from './footer';\r\n"]},"metadata":{},"sourceType":"module"}

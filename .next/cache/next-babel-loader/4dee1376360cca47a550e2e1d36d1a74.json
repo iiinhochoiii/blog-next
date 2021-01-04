@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './baseTemplate';","map":{"version":3,"sources":["D:/workspace/blog/components/template/base/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,gBAAtB","sourcesContent":["export {default} from './baseTemplate';"]},"metadata":{},"sourceType":"module"}
