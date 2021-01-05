@@ -8,7 +8,7 @@ const Headers:React.FC = () =>{
                 <HeaderContent>
                     <div className="logo">
                         <Link href="/">
-                            <a>LOGO</a>
+                            <a>CHOI-LOG</a>
                         </Link>
                     </div>
                     <div className="menu">
@@ -37,7 +37,8 @@ const Headers:React.FC = () =>{
 }
 
 const HeaderWrap = styled.div`
-    background-color:#33FF99;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 10px -5px;
     padding:20px 0px;
 `;
 
@@ -67,6 +68,7 @@ const HeaderContent = styled.div`
         display:flex;
         &>a{
             margin:0px 10px;
+            font-weight:bold;
         }
     }
     &>.auth{
