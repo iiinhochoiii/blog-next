@@ -62,7 +62,10 @@ const HeaderContent = styled.div`
         }
     }
     &>.logo{
-    
+        font-family: 'Audiowide', cursive;
+        &>a{
+            font-size:22px;
+        }
     }
     &>.menu{
         display:flex;

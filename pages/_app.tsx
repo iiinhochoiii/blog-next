@@ -1,5 +1,6 @@
 import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import Head from 'next/head';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -30,6 +31,10 @@ class App extends React.Component<Props>{
         const { Component, pageProps } = this.props;
         return(
             <>
+            <Head>
+            <link rel="preconnect" href="https://fonts.gstatic.com" />
+            <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
+            </Head>
             <GlobalStyle />
             <ThemeProvider theme={theme}>
                 <Component {...pageProps} />
