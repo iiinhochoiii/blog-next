@@ -31,6 +31,6 @@ const Header = styled.div`
     
 `;
 const Content = styled.div`
-    height:100vh;
+
 `;
 export default BaseTemplate;
