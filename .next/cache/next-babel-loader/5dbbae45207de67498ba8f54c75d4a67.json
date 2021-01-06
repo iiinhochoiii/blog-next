@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { jsx as _jsx } from \"react/jsx-runtime\";\nimport BaseTemplate from '../../components/template/base';\n\nvar Qna = function Qna() {\n  return /*#__PURE__*/_jsx(BaseTemplate, {\n    children: \"/Qna\"\n  });\n};\n\nexport default Qna;","map":null,"metadata":{},"sourceType":"module"}

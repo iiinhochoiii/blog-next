@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { jsx as _jsx } from \"react/jsx-runtime\";\nimport React from 'react';\nimport LoginComponent from '../../components/user/login';\n\nclass LoginContainer extends React.Component {\n  render() {\n    return /*#__PURE__*/_jsx(LoginComponent, {});\n  }\n\n}\n\nexport default LoginContainer;","map":null,"metadata":{},"sourceType":"module"}

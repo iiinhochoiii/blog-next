@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { jsx as _jsx } from \"react/jsx-runtime\";\nimport BaseTemplate from '../components/template/base';\n\nconst Join = () => {\n  return /*#__PURE__*/_jsx(BaseTemplate, {\n    children: \"/Join\"\n  });\n};\n\nexport default Join;","map":null,"metadata":{},"sourceType":"module"}
