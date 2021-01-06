@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 
+import ExplainSite from './explainSite';
 import LatestPosts from './latestPosts';
 
 const MainComponent: React.FC = () =>{
@@ -13,6 +14,7 @@ const MainComponent: React.FC = () =>{
                         <SearchIcon />
                     </div>
             </MainBackground>
+            <ExplainSite />
             <LatestPosts />
         </MainWrap>
     );
