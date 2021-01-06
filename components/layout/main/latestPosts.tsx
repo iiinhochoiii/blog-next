@@ -1,14 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const LatestPosts: React.FC = () =>{
     const data = [1,2,3];
-    console.log(data);
     return(
         <PostsWrap>
             <PostsContainer>
                 <PostsHeader>
                     <h1>Lastst Posts</h1>
+                    <Link href="/blog">
+                        <a>more</a>
+                    </Link>
+                    <ArrowForwardIosIcon />
                 </PostsHeader>
                 <PostsContent>
                     {data.map((item:any)=>
@@ -34,19 +39,36 @@ const LatestPosts: React.FC = () =>{
 }
 
 const PostsWrap = styled.div`
-    width:1180px;
-    margin: 0 auto;
-    max-width:100%;
+    margin:100px 0px 0px 0px;
+    background-color:rgb(248,248,248);
 `;
 
-const PostsContainer = styled.div`
-     margin: 50px 0px 0px 0px;
+const PostsContainer = styled.div`  
+        padding:50px 0px 100px 0px;
+        width:1180px;
+        margin: 0 auto;
+        max-width:100%;
 `;
 
 const PostsHeader = styled.div`
+    display:flex;
+    justify-content:space-between;
     &>h1{
         font-size:28px;
         font-weight:400;
+        margin:0;
+    }
+    &>a{
+        color:#333333;
+        text-decoration:none;
+        margin:auto 0px 0px auto;
+        cursor: pointer;
+        font-size:16px;
+    }
+    &>svg{
+        width:12px;
+        height:12px;
+        margin:auto 0px 2px 0px;
     }
 `;
 

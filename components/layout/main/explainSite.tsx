@@ -20,11 +20,21 @@ const ExplainSite: React.FC = () =>{
                 <div>
                     <h2>기술 분석</h2>
                     <p>
-                        자신이 개발한 프로젝트를 다른 개발자가 볼 수 있도록 공유를 합니다. 이는, 다른 개발자 들에게 기술 분석을 할 수 있도록 경험을 제공하기도 하며,
-                        피드백을 받을 수 있기도 합니다. 모든 개발자들이 조금 더 나은 개발을 하도록 기대합니다.
+                        자신이 개발한 프로젝트를 다른 개발자가 볼 수 있도록 공유를 합니다. 이는, 기술 분석을 할 수 있도록 경험 및 기회를 제공하기도 하며,
+                        다른 개발자로 부터 피드백을 받을 수 있기도 합니다. 모든 개발자들이 조금 더 나은 개발을 하도록 기대합니다.
                     </p>
-                    <Link href="/blog">
+                    <Link href="/project">
                         <a style={{backgroundColor:"#99FF99"}}># project</a>
+                    </Link>
+                </div>
+                <div>
+                    <h2>실시간 질의응답</h2>
+                    <p>
+                        개발자들이 공유한 경험 및 기술 외 적으로, 질의 응답을 수행 합니다. 주로 프론트엔드로 구성 되어있지만, React 외 프론트 엔드 기술,
+                        또는 서버 사이드 언어 등 기술에 관련하여, 질문하고 답할 수 있습니다.
+                    </p>
+                    <Link href="/qna">
+                        <a style={{backgroundColor:"#CCFF33"}}># {`Q&A`}</a>
                     </Link>
                 </div>
             </ExplainContent>
@@ -40,7 +50,7 @@ const ExplainWrap = styled.div`
 `;
 
 const ExplainContainer = styled.div`
-    margin:50px 0px 0px 0px;
+    margin:100px 0px 0px 0px;
     &>h1{
         font-size:28px;
         font-weight:400;
@@ -62,7 +72,7 @@ const ExplainContent = styled.div`
             margin:15px 0px 15px 0px;
             font-size:16px;
             font-weight:100;
-            line-height:26px;
+            line-height:28px;
         }
         &>a{
             text-decoration:none;

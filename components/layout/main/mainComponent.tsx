@@ -14,8 +14,10 @@ const MainComponent: React.FC = () =>{
                         <SearchIcon />
                     </div>
             </MainBackground>
-            <ExplainSite />
-            <LatestPosts />
+            <MainContent>
+                <ExplainSite />
+                <LatestPosts />
+            </MainContent>
         </MainWrap>
     );
 }
@@ -50,5 +52,8 @@ const MainBackground = styled.div`
             cursor: pointer;
         }
     }
+`;
+
+const MainContent = styled.div`
 `;
 export default MainComponent;
