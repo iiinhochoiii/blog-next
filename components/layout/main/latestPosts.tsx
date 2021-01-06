@@ -1,9 +1,9 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 
 const LatestPosts: React.FC = () =>{
-    const [data, setData] = useState<any>(Array.from({length:3},(i, v)=>v));
+    const [data] = useState<any>(Array.from({length:3},(i, v)=>v));
     console.log(data);
     return(
         <PostsWrap>
