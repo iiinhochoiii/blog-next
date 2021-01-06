@@ -17,7 +17,7 @@ const Headers:React.FC = () =>{
     }, [height]);
     
     return(
-        <HeaderWrap style={height>0?{backgroundColor:"#00020B"}:{}}>
+        <HeaderWrap style={height>0?{position:"fixed", top:"0"}:{}}>
             <HeaderContainer>
                 <HeaderContent>
                     <div className="logo">
@@ -51,12 +51,10 @@ const Headers:React.FC = () =>{
 }
 
 const HeaderWrap = styled.div`
-    background:none;
+    background:#ffffff;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 10px -5px;
     padding:20px 0px;
     width:100%;
-    position:fixed;
-    top:0;
     z-index:10;
 `;
 
@@ -77,7 +75,6 @@ const HeaderContent = styled.div`
             color:#333333;
             text-decoration:none;
             cursor: pointer;
-            color:#ffffff;
         }
     }
     &>.logo{
