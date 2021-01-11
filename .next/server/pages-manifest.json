@@ -3,7 +3,7 @@
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
   "/": "pages/index.js",
-  "/blog": "pages/blog.js",
+  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
   "/login": "pages/login.js",
   "/join": "pages/join.js"
 }

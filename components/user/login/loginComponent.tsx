@@ -30,6 +30,11 @@ const LoginComponent: React.FC = () =>{
                         <button>LOGIN</button>
                     </div>
                 </LoginContent>
+                <LoginFooter>
+                    <p>
+                    Copyright © 2021 by Choi Tech, Inc. All rights reserved
+                    </p>
+                </LoginFooter>
             </LoginContainer>
         </LoginWrap>
     );
@@ -51,10 +56,6 @@ const LoginHeader = styled.div`
 const LoginContainer = styled.div`
     width:360px;
     margin: 150px auto;  
-    &>h1{
-        margin:0px 0px 20px 0px;
-        font-size:26px;
-    }
 `;
 
 const LoginContent = styled.div`
@@ -94,6 +95,13 @@ const LoginContent = styled.div`
             font-weight:bold;
             border:none;
         }
+    }
+`;
+
+const LoginFooter = styled.div`
+margin-top:30px;
+    &>p{
+        font-size:10px;
     }
 `;
 export default LoginComponent;

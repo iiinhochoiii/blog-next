@@ -1,10 +1,7 @@
-import BaseTemplate from '../components/template/base';
-
+import JoinComponent from '../components/user/join';
 const Join = () =>{
     return(
-        <BaseTemplate>
-            /Join
-        </BaseTemplate>
+      <JoinComponent />  
     );
 }
 
