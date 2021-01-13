@@ -67,7 +67,7 @@ const JoinContent = styled.div`
         font-weight:400;
     }
     &>p{
-        margin:10px 0px 0px 0px;
+        margin:10px 0px 5px 0px;
     }
     &>div{
         display:flex;

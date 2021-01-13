@@ -29,20 +29,20 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/join": [
+    "/blog": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/join.js"
+      "static/chunks/pages/blog.js"
     ],
-    "/login": [
+    "/project": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/login.js"
+      "static/chunks/pages/project.js"
     ],
-    "/next/dist/pages/_error": [
+    "/question": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/next/dist/pages/_error.js"
+      "static/chunks/pages/question.js"
     ]
   },
   "ampFirstPages": []

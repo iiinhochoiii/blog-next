@@ -1,9 +1,10 @@
 import BaseTemplate from '../../components/template/base';
+import ProjectComponent from '../../components/project';
 
 const Project = () =>{
     return(
         <BaseTemplate>
-            /project
+            <ProjectComponent />
         </BaseTemplate>
     );
 }

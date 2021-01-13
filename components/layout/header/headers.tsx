@@ -32,8 +32,8 @@ const Headers:React.FC = () =>{
                         <Link href="/project">
                             <a>프로젝트</a>
                         </Link>
-                        <Link href="/qna">
-                            <a>{`QnA`}</a>
+                        <Link href="/question">
+                            <a>질문과답변</a>
                         </Link>
                     </div>
                     <div className="auth">
@@ -94,6 +94,8 @@ const HeaderContent = styled.div`
         display:flex;
         &>a{
             margin-left:10px;
+            font-weight:bold;
+            color:rgb(80,80,80);
         }
     }
 `;
