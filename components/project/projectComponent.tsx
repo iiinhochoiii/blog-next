@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 const ProjectComponent: React.FC = () =>{
     const data = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
@@ -15,7 +16,9 @@ const ProjectComponent: React.FC = () =>{
             <ProjectContainer>
                 <div className="content_header">
                     <h1>Related Projects</h1>
-                    <p>새 글 작성</p>
+                    <Link href="/project/create">
+                        <a>새 글 작성</a>
+                    </Link>
                 </div>
                 <ProjectContent>
                     {data.map((item)=>
@@ -78,7 +81,9 @@ const ProjectContainer = styled.div`
         &>h1{
             margin:0;
         }
-        &>p{
+        &>a{
+            color:#333333;
+            text-decoration:none;
             margin:auto 0px 0px 0px;
             cursor: pointer;
             font-size:14px;

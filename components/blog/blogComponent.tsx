@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
+import Link from 'next/link';
 
 const BlogComponent: React.FC = () =>{
     const data = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
@@ -16,7 +17,9 @@ const BlogComponent: React.FC = () =>{
             <BlogContainer>
                 <div className="content_header">
                     <h1>Related Posts</h1>
-                    <p>새 글 작성</p>
+                    <Link href="/blog/create">
+                        <a>새 글 작성</a>
+                    </Link>
                 </div>
                 <BlogContent>
                     <div className="blog_content">
@@ -78,7 +81,9 @@ const BlogContainer = styled.div`
         &>h1{
             margin:0;
         }
-        &>p{
+        &>a{
+            color:#333333;
+            text-decoration:none;
             margin:auto 0px 0px 0px;
             cursor: pointer;
             font-size:14px;

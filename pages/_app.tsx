@@ -2,6 +2,17 @@ import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Head from 'next/head';
 
+import { Provider } from 'mobx-react';
+import RootStore from '../stores';
+import { configure } from 'mobx';
+
+configure({
+	useProxies: 'never',
+	enforceActions: 'never',
+});
+
+const stores = new RootStore();
+
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
@@ -30,7 +41,7 @@ class App extends React.Component<Props>{
     render(){
         const { Component, pageProps } = this.props;
         return(
-            <>
+            <Provider {...stores}>
             <Head>
             <link rel="preconnect" href="https://fonts.gstatic.com" />
             <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
@@ -39,7 +50,7 @@ class App extends React.Component<Props>{
             <ThemeProvider theme={theme}>
                 <Component {...pageProps} />
             </ThemeProvider>
-            </>
+            </Provider>
         );
     }
 }

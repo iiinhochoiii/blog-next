@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './loginComponent';","map":{"version":3,"sources":["D:/workspace/blog/blog-nextjs/components/user/login/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,kBAAtB","sourcesContent":["export {default} from './loginComponent';"]},"metadata":{},"sourceType":"module"}

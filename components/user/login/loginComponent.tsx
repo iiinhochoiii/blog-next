@@ -63,7 +63,7 @@ const LoginContent = styled.div`
     &>.user-info-wrap{
         &>p{
             margin:0px 0px 5px 0px;
-            font-size:12px;
+            font-size:10px;
         }
         &>input{
             width:calc(100% - 25px);
@@ -71,6 +71,10 @@ const LoginContent = styled.div`
             outline:none;
             padding:0 10px;
             margin-bottom:10px;
+            font-size:12px;
+            border-radius:5px;
+            background:none;
+            border:1px solid #333333;
         }
     }
     &>.user-info-forgot{
@@ -89,11 +93,12 @@ const LoginContent = styled.div`
             height:45px;
             cursor: pointer;
             outline:none;
-            background-color:#00FF99;
+            background-color:rgb(18, 184, 134);
             color:#ffffff;
             font-size:16px;
             font-weight:bold;
             border:none;
+            border-radius:5px;
         }
     }
 `;

@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './projectCreateComponent';","map":{"version":3,"sources":["D:/workspace/blog/blog-nextjs/components/project/create/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,0BAAtB","sourcesContent":["export {default} from './projectCreateComponent';"]},"metadata":{},"sourceType":"module"}

@@ -1,32 +1,87 @@
 import React from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 const JoinComponent: React.FC = () =>{
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
+
+    const isEmail:any = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    const isPassword:any = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{7,}.$/;
+    const onChangeHandler = (e:any) =>{
+        const {id, value} = e.target;
+        switch(id){
+            case 'email' :
+                return setEmail(value);
+            case 'password' :
+                return setPassword(value);
+            case 'passwordConfirm' :
+                return setPasswordConfirm(value);
+            case 'name' :
+                return setName(value);
+            case 'phone' :
+                return setPhone(value);
+        }
+    }
+
+    const emailCheckHandler = () =>{
+        alert('테스트');
+    }
+
+    const joinHandler = () =>{
+        if(!isEmail.test(email)){
+            alert('이메일 정확히 입력해 주세요.');
+            document.getElementById('email')?.focus();
+        }
+        else if(!isPassword.test(password)){
+            alert('영문, 숫자, 특수문자를 포함한 8자리 이상을 입력해주세요.');
+            document.getElementById('password')?.focus();
+        }
+        else if (password !== passwordConfirm){
+            alert('패스워드가 일치하지 않습니다.');
+            document.getElementById('passwordConfirm')?.focus();
+        }
+        else if(name===''){
+            alert('이름을 입력해주세요.');
+            document.getElementById('name')?.focus();
+        }
+        else if(phone===''){
+            alert('핸드폰번호를 입력해주세요.')
+            document.getElementById('phone')?.focus();
+        }
+        else{
+            console.log(email, password, passwordConfirm, name, phone);
+        }
+    }
+
     return(
         <JoinWrap>
             <JoinContainer>
-                <LoginHeader>
+                <JoinHeader>
                     <Link href="/">
                         <a>Choi Tech</a>
                     </Link>
-                </LoginHeader>
+                </JoinHeader>
                 <JoinContent>
                     <h1>회원 정보를 입력해주세요.</h1>
-                    <p>id or email</p>
+                    <p>email</p>
                     <div>
-                        <input type="text" />
-                        <button>중복확인</button>
+                        <input type="text" placeholder="E-mail을 입력해주세요." value={email} id="email" onChange={onChangeHandler}/>
+                        <button onClick={emailCheckHandler}>중복확인</button>
                     </div>
                     <p>password</p>
-                    <input type="text" placeholder="비밀번호를 입력해 주세요."/>
+                    <input type="password" placeholder="비밀번호를 입력해 주세요." value={password} id="password" onChange={onChangeHandler}/>
                     <p>password Confirm</p>
-                    <input type="text" placeholder="비밀번호 확인" />
+                    <input type="password" placeholder="비밀번호 확인" value={passwordConfirm} id="passwordConfirm" onChange={onChangeHandler}/>
                     <p>name</p>
-                    <input type="text" placeholder="이름을 입력해 주세요." />
+                    <input type="text" placeholder="이름을 입력해 주세요." value={name} id="name" onChange={onChangeHandler}/>
                     <p>핸드폰번호</p>
-                    <input type="text" placeholder="-를 제외한 핸드폰 번호를 입력해주세요." />
+                    <input type="text" placeholder="-를 제외한 핸드폰 번호를 입력해주세요." value={phone} id="phone" onChange={onChangeHandler}/>
                     <div className="user_join">
-                        <button>LOGIN</button>
+                        <button onClick={joinHandler}>Sign Up</button>
                     </div>
                 </JoinContent>
                 <LoginFooter>
@@ -51,7 +106,7 @@ const JoinContainer = styled.div`
         font-size:26px;
     }
 `;
-const LoginHeader = styled.div`
+const JoinHeader = styled.div`
     text-align:center;
     &>a{
         font-family: 'Audiowide',cursive;
@@ -62,12 +117,15 @@ const LoginHeader = styled.div`
 `;
 
 const JoinContent = styled.div`
+    margin-top:30px;
     &>h1{
         font-size:16px;
         font-weight:400;
+        text-align:center;
     }
     &>p{
         margin:10px 0px 5px 0px;
+        font-size:10px;
     }
     &>div{
         display:flex;
@@ -77,9 +135,22 @@ const JoinContent = styled.div`
             width:calc(70% - 25px);
             height:45px;
             outline:none;
+            font-size:12px;
+            background:none;
+            border-radius:5px;
+            border:1px solid #333333;
         }
         &>button{
             width:25%;
+            height:45px;
+            cursor: pointer;
+            outline:none;
+            background-color:rgb(18, 184, 134);
+            color:#fff;
+            font-size:16px;
+            font-weight:bold;
+            border:none;
+            border-radius:5px;
         }
     }
     &>input{
@@ -88,6 +159,10 @@ const JoinContent = styled.div`
             outline:none;
             padding:0 10px;
             margin-bottom:10px;
+            font-size:12px;
+            background:none;
+            border-radius:5px;
+            border:1px solid #333333;
     }
     &>.user_join{
         &>button{
@@ -95,11 +170,12 @@ const JoinContent = styled.div`
             height:45px;
             cursor: pointer;
             outline:none;
-            background-color:#00FF99;
+            background-color:rgb(18, 184, 134);
             color:#ffffff;
             font-size:16px;
             font-weight:bold;
             border:none;
+            border-radius:5px;
         }
     }
 `;
