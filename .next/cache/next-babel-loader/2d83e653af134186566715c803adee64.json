@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './projectComponent';","map":{"version":3,"sources":["D:/workspace/blog/components/project/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,oBAAtB","sourcesContent":["export {default} from './projectComponent';"]},"metadata":{},"sourceType":"module"}

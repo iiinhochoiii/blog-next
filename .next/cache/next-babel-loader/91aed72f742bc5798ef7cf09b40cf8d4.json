@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './blogComponent';","map":{"version":3,"sources":["D:/workspace/blog/components/blog/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,iBAAtB","sourcesContent":["export {default} from './blogComponent';"]},"metadata":{},"sourceType":"module"}

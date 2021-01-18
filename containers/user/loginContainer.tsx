@@ -11,8 +11,9 @@ interface Props{
 @observer
 class LoginContainer extends React.Component<Props>{
     private testStore = this.props.testStore as TestStore;
-    componentDidMount(){
-        console.log(this.testStore.test);
+     async componentDidMount(){
+         await this.testStore.getApiData();
+         console.log(this.testStore.apiData)
     }
     render(){
         return(

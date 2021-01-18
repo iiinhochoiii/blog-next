@@ -1,1 +1,0 @@
-{"ast":null,"code":"import { jsx as _jsx } from \"react/jsx-runtime\";\nimport BaseTemplate from '../../components/template/base';\n\nconst Project = () => {\n  return /*#__PURE__*/_jsx(BaseTemplate, {\n    children: \"/project\"\n  });\n};\n\nexport default Project;","map":null,"metadata":{},"sourceType":"module"}

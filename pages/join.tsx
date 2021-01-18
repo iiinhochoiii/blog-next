@@ -1,7 +1,8 @@
-import JoinComponent from '../components/user/join';
+import JoinContainer from '../containers/user/joinContainer';
+
 const Join = () =>{
     return(
-      <JoinComponent />  
+      <JoinContainer />  
     );
 }
 

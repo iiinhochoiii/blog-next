@@ -1,8 +1,14 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-const JoinComponent: React.FC = () =>{
+import {checkIdStatus} from '../../../stores/users/types';
+import {toJS} from 'mobx';
+interface Props{
+    checkId:(email:string)=>void;
+    checkIdStatus?:checkIdStatus;
+}
+const JoinComponent: React.FC<Props> = ({checkId, checkIdStatus}) =>{
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [passwordConfirm, setPasswordConfirm] = useState<string>('');
@@ -28,12 +34,17 @@ const JoinComponent: React.FC = () =>{
     }
 
     const emailCheckHandler = () =>{
-        alert('테스트');
+        if(!isEmail.test(email)){
+            alert('이메일을 정확히 입력해주세요.');
+        }
+        else{
+            checkId(email);
+        }
     }
 
     const joinHandler = () =>{
-        if(!isEmail.test(email)){
-            alert('이메일 정확히 입력해 주세요.');
+        if(!checkIdStatus?.status){
+            alert('중복확인을 하지 않았습니다.');
             document.getElementById('email')?.focus();
         }
         else if(!isPassword.test(password)){
@@ -72,6 +83,7 @@ const JoinComponent: React.FC = () =>{
                         <input type="text" placeholder="E-mail을 입력해주세요." value={email} id="email" onChange={onChangeHandler}/>
                         <button onClick={emailCheckHandler}>중복확인</button>
                     </div>
+                    <span>{checkIdStatus?.massage}</span>
                     <p>password</p>
                     <input type="password" placeholder="비밀번호를 입력해 주세요." value={password} id="password" onChange={onChangeHandler}/>
                     <p>password Confirm</p>
