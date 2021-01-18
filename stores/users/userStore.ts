@@ -37,6 +37,19 @@ class UserStore extends BaseStore{
             this._pending["CHECK_EMAIL_COMPLETE"] = false;
         }
     }
+
+    @action
+    createUser = async(email:string, password:string, name:string, phone:string) =>{
+        this._init('CREATE_USER');
+        try{
+            console.log(email, password, name, phone);
+            this._success["CREATE_USER"] = true;
+        } catch(e){
+            this._failure["CREATE_USER"] = [true ,e];
+        } finally{
+            this._pending["CREATE_USER"] = false;
+        }
+    }
 }
 
 export default UserStore;
