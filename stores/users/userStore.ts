@@ -42,8 +42,10 @@ class UserStore extends BaseStore{
     createUser = async(email:string, password:string, name:string, phone:string) =>{
         this._init('CREATE_USER');
         try{
-            console.log(email, password, name, phone);
-            this._success["CREATE_USER"] = true;
+            const res = await client.post('/api/users', qs.stringify({email:email, password:password, name:name, phone:phone}));
+            if(res.data.status){
+                this._success["CREATE_USER"] = true;
+            }
         } catch(e){
             this._failure["CREATE_USER"] = [true ,e];
         } finally{
