@@ -1,1 +1,0 @@
-{"ast":null,"code":"export { default } from './joinComponent';","map":{"version":3,"sources":["D:/workspace/blog/blog-nextjs/components/user/join/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,iBAAtB","sourcesContent":["export {default} from './joinComponent';"]},"metadata":{},"sourceType":"module"}

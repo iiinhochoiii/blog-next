@@ -1,1 +1,0 @@
-{"ast":null,"code":"export { default } from './questionComponent';","map":{"version":3,"sources":["D:/workspace/blog/blog-nextjs/components/question/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,qBAAtB","sourcesContent":["export {default} from './questionComponent';"]},"metadata":{},"sourceType":"module"}
