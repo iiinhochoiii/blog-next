@@ -6,6 +6,9 @@ import { Provider } from 'mobx-react';
 import RootStore from '../stores';
 import { configure } from 'mobx';
 
+import 'prismjs/themes/prism-tomorrow.css';
+import 'prismjs';
+
 configure({
 	useProxies: 'never',
 	enforceActions: 'never',

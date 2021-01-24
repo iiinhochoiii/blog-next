@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './blogCreateComponent';","map":{"version":3,"sources":["D:/workspace/blog/blog-nextjs/components/blog/create/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,uBAAtB","sourcesContent":["export {default} from './blogCreateComponent';"]},"metadata":{},"sourceType":"module"}

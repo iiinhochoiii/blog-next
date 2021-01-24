@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './blogReadComponent';","map":{"version":3,"sources":["D:/workspace/blog/blog-nextjs/components/blog/read/index.ts"],"names":["default"],"mappings":"AAAA,SAAQA,OAAR,QAAsB,qBAAtB","sourcesContent":["export {default} from './blogReadComponent';"]},"metadata":{},"sourceType":"module"}
