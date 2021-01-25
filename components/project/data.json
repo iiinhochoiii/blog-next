@@ -1,0 +1,11 @@
+[
+    {
+    "id":1,
+    "date":"2020-06 ~",
+    "summary":"연예인, 유튜버 등 셀럽의 애장품과 재능을 구매 할 수 있는, 기부 경매 플랫폼 베리스토어에서 React(Next)를 이용하여 프론트 개발",
+    "dev":["React","Next","Mobx","Typescript","Styled-component", "webpack"],
+    "content":"작품소개 -기부 플랫폼 스타트업 (유명인 애장품 및 재능 기부 경매) -기술스택 : React, React-hooks, Typescript, Mobx, Styled-components, webpack, babel, react-strap, material-ui -주요 기능: rest 통신 api 연결, 외부 api (daum-postcode, kakao-login, smtp.js ...) 연결, 정규식/유효성 검사, 암호화(aes256, bcrypt)",
+    "image":"./projectImages/project_berrystore.png",
+    "url":"https://berrystore.co.kr"
+    }
+]

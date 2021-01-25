@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
+import Truncate from 'react-truncate';
+import myData from './data.json';
 
 const ProjectComponent: React.FC = () =>{
-    const data = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
-
+    console.log(myData)
     return(
         <ProjectWrap>
             <ProjectBackground style={{backgroundImage:`url(${'./images/projectBackground.png'})`}}>
@@ -16,23 +16,24 @@ const ProjectComponent: React.FC = () =>{
             <ProjectContainer>
                 <div className="content_header">
                     <h1>Related Projects</h1>
-                    <Link href="/project/create">
-                        <a>새 글 작성</a>
-                    </Link>
                 </div>
                 <ProjectContent>
-                    {data.map((item)=>
-                    <article key={item}>
+                    {myData.map((item)=>
+                    <article key={item.id}>
                         <div className="content_wrap">
-                            <div className="image">
-
+                            <div className="image" style={{backgroundImage:`url(${item.image})`}}>
                             </div>
                             <div className="info">
-                                <p>작성날짜</p>
-                                <p>title</p>
-                                <p>주요기능</p>
+                                <p><Truncate>{item.summary}</Truncate></p>
+                                <p>
+                                    {item.dev.map((dev, index)=>
+                                    <span key={index}>{dev}</span>
+                                    )}
+                                </p>
+                                <p>{item.date}</p>
                                 <div>
-                                    <p>userInfo</p>
+                                    <div><p>인호</p></div>
+                                    <p>최인호</p>
                                 </div>
                             </div>
                         </div>
@@ -99,14 +100,14 @@ const ProjectContent = styled.div`
     flex-wrap:wrap;
     justify-content:space-between;
     &>article{
-        width:45%;
-        border:1px solid;
+        border:1px solid #b4b2b2;
+        width:30%;
         margin-bottom:20px;
         border-radius:10px;
         cursor: pointer;
         &>.content_wrap{
             position: relative;
-            padding-bottom:70%;
+            padding-bottom:100%;
             &>.image{
                 position:absolute;
                 top:0;
@@ -115,6 +116,7 @@ const ProjectContent = styled.div`
                 bottom:50%;
                 background-color:#e5e5e5;
                 border-radius:10px 10px 0px 0px;
+                background-size:100% !important;
             }
             &>.info{
                 padding:20px;
@@ -124,7 +126,30 @@ const ProjectContent = styled.div`
                 right:0;
                 bottom:0;
                 &>p{
-                    margin:0;
+                    margin:0px 0px 10px 0px;
+                    font-size:12px;
+                    &>span{
+                        margin-right:5px;
+                    }
+                }
+                &>div{
+                    display:flex;
+                    &>div{
+                        border-radius:50%;
+                        background-color:#3C5087;
+                        width:35px;
+                        height:35px;
+                        display:flex;
+                        &>p{
+                            margin:auto;
+                            font-size:12px;
+                            color:white;
+                            font-weight:bold;
+                        }
+                    }
+                    &>p{
+                        margin:auto 0px auto 5px;
+                    }
                 }
             }
         }

@@ -27,7 +27,7 @@ const ExplainSite: React.FC = () =>{
                         <a style={{backgroundColor:"#99FF99"}}># project</a>
                     </Link>
                 </div>
-                <div>
+                {/* <div>
                     <h2>실시간 질의응답</h2>
                     <p>
                         개발자들이 공유한 경험 및 기술 외 적으로, 질의 응답을 수행 합니다. 주로 프론트엔드로 구성 되어있지만, React 외 프론트 엔드 기술,
@@ -36,7 +36,7 @@ const ExplainSite: React.FC = () =>{
                     <Link href="/qna">
                         <a style={{backgroundColor:"#CCFF33"}}># {`Q&A`}</a>
                     </Link>
-                </div>
+                </div> */}
             </ExplainContent>
             </ExplainContainer>
         </ExplainWrap>

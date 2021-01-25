@@ -27,13 +27,13 @@ const Headers:React.FC = () =>{
                     </div>
                     <div className="menu">
                         <Link href="/blog">
-                            <a>블로그</a>
+                            <a>blog</a>
                         </Link>
                         <Link href="/project">
-                            <a>프로젝트</a>
+                            <a>project</a>
                         </Link>
-                        <Link href="/question">
-                            <a>질문과답변</a>
+                        <Link href="/about">
+                            <a>about</a>
                         </Link>
                     </div>
                     <div className="auth">
