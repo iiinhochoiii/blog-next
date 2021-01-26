@@ -4,8 +4,12 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import ExplainSite from './explainSite';
 import LatestPosts from './latestPosts';
+import {blogs} from '../../../stores/blog/types';
 
-const MainComponent: React.FC = () =>{
+interface Props{
+    blogs:blogs[];
+}
+const MainComponent: React.FC<Props> = ({blogs}) =>{
     return(
         <MainWrap>
             <MainBackground style={{backgroundImage:`url(${'./images/mainBackground.png'})`}}>
@@ -16,7 +20,9 @@ const MainComponent: React.FC = () =>{
             </MainBackground>
             <MainContent>
                 <ExplainSite />
-                <LatestPosts />
+                <LatestPosts 
+                    blogs={blogs}
+                />
             </MainContent>
         </MainWrap>
     );

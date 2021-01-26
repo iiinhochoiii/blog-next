@@ -25,7 +25,7 @@ const BlogComponent: React.FC<Props> = ({blogs}) =>{
                 </div>
                 <BlogContent>
                     <div className="blog_content">
-                        {blogs.map((item)=>
+                        {blogs.reverse().map((item)=>
                         <Link href="/blog/[id]" as={`/blog/${item.blog_id}`}  key={item.blog_id}>
                             <a>
                                 <article>

@@ -1,10 +1,10 @@
 import BaseTemplate from '../components/template/base';
-import MainComponent from '../components/layout/main';
+import MainContainer from '../containers/main/mainContainer';
 
 const Index = () =>{
     return(
         <BaseTemplate>
-            <MainComponent />
+            <MainContainer />
         </BaseTemplate>
     );
 }
