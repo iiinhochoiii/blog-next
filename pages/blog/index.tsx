@@ -1,9 +1,9 @@
 import BaseTemplate from '../../components/template/base';
-import BlogComponent from '../../components/blog';
+import BlogContainer from '../../containers/blog/blogContainer';
 const Blog = () =>{
     return(
         <BaseTemplate>
-            <BlogComponent />
+            <BlogContainer />
         </BaseTemplate>
     );
 }

@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import Link from 'next/link';
+import {blogs} from '../../stores/blog/types';
 
-const BlogComponent: React.FC = () =>{
-    const data = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
-
+interface Props{
+    blogs:blogs[];
+}
+const BlogComponent: React.FC<Props> = ({blogs}) =>{
     return(
         <BlogWrap>
             <BlogBackground style={{backgroundImage:`url(${'./images/blogBackground.png'})`}}>
@@ -23,19 +25,22 @@ const BlogComponent: React.FC = () =>{
                 </div>
                 <BlogContent>
                     <div className="blog_content">
-                        {data.map((item:any)=>
-                        <article key={item}>
-                            <h2>this is title wrap</h2>
-                            <span>{moment().format("YYYY.MM.DD")}</span>
-                            <p>
-                                this is description wrap<br />
-                                this is description wrap<br />
-                                this is description wrap
-                            </p>
-                            <div>
-                                user info wrap
-                            </div>
-                        </article>
+                        {blogs.map((item)=>
+                        <Link href="/blog/[id]" as={`/blog/${item.blog_id}`}  key={item.blog_id}>
+                            <a>
+                                <article>
+                                    <h2>{item.title}</h2>
+                                    <span>{moment(item.created_at).format("YYYY.MM.DD")}</span>
+                                    <p>
+                                        {item.summary}
+                                    </p>
+                                    <div>
+                                        <div><p>{item.name.slice(1, item.name.length)}</p></div>
+                                        <p>{item.name}</p>
+                                    </div>
+                                </article>
+                            </a>
+                        </Link>
                         )}
                     </div>
                 </BlogContent>
@@ -97,11 +102,35 @@ const BlogContent = styled.div`
     margin:30px 0px 100px 0px;
     &>.blog_content{
         width:100%;
-        &>article{
-            background-color:#ffffff;
-            padding:20px;
-            margin-top:20px;
-            cursor: pointer;
+        &>a{
+            color:#333333;
+            text-decoration:none;
+            &>article{
+                background-color:#ffffff;
+                padding:20px;
+                margin-top:20px;
+                cursor: pointer;
+
+                &>div{
+                    display:flex;
+                    &>div{
+                        width:35px;
+                        height:35px;
+                        border-radius:50%;
+                        background-color:#3C5087;
+                        display:flex;
+                        &>p{
+                            margin:auto;
+                            font-size:11px;
+                            color:#ffffff;
+                            font-weight:500;
+                        }
+                    }
+                    &>p{
+                        margin:auto 0px auto 10px;
+                    }
+                }
+            }
         }
     }
 

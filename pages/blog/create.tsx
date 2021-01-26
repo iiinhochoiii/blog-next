@@ -1,10 +1,10 @@
 import BaseTemplate from '../../components/template/base';
-import BlogCreateComponent from '../../components/blog/create';
+import BlogCreateContainer from '../../containers/blog/blogCreateContainer';
 
 const BlogCreate = () =>{
     return(
         <BaseTemplate>
-            <BlogCreateComponent />
+            <BlogCreateContainer />
         </BaseTemplate>
     );
 }

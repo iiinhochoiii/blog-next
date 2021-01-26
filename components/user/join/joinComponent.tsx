@@ -10,6 +10,7 @@ interface Props{
     createUser:(email:string, password:string, name:string, phone:string)=>void;
 }
 const JoinComponent: React.FC<Props> = ({checkId, checkIdStatus, createUser}) =>{
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [passwordConfirm, setPasswordConfirm] = useState<string>('');

@@ -1,14 +1,19 @@
 import React from 'react';
+import {useEffect} from 'react';
 import styled from 'styled-components';
 import Parser from 'html-react-parser';
-import 'prismjs';
-const BlogReadComponent: React.FC = () =>{
-    const code:any = `
-    <ol> <li>test</li> </ol> <pre class="lang-js"><code data-language="js">import React from 'react'; 
-    console.log('test'); </code></pre>`;
+import {blogs} from '../../../stores/blog/types';
+import Prism from 'prismjs';
+interface Props{
+    blogItem?:blogs;
+}
+const BlogReadComponent: React.FC<Props> = ({blogItem}) =>{
+    useEffect(()=>{
+        Prism.highlightAll();
+    });
     return(
         <Wrap>
-            {Parser(code)}
+           {blogItem&&Parser(blogItem.content)}
         </Wrap>
 
     );

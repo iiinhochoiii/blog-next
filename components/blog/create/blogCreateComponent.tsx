@@ -19,9 +19,14 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, any>((pr
 
 interface asdProps extends EditorProps{
     valueType?: "markdown" | "html";
+    createBlog:(title:string, summary:string, content:string, type:string)=>void;
 }
 const BlogCreateComponent: React.FC<asdProps> = (props) =>{
-    const [data, setData] = useState<any>('');
+    const createBlog = props.createBlog;
+    const [title, setTitle] = useState<string>('');
+    const [summary, setSummary] = useState<string>('');
+    const [content, setContent] = useState<any>('');
+    const [type, setType] = useState<string>('React');
     const { initialValue, previewStyle, height, initialEditType, useCommandShortcut } = props;
 
    const editorRef = React.useRef<EditorType>();
@@ -32,32 +37,125 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
     }
         const instance = editorRef.current.getInstance();
         // const valueType = props.valueType || 'markdown';
-        setData(instance.getHtml());
+        setContent(instance.getHtml());
    },[props, editorRef]);
 
+   const changeHandler = (e:React.ChangeEvent<HTMLInputElement> | any) =>{
+        const {id, value} = e.target;
+        switch(id){
+            case 'title':
+                return setTitle(value);
+            case 'summary':
+                return setSummary(value);
+            case 'type':
+                return setType(value);
+        }
+   }
+
+   const saveHandler = () =>{
+       if(title===''){
+           alert('제목을 입력해주세요.');
+       } else if(summary ===''){
+            alert('요약을 입력해주세요.');
+       } else if(content ===''){
+           alert('콘텐트를 입력해주세요.');
+       } else{
+           createBlog(title, summary, content, type);
+       }
+   }
     return(
         <BlogCreateWrap>
-           <EditorWithForwardedRef
-                {...props}
-                initialValue={initialValue}
-                previewStyle={previewStyle || "vertical"}
-                height={height || "600px"}
-                initialEditType={initialEditType || "markdown"}
-                useCommandShortcut={useCommandShortcut || true}
-                ref={editorRef}
-                onChange={handleChange}
-                plugins={[[codeSyntaxHighlightPlugin,{hljs}]]}
-                />
-            <div>
-                {/* {Parser(data)} */}
-                {data}
-            </div>
+            <BlogContainer>
+                <div>
+                    <p>제목</p>
+                    <input type="text" id="title" value={title} onChange={changeHandler} />
+                </div>
+                <div>
+                    <p>요약</p>
+                    <input type="text" id="summary" value={summary} onChange={changeHandler} />
+                </div>
+                <BlogMainContent>
+                    <EditorWithForwardedRef
+                        {...props}
+                        initialValue={initialValue}
+                        previewStyle={previewStyle || "vertical"}
+                        height={height || "600px"}
+                        initialEditType={initialEditType || "markdown"}
+                        useCommandShortcut={useCommandShortcut || true}
+                        ref={editorRef}
+                        onChange={handleChange}
+                        plugins={[[codeSyntaxHighlightPlugin,{hljs}]]}
+                        />
+                </BlogMainContent>
+                <div>
+                    <p>타입</p>
+                    <select value={type} id="type" onChange={changeHandler}>
+                        <option value="React">React</option>
+                        <option value="Express">Express</option>
+                        <option value="Database">Database</option>
+                        <option value="Git">Git</option>
+                        <option value="etc">etc</option>
+                    </select>
+                </div>
+                <BlogButton>
+                    <button onClick={saveHandler}>저장</button>
+                </BlogButton>
+            </BlogContainer>
         </BlogCreateWrap>
     );
 }
 
 const BlogCreateWrap = styled.div`
     height:100%;
-    width:100%;
+    width:1180px;
+    max-width:100%;
+    margin:0 auto;
+`;
+
+const BlogContainer = styled.div`
+    margin:40px 0px 200px 0px;
+    &>div{
+        &>p{
+            margin:10px 0px 5px 0px;
+            font-size:12px;
+        }
+        &>input{
+            width:60%;
+            height:45px;
+            border:1px solid #b4b2b2;
+            border-radius:10px;
+            outline:none;
+            padding:0 10px;
+        }
+        &>select{
+            width:200px;
+            height:45px;
+            border:1px solid #b4b2b2;
+            border-radius:10px;
+            outline:none;
+            padding:0 10px;
+
+        }
+    }
+`;
+
+const BlogMainContent = styled.div`
+    margin:20px 0px 50px 0px;
+`;
+
+const BlogButton = styled.div`
+    margin-top:30px;
+    &>button{
+        outline:none;
+        cursor: pointer;
+        width:150px;
+        height:45px;
+        border:none;
+        background-color:rgb(18,184,134);
+        color:#ffffff;
+        font-weight:bold;
+        font-size:14px;
+        border-radius:10px;
+    }
 `;
 export default BlogCreateComponent;

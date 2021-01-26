@@ -13,7 +13,7 @@ const Footer: React.FC = () =>{
                         <p className="footer_copyright">Copyright © 2021 by Choi Tech, Inc. All rights reserved</p>
                     </div>
                     <div>
-                        <Link href="https://github.com/dlsgh120/blog-nextjs">
+                        <Link href="https://github.com/dlsgh120/blog-next">
                             <a>
                                 <GitHubIcon />
                             </a>
