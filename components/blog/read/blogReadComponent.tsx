@@ -20,7 +20,7 @@ const BlogReadComponent: React.FC<Props> = ({blogItem}) =>{
            </Content>
            <Review>
            <DiscussionEmbed
-                shortname={"choiblog-1"}
+                shortname={"choitech-1"}
                 config={{
                     url: `https://c-tech.gq/blog/${blogItem?.blog_id}`,
                     identifier: "",
