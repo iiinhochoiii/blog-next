@@ -22,9 +22,9 @@ const LatestPosts: React.FC<Props> = ({blogs}) =>{
                 <PostsContent>
                     {blogs.reverse().map((item,index)=>
                     index<3&&
-                    <Link href="/blog/[id]" as={`/blog/${item.blog_id}`}>
+                    <Link href="/blog/[id]" as={`/blog/${item.blog_id}`} key={item.blog_id}>
                         <a>
-                        <article key={item.blog_id}>
+                        <article>
                             <div className="posts_wrap">
                                 <div className="posts_thumb">
                                     <p>Thumb Image</p>

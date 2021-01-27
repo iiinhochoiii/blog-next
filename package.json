@@ -29,6 +29,7 @@
     "atob": "^2.1.2",
     "axios": "^0.21.1",
     "btoa": "^1.2.1",
+    "disqus-react": "^1.0.11",
     "highlight.js": "^10.5.0",
     "html-react-parser": "^1.2.1",
     "mobx": "^6.0.4",
