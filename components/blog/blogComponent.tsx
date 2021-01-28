@@ -19,9 +19,6 @@ const BlogComponent: React.FC<Props> = ({blogs}) =>{
             <BlogContainer>
                 <div className="content_header">
                     <h1>Related Posts</h1>
-                    <Link href="/blog/create">
-                        <a>새 글 작성</a>
-                    </Link>
                 </div>
                 <BlogContent>
                     <div className="blog_content">

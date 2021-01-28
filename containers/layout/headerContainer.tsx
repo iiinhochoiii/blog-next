@@ -12,7 +12,7 @@ interface Props extends ReactCookieProps{
 @observer
 class HeaderContainer extends React.Component<Props>{
     state={
-        auth:"",
+        auth:true,
         userData:{
             user_id:'',
             email:'',
@@ -26,12 +26,10 @@ class HeaderContainer extends React.Component<Props>{
 
     async componentDidMount(){
         if(this.token){
+            this.setState({auth:true});
             await this.userStore.getTokenData(this.token);
-            this.setState({auth:this.token});
             if(this.userStore.userData?.status){
-                if(!localStorage.getItem('auth')){
-                    localStorage.setItem('auth', JSON.stringify(this.userStore.userData.data));
-                }
+                localStorage.setItem('auth', JSON.stringify(this.userStore.userData.data));
                 const storageData = JSON.parse(String(localStorage.getItem('auth')));
                 this.setState({
                     userData:{
@@ -45,6 +43,7 @@ class HeaderContainer extends React.Component<Props>{
             }
         }else{
             localStorage.removeItem('auth');
+            this.setState({auth:false});
         }
     }
 

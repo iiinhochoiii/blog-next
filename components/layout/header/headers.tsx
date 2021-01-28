@@ -2,16 +2,17 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import router from 'next/router';
 
 interface Props{
-    auth:string;
+    auth:boolean;
     userData:any;
     logout:()=>void;
 }
 const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
     const [height, setHeight] = useState<number>(0);
     const [userMenu, setUserMenu] = useState<boolean>(false);
-
+    
     useEffect(() => {
 		if (typeof window !== 'undefined') {
 			const handleResize = () => {
@@ -21,6 +22,7 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
 			return () => window.removeEventListener('scroll', handleResize);
 		}
     }, [height]);
+
     return(
         <HeaderWrap style={height>0?{position:"fixed", top:"0"}:{}}>
             <HeaderContainer>
@@ -42,20 +44,19 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                         </Link>
                     </div>
                     {
-                        !auth?
-                        
-                        <div className="auth">
-                           
-                        </div>
-                        :
+                        auth?
                         <div className="logined">
                             <p onClick={()=>setUserMenu(!userMenu)}>{userData.name}</p>
                             {userMenu&&
                             <div>
-                                <p>마이페이지</p>
+                                {userData.user_id===1&&<p onClick={()=>router.push('/blog/create')}>글쓰기</p>}
                                 <p onClick={logout}>로그아웃</p>
                             </div>
                             }
+                        </div>
+                        :
+                        <div className="auth">
+                           
                         </div>
                     }
                 </HeaderContent>
@@ -120,6 +121,7 @@ const HeaderContent = styled.div`
         }
         &>div{
             position:absolute;
+            z-index:100;
             margin-top:10px;
             right:0;
             width:100px;
@@ -127,9 +129,9 @@ const HeaderContent = styled.div`
             background-color:#ffffff;
             padding:5px;
             &>p{
+                text-align:center;
                 padding:10px 0px;
                 margin:0;
-                text-align:center;
                 font-size:12px;
                 cursor: pointer;
                 &:hover{
