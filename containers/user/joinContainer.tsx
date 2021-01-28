@@ -25,7 +25,7 @@ class JoinContainer extends React.Component<Props>{
         await this.userStore.createUser(email, password, name, phone);
         if(this.userStore.success["CREATE_USER"]){
             alert('회원가입이 완료되었습니다.');
-            router.push('/login');
+            router.push('/adminlogin');
         }
     }
     render(){

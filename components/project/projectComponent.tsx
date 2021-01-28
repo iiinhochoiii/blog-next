@@ -4,7 +4,6 @@ import Truncate from 'react-truncate';
 import myData from './data.json';
 
 const ProjectComponent: React.FC = () =>{
-    console.log(myData)
     return(
         <ProjectWrap>
             <ProjectBackground style={{backgroundImage:`url(${'./images/projectBackground.png'})`}}>

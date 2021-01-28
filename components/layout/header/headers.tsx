@@ -3,8 +3,14 @@ import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-const Headers:React.FC = () =>{
+interface Props{
+    auth:string;
+    userData:any;
+    logout:()=>void;
+}
+const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
     const [height, setHeight] = useState<number>(0);
+    const [userMenu, setUserMenu] = useState<boolean>(false);
 
     useEffect(() => {
 		if (typeof window !== 'undefined') {
@@ -15,7 +21,6 @@ const Headers:React.FC = () =>{
 			return () => window.removeEventListener('scroll', handleResize);
 		}
     }, [height]);
-    
     return(
         <HeaderWrap style={height>0?{position:"fixed", top:"0"}:{}}>
             <HeaderContainer>
@@ -36,15 +41,25 @@ const Headers:React.FC = () =>{
                             <a>about</a>
                         </Link>
                     </div>
-                    <div className="auth">
-                        <Link href="/login">
-                            <a>로그인</a>
-                        </Link>
-                        <Link href="/join">
-                            <a>회원가입</a>
-                        </Link>
-                    </div>
+                    {
+                        !auth?
+                        
+                        <div className="auth">
+                           
+                        </div>
+                        :
+                        <div className="logined">
+                            <p onClick={()=>setUserMenu(!userMenu)}>{userData.name}</p>
+                            {userMenu&&
+                            <div>
+                                <p>마이페이지</p>
+                                <p onClick={logout}>로그아웃</p>
+                            </div>
+                            }
+                        </div>
+                    }
                 </HeaderContent>
+                
             </HeaderContainer>
         </HeaderWrap>
     );
@@ -96,6 +111,31 @@ const HeaderContent = styled.div`
             margin-left:10px;
             font-weight:bold;
             color:rgb(80,80,80);
+        }
+    }
+    &>.logined{
+        position:relative;
+        &>p{
+            cursor: pointer;
+        }
+        &>div{
+            position:absolute;
+            margin-top:10px;
+            right:0;
+            width:100px;
+            border:1px solid rgb(214, 214, 214);
+            background-color:#ffffff;
+            padding:5px;
+            &>p{
+                padding:10px 0px;
+                margin:0;
+                text-align:center;
+                font-size:12px;
+                cursor: pointer;
+                &:hover{
+                    background-color:rgb(248, 248, 248);
+                }
+            }
         }
     }
 `;

@@ -1,5 +1,5 @@
 import {action, observable, computed, makeObservable} from 'mobx';
-import {checkIdStatus, loginStatus} from './types';
+import {checkIdStatus, loginStatus, userData} from './types';
 import BaseStore from '../BaseStore';
 import qs from 'qs';
 import client from '../../lib/client';
@@ -16,6 +16,9 @@ class UserStore extends BaseStore{
     @observable
     _loginStatus?:loginStatus;
 
+    @observable
+    _userData?:userData;
+
     @computed
     get checkIdStatus(){
         return this._checkIdStatus;
@@ -24,6 +27,11 @@ class UserStore extends BaseStore{
     @computed
     get loginStatus(){
         return this._loginStatus;
+    }
+
+    @computed
+    get userData(){
+        return this._userData;
     }
 
     @action
@@ -72,6 +80,32 @@ class UserStore extends BaseStore{
             this._failure["LOGIN_COMPLETE"] = [true, e];
         } finally{
             this._pending["LOGIN_COMPLETE"] = false;
+        }
+    }
+
+    @action
+    getTokenData = async (token:string) =>{
+        this._init("READ_USER_DATA");
+        try{
+            const res = await client.post('/api/auth/user',qs.stringify({token:token}));
+            this._userData = await res.data;
+            this._success["READ_USER_DATA"] = true;
+        } catch(e){
+            this._failure["READ_USER_DATA"] = [true, e];
+        } finally{
+            this._pending["READ_USER_DATA"] = false;
+        }
+    }
+
+    @action
+    logout = async () =>{
+        this._init("LOGOUT_COMPLETE");
+        try{
+            this._success["LOGOUT_COMPLETE"] = true;
+        } catch(e){
+            this._failure["LOGOUT_COMPLETE"] = [true, e];
+        } finally{
+            this._pending["LOGOUT_COMPLETE"] =false
         }
     }
 }

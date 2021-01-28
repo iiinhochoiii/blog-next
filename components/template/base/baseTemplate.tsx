@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import Headers from '../../layout/header';
+import HeaderContainer from '../../../containers/layout/headerContainer';
 import Footer from '../../layout/footer';
 
 import styled from 'styled-components';
@@ -11,7 +11,7 @@ const BaseTemplate = ({children}:props) =>{
     return(
         <Wrap>
             <Header>
-                <Headers />
+                <HeaderContainer />
             </Header>
                 <Content>
                 {children}

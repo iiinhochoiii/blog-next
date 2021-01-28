@@ -48,7 +48,7 @@ const LoginComponent: React.FC<Props> = ({login}) =>{
                         <input type="password" value={password} id="password" onChange={inputChangeHandler}/>
                     </div>
                     <div className="user-info-forgot">
-                        <Link href="/join">
+                        <Link href="/adminjoin">
                             <a>Sign up</a>
                         </Link>
                         <Link href="/">

@@ -3,6 +3,7 @@ import LoginComponent from '../../components/user/login';
 import UserStore from '../../stores/users';
 import {inject, observer} from 'mobx-react';
 import {ReactCookieProps, withCookies} from 'react-cookie';
+import router from 'next/router';
 
 interface Props extends ReactCookieProps{
     userStore?:UserStore;
@@ -17,6 +18,7 @@ class LoginContainer extends React.Component<Props>{
         await this.userStore.login(email, password);
         if(this.userStore.loginStatus?.status){
             this.props.cookies?.set("uuid_token", this.userStore.loginStatus.token);
+            router.push('/');
         }
         else{
             alert(this.userStore.loginStatus?.msg);
