@@ -1,22 +1,34 @@
 import React from 'react';
 import LoginComponent from '../../components/user/login';
-import TestStore from '../../stores/test';
+import UserStore from '../../stores/users';
 import {inject, observer} from 'mobx-react';
+import {ReactCookieProps, withCookies} from 'react-cookie';
 
-interface Props{
-    testStore?:TestStore;
+interface Props extends ReactCookieProps{
+    userStore?:UserStore;
 }
 
-@inject('testStore')
+@inject('userStore')
 @observer
 class LoginContainer extends React.Component<Props>{
-    // private testStore = this.props.testStore as TestStore;
+    private userStore = this.props.userStore as UserStore;
 
+    login = async(email:string, password:string) =>{
+        await this.userStore.login(email, password);
+        if(this.userStore.loginStatus?.status){
+            this.props.cookies?.set("uuid_token", this.userStore.loginStatus.token);
+        }
+        else{
+            alert(this.userStore.loginStatus?.msg);
+        }
+    }
     render(){
         return(
-            <LoginComponent />
+            <LoginComponent 
+                login={this.login}
+            />
         );
     }
 }
 
-export default LoginContainer;
+export default withCookies(LoginContainer);

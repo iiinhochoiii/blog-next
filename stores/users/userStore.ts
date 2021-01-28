@@ -1,5 +1,5 @@
 import {action, observable, computed, makeObservable} from 'mobx';
-import {checkIdStatus} from './types';
+import {checkIdStatus, loginStatus} from './types';
 import BaseStore from '../BaseStore';
 import qs from 'qs';
 import client from '../../lib/client';
@@ -13,9 +13,17 @@ class UserStore extends BaseStore{
     @observable
     _checkIdStatus?:checkIdStatus;
 
+    @observable
+    _loginStatus?:loginStatus;
+
     @computed
     get checkIdStatus(){
         return this._checkIdStatus;
+    }
+
+    @computed
+    get loginStatus(){
+        return this._loginStatus;
     }
 
     @action
@@ -50,6 +58,20 @@ class UserStore extends BaseStore{
             this._failure["CREATE_USER"] = [true ,e];
         } finally{
             this._pending["CREATE_USER"] = false;
+        }
+    }
+
+    @action
+    login = async(email:string, password:string) =>{
+        this._init('LOGIN_COMPLETE');
+        try{
+            const res = await client.post('/api/auth/login', qs.stringify({email:email, password:password}));
+            this._loginStatus = await res.data;
+            this._success["LOGIN_COMPLETE"] = true;
+        } catch(e){
+            this._failure["LOGIN_COMPLETE"] = [true, e];
+        } finally{
+            this._pending["LOGIN_COMPLETE"] = false;
         }
     }
 }

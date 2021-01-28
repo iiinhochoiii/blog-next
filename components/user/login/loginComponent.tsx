@@ -1,8 +1,37 @@
 import React from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-const LoginComponent: React.FC = () =>{
+interface Props{
+    login:(email:string, password:string)=>void;
+}
+const LoginComponent: React.FC<Props> = ({login}) =>{
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+
+    const inputChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) =>{
+        const {id, value} = e.target;
+        switch(id){
+            case "email":
+                return setEmail(value);
+            case "password":
+                return setPassword(value);
+        }
+    }
+    const LoginHandler = (e:any) =>{
+        e.preventDefault();
+        if(email===''){
+            alert('email을 입력해주세요.');
+            document.getElementById('email')?.focus();
+        } else if(password===''){
+            alert('password를 입력해주세요.');
+            document.getElementById('password')?.focus();
+        } else{
+            login(email, password);
+        }
+    }
+
     return(
         <LoginWrap>
             <LoginContainer>
@@ -11,12 +40,12 @@ const LoginComponent: React.FC = () =>{
                         <a>Choi Tech</a>
                     </Link>
                 </LoginHeader>
-                <LoginContent>
+                <LoginContent onSubmit={LoginHandler}>
                     <div className="user-info-wrap">
                         <p>Email or Id</p>
-                        <input type="text" />
+                        <input type="text"  value={email} id="email" onChange={inputChangeHandler}/>
                         <p>Password</p>
-                        <input type="text" />
+                        <input type="password" value={password} id="password" onChange={inputChangeHandler}/>
                     </div>
                     <div className="user-info-forgot">
                         <Link href="/join">
@@ -27,7 +56,7 @@ const LoginComponent: React.FC = () =>{
                         </Link>
                     </div>
                     <div className="user-info-login">
-                        <button>LOGIN</button>
+                        <button type="submit">LOGIN</button>
                     </div>
                 </LoginContent>
                 <LoginFooter>
@@ -58,7 +87,7 @@ const LoginContainer = styled.div`
     margin: 150px auto;  
 `;
 
-const LoginContent = styled.div`
+const LoginContent = styled.form`
     margin:30px 0px 0px 0px;
     &>.user-info-wrap{
         &>p{
