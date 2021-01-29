@@ -12,7 +12,7 @@ interface Props extends ReactCookieProps{
 @observer
 class HeaderContainer extends React.Component<Props>{
     state={
-        auth:true,
+        auth:false,
         userData:{
             user_id:'',
             email:'',
@@ -25,23 +25,29 @@ class HeaderContainer extends React.Component<Props>{
     private token = this.props.cookies?.get('uuid_token');
 
     async componentDidMount(){
-        if(this.token){
-            this.setState({auth:true});
-            await this.userStore.getTokenData(this.token);
-            if(this.userStore.userData?.status){
-                localStorage.setItem('auth', JSON.stringify(this.userStore.userData.data));
-                const storageData = JSON.parse(String(localStorage.getItem('auth')));
+        if(process.browser){
+           if(localStorage.getItem('auth')){
+               this.setState({auth:true});
+               const storageData = JSON.parse(String(localStorage.getItem('auth')));
                 this.setState({
-                    userData:{
-                        user_id:storageData.user_id,
-                        email:storageData.storageData,
-                        name:storageData.name,
-                        phone:storageData.phone,
-                        profile_color:storageData.profile_color
-                    }
-                })
-            }
-        }else{
+                            userData:{
+                                user_id:storageData.user_id,
+                                email:storageData.email,
+                                name:storageData.name,
+                                phone:storageData.phone,
+                                profile_color:storageData.profile_color
+                            }
+                        })
+           }
+           else{
+               await this.userStore.getTokenData(this.token);
+               if(this.userStore.userData?.status){
+                    localStorage.setItem('auth', JSON.stringify(this.userStore.userData.data));
+                    location.reload();
+               }
+           }
+        }
+        if(!this.token){
             localStorage.removeItem('auth');
             this.setState({auth:false});
         }

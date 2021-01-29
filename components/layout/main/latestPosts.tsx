@@ -57,7 +57,7 @@ const PostsWrap = styled.div`
 
 const PostsContainer = styled.div`  
         padding:50px 0px 100px 0px;
-        width:1180px;
+        width:1080px;
         margin: 0 auto;
         max-width:100%;
 `;

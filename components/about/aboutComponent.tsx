@@ -21,7 +21,7 @@ const AboutComponent: React.FC = () =>{
 }
 
 const AboutWrap = styled.div`
-    width:1180px;
+    width:1080px;
     max-width:100%;
     margin:0 auto;
 `;

@@ -3,17 +3,21 @@ import styled from 'styled-components';
 import moment from 'moment';
 import Link from 'next/link';
 import {blogs} from '../../stores/blog/types';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 interface Props{
     blogs:blogs[];
+    query:any;
+    loading:boolean;
 }
-const BlogComponent: React.FC<Props> = ({blogs}) =>{
+const BlogComponent: React.FC<Props> = ({blogs, query, loading}) =>{
     return(
         <BlogWrap>
             <BlogBackground style={{backgroundImage:`url(${'./images/blogBackground.png'})`}}>
                 <div>
                     <h1>Blog</h1>
                     <p>Front-end 프레임워크인 React에 관련된 기술 및 경험을 공유 합니다.</p>
+                    {query&&<p>keyword: {query}</p>}
                 </div>
             </BlogBackground>
             <BlogContainer>
@@ -21,25 +25,36 @@ const BlogComponent: React.FC<Props> = ({blogs}) =>{
                     <h1>Related Posts</h1>
                 </div>
                 <BlogContent>
-                    <div className="blog_content">
-                        {blogs.reverse().map((item)=>
-                        <Link href="/blog/[id]" as={`/blog/${item.blog_id}`}  key={item.blog_id}>
-                            <a>
-                                <article>
-                                    <h2>{item.title}</h2>
-                                    <span>{moment(item.created_at).format("YYYY.MM.DD")}</span>
-                                    <p>
-                                        {item.summary}
-                                    </p>
-                                    <div>
-                                        <div><p>{item.name.slice(1, item.name.length)}</p></div>
-                                        <p>{item.name}</p>
-                                    </div>
-                                </article>
-                            </a>
-                        </Link>
-                        )}
-                    </div>
+                        {
+                            loading?
+                            <CircularProgress />
+                            :
+                            blogs.length>0?
+                            <div className="blog_content">
+                                {
+                                blogs.reverse().map((item)=>
+                                <Link href="/blog/[id]" as={`/blog/${item.blog_id}`}  key={item.blog_id}>
+                                    <a>
+                                        <article>
+                                            <h2>{item.title}</h2>
+                                            <span>{moment(item.created_at).format("YYYY.MM.DD")}</span>
+                                            <p>
+                                                {item.summary}
+                                            </p>
+                                            <div>
+                                                <div><p>{item.name.slice(1, item.name.length)}</p></div>
+                                                <p>{item.name}</p>
+                                            </div>
+                                        </article>
+                                    </a>
+                                </Link>
+                                )
+                            }
+                            </div>:
+                            <div className="blog_content_none_data">
+                                <p>작성된 게시글이 없습니다.</p>
+                            </div>
+                        }
                 </BlogContent>
             </BlogContainer>
         </BlogWrap>
@@ -54,7 +69,7 @@ const BlogBackground = styled.div`
     height:500px;
     background-size:100% 500px;
     &>div{
-        width:1180px;
+        width:1080px;
         margin:0 auto;
         position: relative;
         padding-top:250px;
@@ -72,7 +87,7 @@ const BlogBackground = styled.div`
 `;
 
 const BlogContainer = styled.div`
-    width:1180px;
+    width:1080px;
     margin:0 auto;
     max-width:100%;
 
@@ -128,6 +143,19 @@ const BlogContent = styled.div`
                     }
                 }
             }
+        }
+    }
+
+    &>.blog_content_none_data{
+        margin-top:20px;
+        border-top:1px solid #b4b2b2;
+        border-bottom:1px solid #b4b2b2;
+        height:100px;
+        &>p{
+            margin:0;
+            line-height:100px;
+            text-align:center;
+            font-size:12px;
         }
     }
 

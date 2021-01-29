@@ -41,6 +41,21 @@ class BlogStore extends BaseStore{
     }
 
     @action
+    getSearchBlogList = async (title:string) =>{
+        this._blogs = [];
+        this._init("READ_BLOG_LIST");
+        try{
+            const res = await client.get(`/api/blogs/search?title=${title}`);
+            this._blogs = await res.data.data;
+            this._success["READ_BLOG_LIST"] = true;
+        } catch(e){
+            this._failure["READ_BLOG_LIST"] = [true, e];
+        } finally{
+            this._pending["READ_BLOG_LIST"] = false;
+        }
+    }
+
+    @action
     getBlogItem = async(blog_id:number) =>{
         this._blogItem = undefined;
         this._init("READ_BLOG_DETAIL");

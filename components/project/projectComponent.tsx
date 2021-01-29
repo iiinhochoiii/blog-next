@@ -52,7 +52,7 @@ const ProjectBackground = styled.div`
     height:500px;
     background-size:100% 500px;
     &>div{
-        width:1180px;
+        width:1080px;
         margin:0 auto;
         position: relative;
         padding-top:250px;
@@ -70,7 +70,7 @@ const ProjectBackground = styled.div`
 `;
 
 const ProjectContainer = styled.div`
-    width:1180px;
+    width:1080px;
     margin:0 auto;
     max-width:100%;
 
