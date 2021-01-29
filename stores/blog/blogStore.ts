@@ -60,7 +60,7 @@ class BlogStore extends BaseStore{
         this._blogItem = undefined;
         this._init("READ_BLOG_DETAIL");
         try{
-            const res = await client.get(`/api/blogs/${blog_id}`);
+            const res = await client.get(`/api/blogs/read/${blog_id}`);
             this._blogItem = res.data.data;
             this._success["READ_BLOG_DETAIL"] = true;
         } catch(e){
