@@ -19,6 +19,7 @@ class BlogCreateContainer extends React.Component<Props>{
             router.push('/blog');
         }
     }
+
     render(){
         return(
             <BlogCreateComponent 

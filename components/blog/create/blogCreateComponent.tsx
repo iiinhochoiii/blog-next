@@ -38,6 +38,7 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
         const instance = editorRef.current.getInstance();
         // const valueType = props.valueType || 'markdown';
         setContent(instance.getHtml());
+        setSummary(instance.getMarkdown());
    },[props, editorRef]);
 
    const changeHandler = (e:React.ChangeEvent<HTMLInputElement> | any) =>{
@@ -45,8 +46,6 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
         switch(id){
             case 'title':
                 return setTitle(value);
-            case 'summary':
-                return setSummary(value);
             case 'type':
                 return setType(value);
         }
@@ -55,12 +54,10 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
    const saveHandler = () =>{
        if(title===''){
            alert('제목을 입력해주세요.');
-       } else if(summary ===''){
-            alert('요약을 입력해주세요.');
        } else if(content ===''){
            alert('콘텐트를 입력해주세요.');
        } else{
-           createBlog(title, summary, content, type);
+           createBlog(title, summary.length>150?summary.slice(0,150):summary, content, type);
        }
    }
     return(
@@ -72,7 +69,7 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
                 </div>
                 <div>
                     <p>요약</p>
-                    <input type="text" id="summary" value={summary} onChange={changeHandler} />
+                    <textarea value={summary.length>150?summary.slice(0,150):summary} readOnly/>
                 </div>
                 <BlogMainContent>
                     <EditorWithForwardedRef
@@ -87,6 +84,9 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
                         plugins={[[codeSyntaxHighlightPlugin,{hljs}]]}
                         />
                 </BlogMainContent>
+                <div>
+                    {summary}
+                </div>
                 <div>
                     <p>타입</p>
                     <select value={type} id="type" onChange={changeHandler}>
@@ -122,6 +122,14 @@ const BlogContainer = styled.div`
         &>input{
             width:60%;
             height:45px;
+            border:1px solid #b4b2b2;
+            border-radius:10px;
+            outline:none;
+            padding:0 10px;
+        }
+        &>textarea{
+            width:60%;
+            height:100px;
             border:1px solid #b4b2b2;
             border-radius:10px;
             outline:none;
