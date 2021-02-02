@@ -30,7 +30,7 @@ const FooterWrap = styled.div`
 `;
 
 const FooterContainer = styled.div`
-    width:1080px;
+    width:980px;
     margin: 0 auto;
     max-width:100%;
     padding:25px 0px;

@@ -20,6 +20,13 @@ class BlogCreateContainer extends React.Component<Props>{
         }
     }
 
+    componentDidMount(){
+        if(process.browser){
+            if(!localStorage.getItem('auth')){
+                router.push('/');
+            }
+        }
+    }
     render(){
         return(
             <BlogCreateComponent 

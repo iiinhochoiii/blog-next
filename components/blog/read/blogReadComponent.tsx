@@ -36,7 +36,7 @@ const BlogReadComponent: React.FC<Props> = ({blogItem}) =>{
 
 const Wrap = styled.div`
     height:100%;
-    width:1080px;
+    width:980px;
     margin:0 auto;
     max-width:100%;
 `;

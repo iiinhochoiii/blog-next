@@ -2,7 +2,6 @@ import React from 'react';
 import {useState} from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
-
 import ExplainSite from './explainSite';
 import LatestPosts from './latestPosts';
 import {blogs} from '../../../stores/blog/types';
@@ -10,8 +9,9 @@ import router from 'next/router';
 
 interface Props{
     blogs:blogs[];
+    loading:boolean;
 }
-const MainComponent: React.FC<Props> = ({blogs}) =>{
+const MainComponent: React.FC<Props> = ({blogs, loading}) =>{
     const [keyword, setKeyword] = useState<string>('');
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) =>{
         const {id, value} = e.target;
@@ -34,7 +34,8 @@ const MainComponent: React.FC<Props> = ({blogs}) =>{
     }
     return(
         <MainWrap>
-            <MainBackground style={{backgroundImage:`url(${'./images/mainBackground.png'})`}}>
+            <MainBackground style={{backgroundImage:`url(${'./images/main_background.jpg'})`}}>
+                    <h1>최인호의 Dev Blog 입니다.</h1>
                     <form onSubmit={search}>
                         <input type="text" placeholder="검색하실 내용 및 키워드를 입력해주세요." value={keyword} id="keyword" onChange={changeHandler}/>
                         <SearchIcon onClick={search}/>
@@ -44,6 +45,7 @@ const MainComponent: React.FC<Props> = ({blogs}) =>{
                 <ExplainSite />
                 <LatestPosts 
                     blogs={blogs}
+                    loading={loading}
                 />
             </MainContent>
         </MainWrap>
@@ -55,13 +57,20 @@ const MainWrap = styled.div`
 `;
 
 const MainBackground = styled.div`
-    border: 1px solid;
-    height:500px;
+    height:300px;
+    background-size:cover;
+    &>h1{
+        margin:0;
+        position: relative;
+        top:30%;
+        text-align:center;
+        color:#ffffff;
+    }
     &>form{
         margin:0 auto;
         background-color:#ffffff;
         position: relative;
-        top:65%;
+        top:40%;
         width:30%;
         height:45px;
         border:none;

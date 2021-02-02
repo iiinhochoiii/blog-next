@@ -17,7 +17,7 @@ const ExplainSite: React.FC = () =>{
                         <a style={{backgroundColor:"#99FFFF"}}># blog</a>
                     </Link>
                 </div>
-                <div>
+                {/* <div>
                     <h2>기술 분석</h2>
                     <p>
                         자신이 개발한 프로젝트를 다른 개발자가 볼 수 있도록 공유를 합니다. 이는, 기술 분석을 할 수 있도록 경험 및 기회를 제공하기도 하며,
@@ -26,7 +26,7 @@ const ExplainSite: React.FC = () =>{
                     <Link href="/project">
                         <a style={{backgroundColor:"#99FF99"}}># project</a>
                     </Link>
-                </div>
+                </div> */}
                 {/* <div>
                     <h2>실시간 질의응답</h2>
                     <p>
@@ -44,7 +44,7 @@ const ExplainSite: React.FC = () =>{
 }
 
 const ExplainWrap = styled.div`
-    width:1080px;
+    width:980px;
     max-width:100%;
     margin:0 auto;
 `;
@@ -61,8 +61,7 @@ const ExplainContent = styled.div`
     margin:50px 0px 0px 0px;
     display:flex;
     &>div{
-        width:25%;
-        margin-right:100px;
+        width:100%;
         &>h2{
             font-size:22px;
             margin:0px 0px 10px 0px;

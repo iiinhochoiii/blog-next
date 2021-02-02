@@ -2,13 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-
 import {blogs} from '../../../stores/blog/types';
+import { CircularProgress } from '@material-ui/core';
+import TextTruncate from 'react-text-truncate'; // recommend
+import moment from 'moment';
 
 interface Props{
     blogs:blogs[];
+    loading:boolean;
 }
-const LatestPosts: React.FC<Props> = ({blogs}) =>{
+const LatestPosts: React.FC<Props> = ({blogs, loading}) =>{
     return(
         <PostsWrap>
             <PostsContainer>
@@ -19,32 +22,32 @@ const LatestPosts: React.FC<Props> = ({blogs}) =>{
                     </Link>
                     <ArrowForwardIosIcon />
                 </PostsHeader>
+                {loading?<CircularProgress />:
                 <PostsContent>
-                    {blogs.reverse().map((item,index)=>
-                    index<3&&
-                    <Link href="/blog/[id]" as={`/blog/${item.blog_id}`} key={item.blog_id}>
-                        <a>
-                        <article>
-                            <div className="posts_wrap">
-                                <div className="posts_thumb">
-                                    <p>Thumb Image</p>
-                                </div>
-                                <div className="posts_content">
-                                    <h2>{item.title}</h2>
-                                    <p>{item.summary}</p>
-                                    <div className="posts_writer">
-                                        <div className="writer_image">
-                                            <p>{item.name.slice(1, item.name.length)}</p>
-                                        </div>
-                                        <p>{item.name}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        </a>
-                    </Link>
-                    )}
-                </PostsContent>
+                {blogs.reverse().map((item,index)=>
+                index<3&&
+                <Link href="/blog/[id]" as={`/blog/${item.blog_id}`} key={item.blog_id}>
+                    <a>
+                    <article>
+                        <h4>{item.title}</h4>
+                        <p>
+                        <TextTruncate
+                            line={2}
+                            element="span"
+                            truncateText="…"
+                           text={item.summary}
+                        />
+                        </p>
+                        <span># {item.blog_type}</span>
+                        <div>
+                            <p className="blog_date">{moment(item.created_at).format("YYYY-MM-DD")}</p>
+                            <p className="blog_writer">{item.name}</p>
+                        </div>
+                    </article>
+                    </a>
+                </Link>
+                )}
+            </PostsContent>}
             </PostsContainer>
         </PostsWrap>
     );
@@ -57,7 +60,7 @@ const PostsWrap = styled.div`
 
 const PostsContainer = styled.div`  
         padding:50px 0px 100px 0px;
-        width:1080px;
+        width:980px;
         margin: 0 auto;
         max-width:100%;
 `;
@@ -86,69 +89,43 @@ const PostsHeader = styled.div`
 
 const PostsContent = styled.div`
     margin:20px 0px 0px 0px;
-    display:flex;
-    justify-content:space-between;
+    border-top:1px solid #b4b2b2;
     &>a{
         color:#333333;
         text-decoration:none;
-        width:30%;
         &>article{
-            border:1px solid;
+            border-bottom:1px solid #b4b2b2;
             cursor: pointer;
-            &>.posts_wrap{
-                width:100%;
-                position: relative;
-                padding-bottom:120%;
-                &>.posts_thumb{
-                position: absolute;
-                top:0;
-                left:0;
-                right:0;
-                height:30%;
-                background-color:#333333;
+            padding:15px 0px;
+            &>h4{
+                font-size:22px;
+                font-weight:bold;
+                margin:5px 0px;
+            }
+            &>p{
+                margin:0px 0px 5px 0px;
+                font-size:18px;
+                line-height:30px;
+            }
+            &>span{
+                font-size:12px;
+                border-radius:10px;
+                background-color:#e5e5e5;
+                padding:5px 10px;
+            }
+            
+            &>div{
                 display:flex;
+                justify-content:space-between;
+                margin:10px 0px 0px 0px;
                 &>p{
-                    margin:auto;
-                    font-size:20px;
-                    color:#ffffff;
+                    margin:0px;
+                    font-size:14px;
                 }
-                }
-                &>.posts_content{
-                    position: absolute;
-                    top:30%;
-                    left:0;
-                    right:0;
-                    bottom:0;
-                    padding:20px;
-                    &>h2{
-                        margin:0;
-                    }
-                    &>p{
-                        margin: 20px 0px 0px 0px;
-                    }
-                    &>.posts_writer{
-                        display:flex;
-                        position: absolute;
-                        bottom:20px;
-                        &>.writer_image{
-                            width:35px;
-                            height:35px;
-                            border-radius:50%;
-                            background-color:#3C5087;
-                            margin:auto 0;
-                            display:flex;
-                            &>p{
-                                margin:auto;
-                                font-size:12px;
-                                color:#ffffff;
-                                font-weight:500;
-                            }
-                        }
-                        &>p{
-                            margin: auto 0px auto 10px;
-                        }
-                    }
-                    
+            }
+            &:hover{
+                &>h4{
+                    text-decoration:underline;
                 }
             }
         }

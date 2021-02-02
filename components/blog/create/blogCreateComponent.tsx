@@ -107,7 +107,7 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
 
 const BlogCreateWrap = styled.div`
     height:100%;
-    width:1080px;
+    width:980px;
     max-width:100%;
     margin:0 auto;
 `;

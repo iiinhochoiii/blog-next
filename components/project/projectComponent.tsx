@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Truncate from 'react-truncate';
+import TextTruncate from 'react-text-truncate';
 import myData from './data.json';
 
 const ProjectComponent: React.FC = () =>{
     return(
         <ProjectWrap>
-            <ProjectBackground style={{backgroundImage:`url(${'./images/projectBackground.png'})`}}>
+            <ProjectBackground style={{backgroundImage:`url(${"./images/project_background.jpg"})`}}>
                 <div>
                     <h1>Project</h1>
                     <p>자신이 개발한 프로젝트를 다른 개발자가 볼 수 있도록 공유를 합니다.</p>
@@ -23,7 +23,13 @@ const ProjectComponent: React.FC = () =>{
                             <div className="image" style={{backgroundImage:`url(${item.image})`}}>
                             </div>
                             <div className="info">
-                                <p><Truncate>{item.summary}</Truncate></p>
+                                <p>
+                                <TextTruncate
+                                        element="span"
+                                        truncateText="…"
+                                    text={item.summary}
+                                    />
+                                </p>
                                 <p>
                                     {item.dev.map((dev, index)=>
                                     <span key={index}>{dev}</span>
@@ -49,13 +55,13 @@ const ProjectWrap = styled.div`
 `;
 
 const ProjectBackground = styled.div`
-    height:500px;
-    background-size:100% 500px;
+    height:300px;
+    background-size:cover;
     &>div{
-        width:1080px;
+        width:980px;
         margin:0 auto;
         position: relative;
-        padding-top:250px;
+        padding-top:100px;
         &>h1{
             margin:0;
             color:#ffffff;
@@ -65,12 +71,13 @@ const ProjectBackground = styled.div`
             margin:20px 0px 0px 0px;
             color:#ffffff;
             font-size:18px;
+            font-weight:bold;
         }
     }
 `;
 
 const ProjectContainer = styled.div`
-    width:1080px;
+    width:980px;
     margin:0 auto;
     max-width:100%;
 
@@ -100,13 +107,12 @@ const ProjectContent = styled.div`
     justify-content:space-between;
     &>article{
         border:1px solid #b4b2b2;
-        width:30%;
+        width:48.5%;
         margin-bottom:20px;
-        border-radius:10px;
         cursor: pointer;
         &>.content_wrap{
             position: relative;
-            padding-bottom:100%;
+            padding-bottom:60%;
             &>.image{
                 position:absolute;
                 top:0;
