@@ -42,7 +42,9 @@ const Wrap = styled.div`
 `;
 
 const Content = styled.div`
-
+    img{
+        width:100%;
+    }
 `;
 
 const Review = styled.div``;

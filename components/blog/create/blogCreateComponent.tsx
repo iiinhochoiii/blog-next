@@ -38,7 +38,6 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
         const instance = editorRef.current.getInstance();
         // const valueType = props.valueType || 'markdown';
         setContent(instance.getHtml());
-        setSummary(instance.getMarkdown());
    },[props, editorRef]);
 
    const changeHandler = (e:React.ChangeEvent<HTMLInputElement> | any) =>{
@@ -48,6 +47,8 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
                 return setTitle(value);
             case 'type':
                 return setType(value);
+            case 'summary':
+                return setSummary(value);
         }
    }
 
@@ -56,8 +57,10 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
            alert('제목을 입력해주세요.');
        } else if(content ===''){
            alert('콘텐트를 입력해주세요.');
+       } else if(summary===''){
+           alert('요약을 입력해주세요.');
        } else{
-           createBlog(title, summary.length>150?summary.slice(0,150):summary, content, type);
+           createBlog(title, summary, content, type);
        }
    }
     return(
@@ -69,7 +72,7 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
                 </div>
                 <div>
                     <p>요약</p>
-                    <textarea value={summary.length>150?summary.slice(0,150):summary} readOnly/>
+                    <textarea value={summary} onChange={changeHandler} id="summary" />
                 </div>
                 <BlogMainContent>
                     <EditorWithForwardedRef
@@ -85,13 +88,12 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
                         />
                 </BlogMainContent>
                 <div>
-                    {summary}
-                </div>
-                <div>
                     <p>타입</p>
                     <select value={type} id="type" onChange={changeHandler}>
                         <option value="React">React</option>
-                        <option value="Express">Express</option>
+                        <option value="Express">Node</option>
+                        <option value="Javascript">Javascript</option>
+                        <option value="html/css">Html/Css</option>
                         <option value="Database">Database</option>
                         <option value="Git">Git</option>
                         <option value="etc">etc</option>
@@ -134,6 +136,7 @@ const BlogContainer = styled.div`
             border-radius:10px;
             outline:none;
             padding:0 10px;
+            resize:none;
         }
         &>select{
             width:200px;
