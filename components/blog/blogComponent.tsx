@@ -1,10 +1,13 @@
 import React from 'react';
+import {useState} from 'react';
 import styled from 'styled-components';
+import router from 'next/router';
 import moment from 'moment';
 import Link from 'next/link';
 import {blogs} from '../../stores/blog/types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextTruncate from 'react-text-truncate';
+import SearchIcon from '@material-ui/icons/Search';
 
 interface Props{
     blogs:blogs[];
@@ -12,6 +15,27 @@ interface Props{
     loading:boolean;
 }
 const BlogComponent: React.FC<Props> = ({blogs, query, loading}) =>{
+    const [keyword, setKeyword] = useState<string>('');
+    const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) =>{
+        const {id, value} = e.target;
+        if(id==='keyword'){
+            setKeyword(value);
+        }
+    }
+    const search = (e:any) =>{
+        e.preventDefault();
+        if(keyword===''){
+            alert('검색하실 내용 및 키워드를 입력해주세요.');
+        } else{
+            router.push({
+                pathname: '/blog',
+                query:{
+                    title: keyword
+                }
+            })
+        }
+    }
+
     return(
         <BlogWrap>
             <BlogBackground style={{backgroundImage:`url(${"./images/blog_background.jpg"})`}}>
@@ -24,6 +48,10 @@ const BlogComponent: React.FC<Props> = ({blogs, query, loading}) =>{
             <BlogContainer>
                 <div className="content_header">
                     <h1>Related Posts</h1>
+                    <form onSubmit={search}>
+                        <input type="text" placeholder="검색하실 내용 및 키워드를 입력해주세요." value={keyword} id="keyword" onChange={changeHandler}/>
+                        <SearchIcon onClick={search}/>
+                    </form>
                 </div>
                 <BlogContent>
                         {
@@ -33,7 +61,7 @@ const BlogComponent: React.FC<Props> = ({blogs, query, loading}) =>{
                             blogs.length>0?
                             <div className="blog_content">
                                 {
-                                blogs.reverse().map((item)=>
+                                blogs.map((item)=>
                                 <Link href="/blog/[id]" as={`/blog/${item.blog_id}`}  key={item.blog_id}>
                                     <a>
                                     <article>
@@ -77,16 +105,17 @@ const BlogBackground = styled.div`
     &>div{
         padding-top:100px;
         width:980px;
+        max-width:100%;
         margin:0 auto;
         position: relative;
         &>h1{
             margin:0;
-            color:#333333;
+            color:#fff;
             font-size:42px;
         }
         &>p{
             margin:20px 0px 0px 0px;
-            color:#333333;
+            color:#fff;
             font-size:18px;
             font-weight:bold;
         }
@@ -105,14 +134,24 @@ const BlogContainer = styled.div`
         &>h1{
             margin:0;
         }
-        &>a{
-            color:#333333;
-            text-decoration:none;
-            margin:auto 0px 0px 0px;
-            cursor: pointer;
-            font-size:14px;
-            &:hover{
-                font-weight:bold;
+        &>form{
+            background-color:#ffffff;
+            width:40%;
+            height:45px;
+            border:none;
+            border-radius:10px;
+            display:flex;
+            padding:0 10px;
+            &>input{
+                margin:auto 0px auto 10px;
+                height:80%;
+                width:80%;
+                outline:none;
+                border:none;
+            }
+            &>svg{
+                margin:auto 10px auto auto;
+                cursor: pointer;
             }
         }
     }

@@ -51,14 +51,15 @@ const ProjectComponent: React.FC = () =>{
 }
 
 const ProjectWrap = styled.div`
-
+height:100vh;
 `;
 
 const ProjectBackground = styled.div`
     height:300px;
-    background-size:cover;
+    background-size:120%;
     &>div{
         width:980px;
+        max-width:100%;
         margin:0 auto;
         position: relative;
         padding-top:100px;
