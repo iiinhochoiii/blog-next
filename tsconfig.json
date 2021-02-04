@@ -1,35 +1,33 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017", "es2015"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
-    "experimentalDecorators": true,
     "noUnusedParameters": true,
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "esnext",
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "skipLibCheck": true,
+    "strict": true,
+    "useDefineForClassFields":true,
+    "suppressImplicitAnyIndexErrors":true,
+    "target": "es5",
+    "noLib":false,
+    "declaration":false,
+    "noImplicitAny":false
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
+  "typeRoots": [
+    "./types",
+    "./node_modules/@types"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts", "**/*.tsx"]
 }

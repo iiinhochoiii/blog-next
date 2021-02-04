@@ -14,6 +14,7 @@ interface Props{
 }
 const BlogReadComponent: React.FC<Props> = ({blogItem, deleteBlog}) =>{
     const [updateState, setUpdateState] = useState<boolean>(false);
+    const [settingState, setSettingState] = useState<boolean>(false);
     useEffect(()=>{
         let auth;
         if(process.browser && localStorage.getItem('auth')){
@@ -52,15 +53,20 @@ const BlogReadComponent: React.FC<Props> = ({blogItem, deleteBlog}) =>{
                         <h1>{blogItem?.title}</h1>
                         <p>{blogItem?.name}</p>
                         <span>{moment(blogItem?.created_at).format("YYYY-MM-DD")}</span>
+                        {updateState&&
+                            <div className="blog_update_container">
+                                <p onClick={()=>setSettingState(!settingState)}>설정</p>
+                                {settingState&&
+                                <div>
+                                    <p onClick={updateHandler}>수정</p>
+                                    <p onClick={deleteHandler}>삭제</p>
+                                </div>
+                                }
+                            </div>
+                        }
                     </div>
             </BlogBackground>
            <ReadContainer>
-                {updateState&&
-                    <div className="blog_update_container">
-                        <button onClick={updateHandler}>수정</button>
-                        <button onClick={deleteHandler}>삭제</button>
-                    </div>
-                }
                 <ReadContent>
                         {blogItem&&Parser(blogItem.content)}
                 </ReadContent>
@@ -112,6 +118,40 @@ const BlogBackground = styled.div`
             font-weight:bold;
             color:#fff;
         }
+        &>.blog_update_container{
+            padding-top:30px;
+            position: relative;
+            &>p{
+                border:1px solid #fff;
+                color:#fff;
+                font-weight:bold;
+                padding:5px 0px;
+                width:100px;
+                margin:0;
+                border-radius:10px;
+                font-size:14px;
+                cursor: pointer;
+                text-align:center;
+            }
+            &>div{
+                position: absolute;
+                margin-top:10px;
+                width:100px;
+                background-color:#fff;
+                border: 1px solid rgb(214,214,214);
+                padding:5px;
+                &>p{
+                    font-size:12px;
+                    text-align:center;
+                    cursor: pointer;
+                    padding:10px 0px;
+                    margin:0;
+                    &:hover{
+                        background-color:rgb(248, 248, 248);
+                    }
+                }
+            }
+        }
     }
 
 `;
@@ -120,25 +160,22 @@ const ReadContainer = styled.div`
     width:980px;
     max-width:100%;
     margin:0 auto;
-
-    &>.blog_update_container{
-        margin-top:30px;
-        &>button{
-            padding:0;
-            margin-right:5px;
-            background:none;
-            outline:none;
-            border:none;
-            cursor: pointer;
-        }
-    }
 `;
 const ReadContent = styled.div`
     height:100%;
-    margin:10px 0px 30px 0px;
+    margin:50px 0px 30px 0px;
     max-width:100%;
     img{
         width:100%;
+    }
+    blockquote{
+        border-left:4px solid #e5e5e5;
+        margin-block-start: 0px;
+        margin-inline-start: 0px;
+        padding:5px 0px;
+        &>p{
+            margin:0px 0px 0px 20px;
+        }
     }
 `;
 
