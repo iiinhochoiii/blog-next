@@ -24,7 +24,7 @@ const LatestPosts: React.FC<Props> = ({blogs, loading}) =>{
                 </PostsHeader>
                 {loading?<CircularProgress />:
                 <PostsContent>
-                {blogs.reverse().map((item,index)=>
+                {blogs.map((item,index)=>
                 index<3&&
                 <Link href="/blog/[id]" as={`/blog/${item.blog_id}`} key={item.blog_id}>
                     <a>

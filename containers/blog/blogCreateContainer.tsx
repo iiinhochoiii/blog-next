@@ -13,8 +13,8 @@ interface Props{
 class BlogCreateContainer extends React.Component<Props>{
     private blogStore = this.props.blogStore as BlogStore;
 
-    createBlog = async(title:string, summary:string, content:string, type:string) =>{
-        await this.blogStore.createBlog(title,summary,content, type);
+    createBlog = async(title:string, summary:string, content:string, type:string, markdown:string) =>{
+        await this.blogStore.createBlog(title,summary,content, type, markdown);
         if(this.blogStore.success["CREATE_BLOG"]){
             router.push('/blog');
         }

@@ -37,7 +37,7 @@ const MainBackground = styled.div`
     &>h1{
         margin:0;
         position: relative;
-        top:30%;
+        top:45%;
         text-align:center;
         color:#ffffff;
     }

@@ -71,10 +71,10 @@ class BlogStore extends BaseStore{
     }
 
     @action
-    createBlog = async(title:string, summary:string, content:string, type:string)=>{
+    createBlog = async(title:string, summary:string, content:string, type:string, markdown:string)=>{
         this._init("CREATE_BLOG");
         try{
-            const res = await client.post('/api/blogs', qs.stringify({title:title, summary:summary, content:content, type:type}));
+            const res = await client.post('/api/blogs', qs.stringify({title:title, summary:summary, content:content, type:type, markdown:markdown}));
             if(res.data.status){
                 this._success["CREATE_BLOG"] = true;
             }
@@ -82,6 +82,36 @@ class BlogStore extends BaseStore{
             this._failure["CREATE_BLOG"] = [true, e];
         } finally{
             this._pending["CREATE_BLOG"] = false;
+        }
+    }
+
+    @action
+    deleteBlog = async(blog_id:number) =>{
+        this._init("DELETE_BLOG");
+        try{
+            const res = await client.delete(`/api/blogs/${blog_id}`);
+            if(res.data.status){
+                this._success["DELETE_BLOG"] = true;
+            }
+        } catch(e){
+            this._failure["DELETE_BLOG"] = [true, e];
+        } finally{
+            this._pending["DELETE_BLOG"] = false;
+        }
+    }
+
+    @action
+    updateBlog = async(blog_id:number, title:string, summary:string, content:string, blog_type:string, markdown:string) =>{
+        this._init("UPDATE_BLOG");
+        try{
+            const res = await client.post("/api/blogs/update", qs.stringify({blog_id:blog_id, title:title, summary:summary, content:content, blog_type:blog_type, markdown:markdown}));
+            if(res.data.status){
+                this._success["UPDATE_BLOG"] = true;
+            }
+        } catch(e){
+            this._failure["UPDATE_BLOG"] = [true, e];
+        } finally{
+            this._pending["UPDATE_BLOG"] = false;
         }
     }
 }

@@ -19,7 +19,7 @@ const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, any>((pr
 
 interface asdProps extends EditorProps{
     valueType?: "markdown" | "html";
-    createBlog:(title:string, summary:string, content:string, type:string)=>void;
+    createBlog:(title:string, summary:string, content:string, type:string, markdown:string)=>void;
 }
 const BlogCreateComponent: React.FC<asdProps> = (props) =>{
     const createBlog = props.createBlog;
@@ -27,6 +27,7 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
     const [summary, setSummary] = useState<string>('');
     const [content, setContent] = useState<any>('');
     const [type, setType] = useState<string>('React');
+    const [markDown, setMarkDown] = useState<string>('')
     const { initialValue, previewStyle, height, initialEditType, useCommandShortcut } = props;
 
    const editorRef = React.useRef<EditorType>();
@@ -38,6 +39,7 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
         const instance = editorRef.current.getInstance();
         // const valueType = props.valueType || 'markdown';
         setContent(instance.getHtml());
+        setMarkDown(instance.getMarkdown());
    },[props, editorRef]);
 
    const changeHandler = (e:React.ChangeEvent<HTMLInputElement> | any) =>{
@@ -60,7 +62,7 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
        } else if(summary===''){
            alert('요약을 입력해주세요.');
        } else{
-           createBlog(title, summary, content, type);
+           createBlog(title, summary, content, type, markDown);
        }
    }
     return(
@@ -107,14 +109,14 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
     );
 }
 
-const BlogCreateWrap = styled.div`
+export const BlogCreateWrap = styled.div`
     height:100%;
     width:980px;
     max-width:100%;
     margin:0 auto;
 `;
 
-const BlogContainer = styled.div`
+export const BlogContainer = styled.div`
     margin:40px 0px 200px 0px;
     &>div{
         &>p{
@@ -135,7 +137,7 @@ const BlogContainer = styled.div`
             border:1px solid #b4b2b2;
             border-radius:10px;
             outline:none;
-            padding:0 10px;
+            padding:10px;
             resize:none;
         }
         &>select{
@@ -150,11 +152,11 @@ const BlogContainer = styled.div`
     }
 `;
 
-const BlogMainContent = styled.div`
+export const BlogMainContent = styled.div`
     margin:20px 0px 50px 0px;
 `;
 
-const BlogButton = styled.div`
+export const BlogButton = styled.div`
     margin-top:30px;
     &>button{
         outline:none;
