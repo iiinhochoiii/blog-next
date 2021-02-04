@@ -11,7 +11,7 @@ interface Props{
 
 @inject('blogStore')
 @observer
-class BlogReadContianer extends React.Component<Props>{
+class BlogReadContainer extends React.Component<Props>{
     private blogStore = this.props.blogStore as BlogStore;
 
     async componentDidMount(){
@@ -35,4 +35,4 @@ class BlogReadContianer extends React.Component<Props>{
     }
 }
 
-export default BlogReadContianer;
+export default BlogReadContainer;
