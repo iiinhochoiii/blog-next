@@ -14,10 +14,11 @@ class AboutContainer extends React.Component<Props>{
 
     createContact = async(contact:{name:string, email:string, phone:string, message:string}) =>{
        await this.contactStore.createContact(contact);
-       if(this.contactStore.success["CREATE_CONTACT"]){
-           alert("메세지가 전송되었습니다.");
+       alert(this.contactStore.createContactStatus?.msg);
+       if(this.contactStore.createContactStatus?.status){
            location.reload();
        }
+      
     }
     render(){
         return(
