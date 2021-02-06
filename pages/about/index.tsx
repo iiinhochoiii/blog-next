@@ -1,10 +1,10 @@
 import BaseTemplate from '../../components/template/base';
-import AboutComponent from '../../components/about';
+import AboutContainer from '../../containers/about/aboutContainer';
 
 const Question = () =>{
     return(
         <BaseTemplate>
-            <AboutComponent />
+            <AboutContainer />
         </BaseTemplate>
     );
 }

@@ -8,7 +8,11 @@ type form ={
     phone:string;
     message:string;
 }
-const AboutComponent: React.FC = () =>{ 
+
+interface Props{
+    createContact:(contact:form)=>void;
+}
+const AboutComponent: React.FC<Props> = ({createContact}) =>{ 
     const regExpEmail = /^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; // email 유효성검사
     const regExpPhone = /(01[016789])?[-](\d{4}|\d{3})?[-]\d{4}$/i;
 
@@ -41,7 +45,7 @@ const AboutComponent: React.FC = () =>{
             alert("보내실 내용을 입력해주세요.");
             document.getElementById('message')?.focus();
         } else{
-            console.log(form)
+            createContact(form);
         }
     }
     return(
