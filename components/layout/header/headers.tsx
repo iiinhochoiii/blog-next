@@ -50,6 +50,7 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                             {userMenu&&
                             <div>
                                 {userData.user_id===1&&<p onClick={()=>router.push('/blog/create')}>글쓰기</p>}
+                                {userData.user_id===1&&<p onClick={()=>router.push('/contact')}>메세지</p>}
                                 <p onClick={logout}>로그아웃</p>
                             </div>
                             }
