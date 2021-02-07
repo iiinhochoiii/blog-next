@@ -3,7 +3,6 @@ import BaseStore from '../BaseStore';
 import client from '../../lib/client';
 import {createContactStatus, contacts} from './types';
 import qs from 'qs';
-import { ClickAwayListener } from '@material-ui/core';
 
 class ContactStore extends BaseStore{
     constructor() {
