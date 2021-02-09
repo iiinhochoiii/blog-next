@@ -8,7 +8,7 @@ const Footer: React.FC = () =>{
         <FooterWrap>
             <FooterContainer>
                     <div>
-                        <p>본 웹사이트는 개인 포트폴리오 목적으로 제작되었습니다.</p>
+                        <p>본 웹사이트는 개인 블로그 목적으로 제작되었습니다.</p>
                         <p>문의 사항 및 건의 사항은 dlsgh120@gmail.com 으로 보내주시면 답변 드리겠습니다.</p>
                         <p className="footer_copyright">Copyright © 2021 by Choi Tech, Inc. All rights reserved</p>
                     </div>

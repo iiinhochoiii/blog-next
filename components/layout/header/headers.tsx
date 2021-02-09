@@ -34,13 +34,13 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                     </div>
                     <div className="menu">
                         <Link href="/blog">
-                            <a>blog</a>
+                            <a>Blog</a>
                         </Link>
-                        <Link href="/project">
-                            <a>project</a>
+                        <Link href="/experience">
+                            <a>Experience</a>
                         </Link>
                         <Link href="/about">
-                            <a>about</a>
+                            <a>About</a>
                         </Link>
                     </div>
                     {

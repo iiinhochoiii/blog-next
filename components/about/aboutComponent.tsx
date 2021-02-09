@@ -174,6 +174,7 @@ const AboutTitle = styled.div`
     }
 `;
 
+
 const AboutSkill = styled.div`
     padding-bottom:20px;
     border-bottom:1px solid #b4b2b2;
