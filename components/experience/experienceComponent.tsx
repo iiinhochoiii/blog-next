@@ -1,10 +1,51 @@
 import React from 'react';
-// import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import styled from 'styled-components';
-// import Modal from 'react-modal';
+import Modal from 'react-modal';
+import LinkIcon from '@material-ui/icons/Link';
+import data from './data.json';
 
 const ExperienceComponent: React.FC = () =>{
-    // const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [selectNum, setSelectNum] = useState<number>(0);
+    const [isOpen, setIsOpen] = useState<boolean>(true);
+
+    const [widthLength, setWidthLength] = useState<number>();
+
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			const handleResize = () => {
+				setWidthLength(window.innerWidth-200);
+			};
+			window.addEventListener('resize', handleResize);
+			handleResize();
+			return () => window.removeEventListener('resize', handleResize);
+		}
+	}, []);
+
+    const customStyles = {
+		overlay: {
+			backgroundColor: 'rgba(0,0,0,0.8)',
+            zIndex:"200",
+		},
+		content: {
+            left:"0",
+            right:"0",
+			margin: 'auto',
+			width: `${widthLength&&widthLength}px`,
+			height: `${widthLength&&widthLength/1.78}px`,
+            maxWidth:"1480px",
+            maxHeight:"830px",
+            padding:"0",           
+            display:"flex",
+          
+		},
+	};
+
+    const toggle = (num:number) =>{
+        setIsOpen(!isOpen);
+        setSelectNum(num)
+    }
+
     return(
         <ExperienceWrap>
             <ExperienceBackground style={{backgroundImage:`url(${"./images/project_background.jpg"})`}}>
@@ -17,7 +58,10 @@ const ExperienceComponent: React.FC = () =>{
                 <WorkContent>
                     <h1>Work Experience</h1>
                     <div>
-                        <h3 className="project_name">Berry store</h3>
+                        <div>
+                            <h3 className="project_name" onClick={()=>toggle(0)}>Berry store</h3>
+                            <LinkIcon />
+                        </div>
                         <p>2020.06 - 2021.02</p>
                         <p>
                             연예인, 유튜버 등 셀럽의 애장품을 구매할 수 있는, 기부 경매 플랫폼 (주)베리스토어 에서 프론트앤드를 담당하였습니다.
@@ -37,7 +81,10 @@ const ExperienceComponent: React.FC = () =>{
                         </ul>
                     </div>
                     <div>
-                        <h3 className="project_name">Berry Admin</h3>
+                        <div>
+                            <h3 className="project_name" onClick={()=>toggle(1)}>Berry Admin</h3>
+                            <LinkIcon />
+                        </div>
                         <p>2020.06 - 2021.02</p>
                         <p>
                             (주)베리스토어 관리자 사이트의 프론트앤드를 담당 하였습니다. 메인 웹사이트와 마찬가지로 세팅 및 개발을 단독으로 진행 하였습니다.
@@ -55,7 +102,10 @@ const ExperienceComponent: React.FC = () =>{
                 <PersonalContent>
                     <h1>Personal Experiences</h1>
                     <div>
-                        <h3>Choi-Tech</h3>
+                        <div>
+                            <h3 onClick={()=>toggle(2)}>Choi-Tech</h3>
+                            <LinkIcon />
+                        </div>
                         <p>2021.1 - 2021.2</p>
                         <p>
                             다양한 방법으로 얻은 개발 지식들을, 꾸준히 기록하기 위해 만들어진 개인 블로그 입니다. 단순히 지식들을 기억으로 남기는 것이 아닌, 기록을 함으로써
@@ -76,6 +126,15 @@ const ExperienceComponent: React.FC = () =>{
                         </ul>
                     </div>
                 </PersonalContent>
+                <Modal isOpen={isOpen} style={customStyles} onRequestClose={()=>setIsOpen(false)} ariaHideApp={false}>
+                    <ModalContent>
+                            <img src={data[selectNum].image} />
+                            <div>
+                                <p>{data[selectNum].url}</p>
+                                <p>{data[selectNum].git}</p>
+                            </div>
+                    </ModalContent>
+                </Modal>
             </ExperienceContainer>
         </ExperienceWrap>
     );
@@ -115,7 +174,7 @@ const ExperienceBackground = styled.div`
 
 const ExperienceContainer = styled.div`
     width:980px;
-    margin:0 auto;
+    margin:30px auto;
     max-width:100%;
 
     &>.content_header{
@@ -142,6 +201,21 @@ const WorkContent = styled.div`
         color:rgb(18, 184, 134);
         font-size:26px;
     }
+    &>div{
+        &>div{
+            display:flex;
+            &>h3{
+                margin:0px 10px 0px 0px;
+                cursor: pointer;
+                &:hover{
+                    color:gray;
+                }
+            }
+            &>svg{
+                margin:auto 0px;
+            }
+        }
+    }
 `;
 
 const PersonalContent = styled.div`
@@ -149,6 +223,30 @@ const PersonalContent = styled.div`
         color:rgb(18, 184, 134);
         font-size:26px;
     }
+    &>div{
+        &>div{
+            display:flex;
+            &>h3{
+                margin:0px 10px 0px 0px;
+                cursor: pointer;
+                &:hover{
+                    color:gray;
+                }
+            }
+            &>svg{
+                margin:auto 0px;
+            }
+        }
+    }
+`;
+
+const ModalContent = styled.div`
+    text-align:center;
+    &>img{
+        width:100%;
+        height:80%;
+    }
+    
 `;
 
 export default ExperienceComponent;

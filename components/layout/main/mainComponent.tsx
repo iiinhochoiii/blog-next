@@ -28,7 +28,7 @@ const MainComponent: React.FC<Props> = ({blogs, loading}) =>{
 }
 
 const MainWrap = styled.div`
-
+    height:100%;
 `;
 
 const MainBackground = styled.div`
