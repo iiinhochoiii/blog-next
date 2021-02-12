@@ -1,1 +1,1 @@
-export {default} from './MypageComponent';
+export {default} from './mypageComponent';
