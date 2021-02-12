@@ -110,22 +110,27 @@ const BlogWrap = styled.div`
 `;
 
 const BlogBackground = styled.div`
-    background-size:cover;
     height:300px;
+    background-size:100% 300px;
+    background: no-repeat center;
+    position: relative;
     &>div{
+        background:rgba(0,0,0,0.3);
+        position: absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        text-align:center;
         padding-top:100px;
-        width:980px;
-        max-width:100%;
-        margin:0 auto;
-        position: relative;
         &>h1{
             margin:0;
-            color:#fff;
+            color:#ffffff;
             font-size:42px;
         }
         &>p{
             margin:20px 0px 0px 0px;
-            color:#fff;
+            color:#ffffff;
             font-size:18px;
             font-weight:bold;
         }

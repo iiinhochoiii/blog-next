@@ -1,7 +1,7 @@
 import BaseTemplate from '../../components/template/base';
 import ContactContainer from '../../containers/contact/contactContainer';
 
-const Mypage = () =>{
+const Contact = () =>{
     return(
         <BaseTemplate>
             <ContactContainer />
@@ -9,4 +9,4 @@ const Mypage = () =>{
     );
 }
 
-export default Mypage;
+export default Contact;

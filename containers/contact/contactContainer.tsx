@@ -1,7 +1,6 @@
 import React from 'react';
 import {inject, observer} from 'mobx-react';
 import ContactStore from '../../stores/contact';
-import router from 'next/router';
 import ContactComponent from '../../components/contact';
 
 interface Props{
@@ -11,37 +10,20 @@ interface Props{
 @inject('contactStore')
 @observer
 class ContactContainer extends React.Component<Props>{
-    state={
-        loading:true
-    }
     private contactStore = this.props.contactStore as ContactStore;
-    async componentDidMount(){
-        if(process.browser){
-            if(localStorage.getItem('auth')){      
-              this.setState({loading:true});
-              await this.contactStore.getContactList();
-              if(this.contactStore.success["READ_CONTACT"]){
-                this.setState({loading:false});
-              }
-            } else{
-                router.push('/');
-            }
+    createContact = async(contact:{name:string, email:string, phone:string, message:string}) =>{
+        await this.contactStore.createContact(contact);
+        alert(this.contactStore.createContactStatus?.msg);
+        if(this.contactStore.createContactStatus?.status){
+            location.reload();
         }
-    }
+       
+     }
 
-    deleteContact = async(contact_id:number) =>{
-        await this.contactStore.deleteContact(contact_id);
-        if(this.contactStore.success["DELETE_CONTACT"]){
-            alert("삭제 되었습니다.");
-            await this.contactStore.getContactList();
-        }
-    }
     render(){
         return(
             <ContactComponent 
-                contacts={this.contactStore.contacts}
-                deleteContact={this.deleteContact}
-                loading={this.state.loading}
+                 createContact={this.createContact}
             />
         );
     }

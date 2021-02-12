@@ -36,11 +36,11 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                         <Link href="/blog">
                             <a>Blog</a>
                         </Link>
-                        <Link href="/experience">
-                            <a>Experience</a>
-                        </Link>
                         <Link href="/about">
                             <a>About</a>
+                        </Link>
+                        <Link href="/contact">
+                            <a>Contact</a>
                         </Link>
                     </div>
                     {
@@ -50,7 +50,7 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                             {userMenu&&
                             <div>
                                 {userData.user_id===1&&<p onClick={()=>router.push('/blog/create')}>글쓰기</p>}
-                                {userData.user_id===1&&<p onClick={()=>router.push('/contact')}>메세지</p>}
+                                {userData.user_id===1&&<p onClick={()=>router.push('/mypage')}>마이페이지</p>}
                                 <p onClick={logout}>로그아웃</p>
                             </div>
                             }
