@@ -16,13 +16,11 @@ const MainComponent: React.FC<Props> = ({blogs, loading}) =>{
             <MainBackground style={{backgroundImage:`url(${'./images/main_background.jpg'})`}}>
                     <h1>최인호의 Dev Blog 입니다.</h1>
             </MainBackground>
-            <MainContent>
                 <ExplainSite />
                 <LatestPosts 
                     blogs={blogs}
                     loading={loading}
                 />
-            </MainContent>
         </MainWrap>
     );
 }
@@ -43,6 +41,4 @@ const MainBackground = styled.div`
     }
 `;
 
-const MainContent = styled.div`
-`;
 export default MainComponent;

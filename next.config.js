@@ -8,7 +8,7 @@ module.exports = withCSS({
       use: {
         loader: 'url-loader',
         options: {
-          limit: 100000,
+          limit: 1000000,
           name: '[name].[ext]'
         }
       }

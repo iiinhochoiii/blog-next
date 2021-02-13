@@ -13,6 +13,7 @@ interface Props{
     deleteBlog:(blog_id:number)=>void;
 }
 const BlogReadComponent: React.FC<Props> = ({blogItem, deleteBlog}) =>{
+
     const [updateState, setUpdateState] = useState<boolean>(false);
     const [settingState, setSettingState] = useState<boolean>(false);
     useEffect(()=>{

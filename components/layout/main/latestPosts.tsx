@@ -24,14 +24,14 @@ const LatestPosts: React.FC<Props> = ({blogs, loading}) =>{
         <PostsWrap>
             <PostsContainer>
                 <PostsHeader>
-                    <h1>최근 글</h1>
+                    <h1>Recently Posts</h1>
                 </PostsHeader>
                 {loading?<CircularProgress />:
                 <PostsContent>
                 {blogs.map((item,index)=>
                 index<3&&
-                    <article>
-                        <Link href="/blog/[id]" as={`/blog/${item.blog_id}`} key={item.blog_id}>
+                    <article key={item.blog_id}>
+                        <Link href="/blog/[id]" as={`/blog/${item.blog_id}`}>
                             <a>
                                 <h4>{item.title}</h4>
                                 <p>
@@ -74,12 +74,17 @@ const PostsContainer = styled.div`
         width:980px;
         margin: 0 auto;
         max-width:100%;
+
+        @media screen and (max-width:1010px){
+            width:calc(100% - 30px);
+        }
 `;
 
 const PostsHeader = styled.div`
     &>h1{
-        font-size:28px;
+        font-size:26px;
         font-weight:400;
+        color:rgb(18, 184, 134);
         margin:0;
     }
 `;
@@ -93,10 +98,15 @@ const PostsContent = styled.div`
                 cursor: pointer;
                 text-decoration:none;
                 color:#333333;
+                &:hover{
+                    &>h4, p{
+                        color:#0085A1;
+                    }
+                }
                 &>h4{
                     font-size:22px;
-                    font-weight:bold;
-                    margin:5px 0px;
+                    font-weight:400;
+                    margin:10px 0px;
                 }
                 &>p{
                     margin:0px 0px 10px 0px;
@@ -115,7 +125,7 @@ const PostsContent = styled.div`
             &>div{
                 display:flex;
                 justify-content:space-between;
-                margin:10px 0px 0px 0px;
+                margin:15px 0px 0px 0px;
                 &>p{
                     margin:0px;
                     font-size:14px;

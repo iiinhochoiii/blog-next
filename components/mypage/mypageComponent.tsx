@@ -41,45 +41,47 @@ const MypageComponent: React.FC<Props> = ({contacts, deleteContact, loading}) =>
                 contacts.length>0?
                 <ContactContainer>
                     <h1>Received Message</h1>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th className="th_number">번호</th>
-                                <th className="th_message">내용</th>
-                                <th className="th_date">보낸날짜</th>
-                            </tr>
-                        </thead>
-                        {
-                            contacts.map((item)=>
-                            <tbody key={item.contact_id}>
-                                <tr className="main_container" onClick={()=>selectHandler(item.contact_id)}>
-                                    <td className="td_number">{item.contact_id}</td>
-                                    <td className="td_message">
-                                    <TextTruncate
-                                        line={1}
-                                        element="p"
-                                        truncateText="…"
-                                        text={item.message}
-                                        />  
-                                    </td>
-                                    <td className="td_date">{moment(item.created_at).format("YYYY-MM-DD HH:mm:ss")}</td>
+                    <ContactContent>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th className="th_number">번호</th>
+                                    <th className="th_message">내용</th>
+                                    <th className="th_date">보낸날짜</th>
                                 </tr>
-                                {selectNum===item.contact_id&&
-                                <tr className="message_container">
-                                    <td></td>
-                                    <td>
-                                        <p>이름: {item.name}</p>
-                                        <p>이메일: {item.email}</p>
-                                        <p>휴대폰 번호: {item.phone}</p>
-                                        <TextareaAutosize value={item.message} readOnly/>
-                                        <p style={{cursor:"pointer"}} onClick={()=>deleteHandler(item.contact_id)}>삭제</p>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                }
-                            </tbody>)
-                        }
-                    </table>
+                            </thead>
+                            {
+                                contacts.map((item)=>
+                                <tbody key={item.contact_id}>
+                                    <tr className="main_container" onClick={()=>selectHandler(item.contact_id)}>
+                                        <td className="td_number">{item.contact_id}</td>
+                                        <td className="td_message">
+                                        <TextTruncate
+                                            line={1}
+                                            element="p"
+                                            truncateText="…"
+                                            text={item.message}
+                                            />  
+                                        </td>
+                                        <td className="td_date">{moment(item.created_at).format("YYYY-MM-DD HH:mm:ss")}</td>
+                                    </tr>
+                                    {selectNum===item.contact_id&&
+                                    <tr className="message_container">
+                                        <td></td>
+                                        <td>
+                                            <p>이름: {item.name}</p>
+                                            <p>이메일: {item.email}</p>
+                                            <p>휴대폰 번호: {item.phone}</p>
+                                            <TextareaAutosize value={item.message} readOnly/>
+                                            <p style={{cursor:"pointer"}} onClick={()=>deleteHandler(item.contact_id)}>삭제</p>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    }
+                                </tbody>)
+                            }
+                        </table>
+                    </ContactContent>
                 </ContactContainer>:
                 <ContactContainer>
                     <h1>Received Message</h1>
@@ -127,7 +129,16 @@ const ContactContainer = styled.div`
     &>h1{
         margin:0px;
         font-size:22px;
+        font-weight:400;
+        color:rgb(18, 184, 134);
     }
+
+    @media screen and (max-width: 1010px){
+        width:calc(100% - 30px);
+    }
+`;
+
+const ContactContent = styled.div`
     &>table{
         margin-top:30px;
         width:100%;

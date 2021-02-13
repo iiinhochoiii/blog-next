@@ -27,6 +27,10 @@ const ExplainWrap = styled.div`
     width:980px;
     max-width:100%;
     margin:0 auto;
+
+    @media screen and (max-width:1010px){
+        width:calc(100% - 30px);
+    }
 `;
 
 const ExplainContainer = styled.div`
@@ -50,7 +54,7 @@ const ExplainContent = styled.div`
         &>p{
             margin:15px 0px 15px 0px;
             font-size:16px;
-            font-weight:100;
+            font-weight:300;
             line-height:28px;
         }
         &>a{

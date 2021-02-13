@@ -114,6 +114,10 @@ export const BlogCreateWrap = styled.div`
     width:980px;
     max-width:100%;
     margin:0 auto;
+
+    @media screen and (max-width: 1010px){
+        width:calc(100% - 30px);
+    }
 `;
 
 export const BlogContainer = styled.div`
@@ -124,7 +128,7 @@ export const BlogContainer = styled.div`
             font-size:12px;
         }
         &>input{
-            width:60%;
+            width:50%;
             height:45px;
             border:1px solid #b4b2b2;
             border-radius:10px;
@@ -132,7 +136,7 @@ export const BlogContainer = styled.div`
             padding:0 10px;
         }
         &>textarea{
-            width:60%;
+            width:50%;
             height:100px;
             border:1px solid #b4b2b2;
             border-radius:10px;
@@ -147,13 +151,21 @@ export const BlogContainer = styled.div`
             border-radius:10px;
             outline:none;
             padding:0 10px;
+        }
+    }
 
+    @media screen and (max-width: 1010px){
+        &>div{
+            &>input, textarea{
+                width:calc(100% - 20px);
+            }
         }
     }
 `;
 
 export const BlogMainContent = styled.div`
     margin:20px 0px 50px 0px;
+    width:100%;
 `;
 
 export const BlogButton = styled.div`

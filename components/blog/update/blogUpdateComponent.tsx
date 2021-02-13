@@ -102,7 +102,6 @@ const BlogUpdateComponent: React.FC<Props> = (props) =>{
                             plugins={[[codeSyntaxHighlightPlugin,{hljs}]]}
                             />
                         </BlogMainContent>
-                        {content}
                         <div>
                             <p>타입</p>
                             <select value={type} id="type" onChange={changeHandler}>

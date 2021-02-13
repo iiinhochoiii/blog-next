@@ -12,7 +12,12 @@ interface Props{
 const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
     const [height, setHeight] = useState<number>(0);
     const [userMenu, setUserMenu] = useState<boolean>(false);
-    
+    const [path, setPath] = useState<string|undefined>(undefined);
+
+    useEffect(()=>{
+        setPath(router.router?.pathname);
+    },[router]);
+
     useEffect(() => {
 		if (typeof window !== 'undefined') {
 			const handleResize = () => {
@@ -34,13 +39,13 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                     </div>
                     <div className="menu">
                         <Link href="/blog">
-                            <a>Blog</a>
+                            <a style={path&&path?.indexOf("/blog")>-1?{color:"rgb(18,184,134)"}:{}}>Blog</a>
                         </Link>
                         <Link href="/about">
-                            <a>About</a>
+                            <a style={path&&path?.indexOf("/about")>-1?{color:"rgb(18,184,134)"}:{}}>About</a>
                         </Link>
                         <Link href="/contact">
-                            <a>Contact</a>
+                            <a style={path&&path?.indexOf("/contact")>-1?{color:"rgb(18,184,134)"}:{}}>Contact</a>
                         </Link>
                     </div>
                     {

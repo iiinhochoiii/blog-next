@@ -26,6 +26,9 @@ const GlobalStyle = createGlobalStyle`
 	padding:0;
 	width:100%;
     background-color: rgb(242, 242, 242);
+    color:#333333;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:300;
   }
 `;
 
@@ -40,6 +43,19 @@ interface Props {
 	pageProps: any;
 }
 
+const style = [
+    'padding : 30px 20px',
+    'margin : 20px 0',
+    'background : rgb(18,184,134)',
+    'font-size : 25px',
+    'font-weight : bold',
+    'text-align : center',
+    'color : #ffffff'
+].join(';');
+
+console.log('%c 안녕하세요. 최인호의 DEV BLOG 입니다!', style);
+console.log('>> https://c-tech.gq');
+
 class App extends React.Component<Props>{
     render(){
         const { Component, pageProps } = this.props;
@@ -48,6 +64,10 @@ class App extends React.Component<Props>{
             <Head>
             <link rel="preconnect" href="https://fonts.gstatic.com" />
             <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
+            <link
+				href={`https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap`}
+			    rel="stylesheet"
+			></link>
             </Head>
             <GlobalStyle />
             <ThemeProvider theme={theme}>
