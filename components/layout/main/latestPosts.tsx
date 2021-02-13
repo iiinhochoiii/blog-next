@@ -87,6 +87,12 @@ const PostsHeader = styled.div`
         color:rgb(18, 184, 134);
         margin:0;
     }
+
+    @media screen and (max-width: 690px){
+        &>h1{
+            font-size:22px;
+        }
+    }
 `;
 
 const PostsContent = styled.div`
@@ -132,6 +138,19 @@ const PostsContent = styled.div`
                 }
             }
         }
+
+    @media screen and (max-width: 690px){
+        &>article{
+            &>a{
+                &>h4{
+                    font-size:18px;
+                }
+                &>p{
+                    font-size:16px;
+                }
+            }
+        }
+    }
 `;
 
 const MoreContent = styled.div`

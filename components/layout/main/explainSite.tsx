@@ -39,6 +39,12 @@ const ExplainContainer = styled.div`
         font-size:28px;
         font-weight:400;
     }
+
+    @media screen and (max-width: 690px){
+        &>h1{
+            font-size:24px;
+        }
+    }
 `;
 
 const ExplainContent = styled.div`
@@ -63,6 +69,16 @@ const ExplainContent = styled.div`
             cursor: pointer;
             padding:5px 10px;
             font-size:14px;
+        }
+    }
+    @media screen and (max-width: 690px){
+        &>div{
+            &>h2{
+                font-size:18px;
+            }
+            &>p{
+                font-size:14px;
+            }
         }
     }
 `;  

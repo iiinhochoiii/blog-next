@@ -4,7 +4,7 @@ module.exports = withCSS({
   target: "serverless",
   webpack: function (config) {
     config.module.rules.push({
-      test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif|ico|jpeg)$/,
+      test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif|ico)$/,
       use: {
         loader: 'url-loader',
         options: {

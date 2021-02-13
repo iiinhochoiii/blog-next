@@ -121,6 +121,20 @@ const BlogContents = styled.div`
         }
     }
 
+    @media screen and (max-width: 690px){
+        &>.blog_content{
+            &>article{
+                &>a{
+                    &>h4{
+                        font-size:18px;
+                    }
+                    &>p{
+                        font-size:16px;
+                    }
+                }
+            }
+        }
+    }
 `;
 
 export default BlogContent;

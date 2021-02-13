@@ -129,6 +129,31 @@ const WorkContent = styled.div`
             }
         }
     }
+
+    @media screen and (max-width: 690px){
+        &>h1{
+            font-size:22px;
+        }
+
+        &>div{
+            &>h3{
+                font-size: 18px;
+            }
+            &>div{
+                &>a{
+                    font-size:14px;
+                }
+            }
+            &>p{
+                font-size:14px;
+            }
+            &>ul{
+                &>li{
+                    font-size:14px;
+                }
+            }
+        }
+    }
 `;
 
 const PersonalContent = styled.div`
@@ -158,6 +183,30 @@ const PersonalContent = styled.div`
         &>ul{
             &>li{
                 line-height:35px;
+            }
+        }
+    }
+    @media screen and (max-width: 690px){
+        &>h1{
+            font-size:22px;
+        }
+
+        &>div{
+            &>h3{
+                font-size: 18px;
+            }
+            &>div{
+                &>a{
+                    font-size:14px;
+                }
+            }
+            &>p{
+                font-size:14px;
+            }
+            &>ul{
+                &>li{
+                    font-size:14px;
+                }
             }
         }
     }

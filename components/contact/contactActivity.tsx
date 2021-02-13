@@ -105,6 +105,17 @@ const AboutContact = styled.div`
             }
         }
     }
+
+    @media screen and (max-width: 690px){
+        &>h3{
+            font-size:22px;
+        }
+        &>.contact_text_item{
+            &>a{
+                font-size:16px;
+            }
+        }
+    }
 `;
 
 const AboutMassage = styled.div`
@@ -152,6 +163,14 @@ const AboutMassage = styled.div`
 
     @media screen and (max-width: 1010px){
         width:calc(100% - 15px);
+    }
+
+    @media screen and (max-width: 690px){
+        &>div{
+            &>input, textarea{
+                font-size:14px;
+            }
+        }
     }
 `;
 

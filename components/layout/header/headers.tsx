@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import router from 'next/router';
+import MenuIcon from '@material-ui/icons/Menu';
 
 interface Props{
     auth:boolean;
@@ -13,7 +14,7 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
     const [height, setHeight] = useState<number>(0);
     const [userMenu, setUserMenu] = useState<boolean>(false);
     const [path, setPath] = useState<string|undefined>(undefined);
-
+    const [menuState, setMenuState] = useState<boolean>(false);
     useEffect(()=>{
         setPath(router.router?.pathname);
     },[router]);
@@ -49,7 +50,7 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                         </Link>
                     </div>
                     {
-                        auth?
+                        auth&&
                         <div className="logined">
                             <p onClick={()=>setUserMenu(!userMenu)}>{userData.name}</p>
                             {userMenu&&
@@ -60,13 +61,30 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                             </div>
                             }
                         </div>
-                        :
-                        <div className="auth">
-                           
-                        </div>
-                    }
+                    }                    
+                        <MenuIcon onClick={()=>setMenuState(!menuState)}/>
                 </HeaderContent>
-                
+                <MenuState>
+                {menuState&&
+                <div>
+                    <p>
+                        <Link href="/blog">
+                                <a style={path&&path?.indexOf("/blog")>-1?{color:"rgb(18,184,134)"}:{}}>Blog</a>
+                        </Link>
+                    </p>
+                    <p>
+                        <Link href="/about">
+                            <a style={path&&path?.indexOf("/about")>-1?{color:"rgb(18,184,134)"}:{}}>About</a>
+                        </Link>
+                    </p>
+                    <p>
+                        <Link href="/contact">
+                            <a style={path&&path?.indexOf("/contact")>-1?{color:"rgb(18,184,134)"}:{}}>Contact</a>
+                        </Link>
+                    </p>
+                </div>
+                }
+                </MenuState>
             </HeaderContainer>
         </HeaderWrap>
     );
@@ -84,6 +102,10 @@ const HeaderContainer = styled.div`
     width:980px;
     max-width:100%;
     margin:0 auto;
+
+    @media screen and (max-width: 1010px){
+        width:calc(100% - 30px);
+    }
 `;
 
 const HeaderContent = styled.div`
@@ -110,14 +132,9 @@ const HeaderContent = styled.div`
         &>a{
             margin:0px 10px;
             font-weight:bold;
-        }
-    }
-    &>.auth{
-        display:flex;
-        &>a{
-            margin-left:10px;
-            font-weight:bold;
-            color:rgb(80,80,80);
+            &:hover{
+                color:rgb(18, 184, 134);
+            }
         }
     }
     &>.logined{
@@ -146,5 +163,51 @@ const HeaderContent = styled.div`
             }
         }
     }
+    &>svg{
+        display:none;
+    }
+    @media screen and (max-width: 690px){
+        &>.menu{
+            display:none;
+        }
+        &>.logined{
+            display:none;
+        }
+        &>svg{
+            display:block;
+            cursor: pointer;
+        }
+    }
 `;
+
+const MenuState = styled.div`
+    display:none;
+    margin-left:-15px;
+    width:100%;
+    position:absolute;
+    z-index:100;
+    background-color:#fff;
+    padding:15px 0px;
+    &>div{
+        margin:0 15px;
+        &>p{
+            margin:10px 0px;
+            &>a{
+                width:100%;
+                color:#333;
+                text-decoration:none;
+                font-size:16px;
+                font-weight:400;
+                &:hover{
+                    color:rgb(18,184,134);
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 690px){
+        display:block;
+    }
+`;
+
 export default Headers;

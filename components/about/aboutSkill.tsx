@@ -48,5 +48,24 @@ const AboutSkillContainer = styled.div`
     &>h4{
         font-weight:400;
     }
+    &>ul{
+        &>li{
+            line-height:35px;
+        }
+    }
+
+    @media screen and (max-width: 690px){
+        &>h1{
+            font-size:22px;
+        }
+        &>h4{
+            font-size:18px;
+        }
+        &>ul{
+            &>li{
+                font-size:14px;
+            }
+        }
+    }
 `;
 export default AboutSkill;

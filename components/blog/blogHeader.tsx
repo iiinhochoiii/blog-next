@@ -75,5 +75,11 @@ const BlogHader = styled.div`
             width:100%;
         }
     }
+
+    @media screen and (max-width: 690px){
+        &>h1{
+            font-size:22px;
+        }
+    }
 `;
 export default BlogHeader;

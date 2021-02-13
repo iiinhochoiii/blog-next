@@ -51,5 +51,17 @@ const FooterContainer = styled.div`
                 cursor: pointer;
             }
         }
+
+    @media screen and (max-width: 1010px){
+        width: calc(100% - 30px);
+    }
+
+    @media screen and (max-width:690px){
+        flex-wrap:wrap;
+        &>div{
+            width:100%;
+            margin-bottom: 5px;
+        }
+    }
 `;
 export default Footer;

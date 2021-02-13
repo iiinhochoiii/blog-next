@@ -61,6 +61,17 @@ const BlogBackground = styled.div`
             font-weight:bold;
         }
     }
+
+    @media screen and (max-width: 690px){
+        &>div{
+            &>h1{
+                font-size:24px;
+            }
+            &>p{
+                font-size:16px;
+            }
+        }
+    }
 `;
 
 const BlogContainer = styled.div`
