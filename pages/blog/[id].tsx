@@ -3,7 +3,7 @@ import BlogReadContainer from '../../containers/blog/blogReadContainer';
 
 const BlogDetail = ({data}:any) =>{
     return(
-        <BaseTemplate>
+        <BaseTemplate title="blog">
             <BlogReadContainer blog_id={data.id}/>
         </BaseTemplate>
     );

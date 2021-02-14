@@ -6,7 +6,7 @@ const Blog = () =>{
     const router = useRouter();
     const query = router.query;
     return(
-        <BaseTemplate>
+        <BaseTemplate title="blog">
             <BlogContainer query={query.title}/>
         </BaseTemplate>
     );

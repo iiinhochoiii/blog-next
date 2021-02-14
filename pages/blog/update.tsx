@@ -5,7 +5,7 @@ import {useRouter} from 'next/router';
 const BlogCreate = () =>{
     const router = useRouter();
     return(
-        <BaseTemplate>
+        <BaseTemplate title="blog">
             <BlogUpdateContainer query={router.query} />
         </BaseTemplate>
     );

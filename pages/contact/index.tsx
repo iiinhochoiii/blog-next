@@ -3,7 +3,7 @@ import ContactContainer from '../../containers/contact/contactContainer';
 
 const Contact = () =>{
     return(
-        <BaseTemplate>
+        <BaseTemplate title="contact">
             <ContactContainer />
         </BaseTemplate>
     );

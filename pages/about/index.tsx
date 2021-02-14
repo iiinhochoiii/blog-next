@@ -3,7 +3,7 @@ import AboutContainer from '../../containers/about/aboutContainer';
 
 const Question = () =>{
     return(
-        <BaseTemplate>
+        <BaseTemplate title="about">
             <AboutContainer />
         </BaseTemplate>
     );

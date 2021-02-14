@@ -3,7 +3,7 @@ import BlogCreateContainer from '../../containers/blog/blogCreateContainer';
 
 const BlogCreate = () =>{
     return(
-        <BaseTemplate>
+        <BaseTemplate title="blog">
             <BlogCreateContainer />
         </BaseTemplate>
     );

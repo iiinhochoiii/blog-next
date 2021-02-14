@@ -3,14 +3,11 @@ import styled from 'styled-components';
 import ExplainSite from './explainSite';
 import LatestPosts from './latestPosts';
 import {blogs} from '../../../stores/blog/types';
-
 interface Props{
     blogs:blogs[];
     loading:boolean;
 }
 const MainComponent: React.FC<Props> = ({blogs, loading}) =>{
-    
-    
     return(
         <MainWrap>
             <MainBackground style={{backgroundImage:`url(${'./images/main_background.jpg'})`}}>

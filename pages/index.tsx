@@ -3,7 +3,7 @@ import MainContainer from '../containers/main/mainContainer';
 
 const Index = () =>{
     return(
-        <BaseTemplate>
+        <BaseTemplate title="">
             <MainContainer />
         </BaseTemplate>
     );

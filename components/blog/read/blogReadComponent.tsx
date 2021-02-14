@@ -8,6 +8,7 @@ import {DiscussionEmbed} from 'disqus-react';
 import moment from 'moment';
 import Router from 'next/router';
 import blog_background from '../../../public/images/blog_background.jpg';
+import Head from 'next/head';
 
 interface Props{
     blogItem?:blogs;
@@ -49,6 +50,9 @@ const BlogReadComponent: React.FC<Props> = ({blogItem, deleteBlog}) =>{
     }
     return(
         <ReadWrap>
+            <Head>
+                <title>{blogItem?.title}</title>
+            </Head>
             <BlogBackground >
                     <div>
                         <div>

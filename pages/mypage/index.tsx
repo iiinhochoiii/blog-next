@@ -3,7 +3,7 @@ import MypageContainer from '../../containers/mypage/mypageContainer';
 
 const Mypage = () =>{
     return(
-        <BaseTemplate>
+        <BaseTemplate title="mypage">
             <MypageContainer />
         </BaseTemplate>
     );

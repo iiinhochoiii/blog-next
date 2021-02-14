@@ -1,8 +1,14 @@
 import JoinContainer from '../containers/user/joinContainer';
+import Head from 'next/head';
 
 const Join = () =>{
     return(
-      <JoinContainer />  
+      <>
+        <Head>
+          <title>Sign up - Choi Tech Blog</title>
+        </Head>
+        <JoinContainer />
+      </>
     );
 }
 
