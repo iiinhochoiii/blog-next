@@ -101,7 +101,7 @@ class BlogStore extends BaseStore{
     }
 
     @action
-    updateBlog = async(blog_id:number, title:string, summary:string, content:string, blog_type:string, markdown:string) =>{
+    updateBlog = async(blog_id:number, title:string, summary:string, content:string, blog_type:string, markdown:string, token:string) =>{
         this._init("UPDATE_BLOG");
         try{
             const res = await client.post("/api/blogs/update", qs.stringify({blog_id:blog_id, title:title, summary:summary, content:content, blog_type:blog_type, markdown:markdown}));
