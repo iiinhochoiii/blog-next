@@ -15,6 +15,9 @@ class BlogStore extends BaseStore{
     @observable
     _blogItem?:blogs;
 
+    @observable
+    _blogUpdateStatus?:{status:boolean, msg:string};
+
     @computed
     get blogs(){
         return this._blogs;
@@ -23,6 +26,11 @@ class BlogStore extends BaseStore{
     @computed
     get blogItem(){
         return this._blogItem;
+    }
+
+    @computed
+    get blogUpdateStatus(){
+        return this._blogUpdateStatus;
     }
 
     @action
@@ -105,6 +113,7 @@ class BlogStore extends BaseStore{
         this._init("UPDATE_BLOG");
         try{
             const res = await client.post("/api/blogs/update", qs.stringify({blog_id:blog_id, title:title, summary:summary, content:content, blog_type:blog_type, markdown:markdown, token}));
+            this._blogUpdateStatus = await res.data;
             if(res.data.status){
                 this._success["UPDATE_BLOG"] = true;
             }

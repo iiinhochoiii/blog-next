@@ -22,7 +22,7 @@ class BlogUpdateContainer extends React.Component<Props>{
      componentDidMount(){
         if(process.browser){
             const user:any = localStorage.getItem('auth');
-            if(!user || JSON.parse(user).user_id !== 1){
+            if(user === null || JSON.parse(user).user_id !== 1){
                 Router.push('/');
             }
         }
@@ -38,8 +38,12 @@ class BlogUpdateContainer extends React.Component<Props>{
 
     updateBlog = async(blog_id:number, title:string, summary:string, content:string, blog_type:string, markdown:string) =>{
         await this.blogStore.updateBlog(blog_id, title, summary, content, blog_type, markdown, this.token);
-        if(this.blogStore.success["UPDATE_BLOG"]){
+        if(this.blogStore.blogUpdateStatus?.status){
+            alert(this.blogStore.blogUpdateStatus.msg);
             Router.back();
+        }
+        else{
+            alert(this.blogStore.blogUpdateStatus?.msg);
         }
     }
     render(){
