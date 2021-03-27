@@ -217,6 +217,10 @@ const ReadContent = styled.div`
             margin:0px 0px 0px 20px;
         }
     }
+    a{
+        color: rgb(65, 131, 196);
+        text-decoration:none;
+    }
 `;
 
 const Review = styled.div`
