@@ -17,7 +17,7 @@ class MainContainer extends React.Component<Props>{
 
     async componentDidMount(){
         this.setState({loading:true});
-        await this.blogStore.getBlogList();
+        await this.blogStore.getBlogList("1");
         if(this.blogStore.success["READ_BLOG_LIST"]){
             this.setState({loading:false});
         }
