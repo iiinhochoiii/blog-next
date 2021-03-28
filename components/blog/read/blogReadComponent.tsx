@@ -18,7 +18,7 @@ const BlogReadComponent: React.FC<Props> = ({blogItem, deleteBlog}) =>{
     const [updateState, setUpdateState] = useState<boolean>(false);
     const [settingState, setSettingState] = useState<boolean>(false);
     useEffect(()=>{
-        let auth;
+        let auth:any;
         if(process.browser && localStorage.getItem('auth')){
            auth = JSON.parse(String(localStorage.getItem('auth')));
            if(blogItem?.user_id === auth.user_id){
