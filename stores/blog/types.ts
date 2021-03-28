@@ -9,3 +9,11 @@ export type blogs = {
     name:string;
     markdown:string;
 }
+
+export type pageType = {
+    totalLength: number;
+    limit: number;
+    indexOfFirstPost: number;
+    indexOfLastPost: number;
+    lastPageNum: number;
+}

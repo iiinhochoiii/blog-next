@@ -5,7 +5,8 @@ import BlogComponent from '../../components/blog';
 
 interface Props{
     blogStore?:BlogStore;
-    query:any;
+    title:any;
+    page:any;
 }
 
 @inject('blogStore')
@@ -17,12 +18,12 @@ class BlogContainer extends React.Component<Props>{
     }
     initBlog = async () =>{
         this.setState({loading:true});
-        if(this.props.query){
-            await this.blogStore.getSearchBlogList(String(this.props.query))
+        if(this.props.title){
+            await this.blogStore.getSearchBlogList(String(this.props.title))
             this.setState({loading:false});
         }
         else{
-            await this.blogStore.getBlogList();
+            await this.blogStore.getBlogList(String(this.props.page?this.props.page:1));
             this.setState({loading:false});
         }
     }
@@ -30,7 +31,7 @@ class BlogContainer extends React.Component<Props>{
         this.initBlog();
     }
     async componentDidUpdate(prev:any){
-        if(prev.query !== this.props.query){
+        if(prev.title !== this.props.title || prev.page !== this.props.page){
             this.initBlog();
         }
     }
@@ -38,7 +39,9 @@ class BlogContainer extends React.Component<Props>{
         return(
             <BlogComponent 
                 blogs={this.blogStore.blogs}
-                query={this.props.query}
+                page={this.blogStore.page}
+                pageNum={this.props.page}
+                title={this.props.title}
                 loading={this.state.loading}
             />
         );

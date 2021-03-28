@@ -1,7 +1,7 @@
 import {action, observable, computed, makeObservable} from 'mobx';
 import BaseStore from '../BaseStore';
 import client from '../../lib/client';
-import {blogs} from './types';
+import {blogs, pageType} from './types';
 import qs from 'qs';
 class BlogStore extends BaseStore{
     constructor() {
@@ -18,6 +18,9 @@ class BlogStore extends BaseStore{
     @observable
     _blogUpdateStatus?:{status:boolean, msg:string};
 
+    @observable
+    _page?: pageType;
+
     @computed
     get blogs(){
         return this._blogs;
@@ -33,13 +36,19 @@ class BlogStore extends BaseStore{
         return this._blogUpdateStatus;
     }
 
+    @computed
+    get page(){
+        return this._page;
+    }
+
     @action
-    getBlogList = async() =>{
+    getBlogList = async(page:string) =>{
         this._blogs = [];
         this._init("READ_BLOG_LIST");
         try{
-            const res = await client.get('/api/blogs');
+            const res = await client.get(`/api/blogs?page=${page}`);
             this._blogs = await res.data.data;
+            this._page = await res.data.page;
             this._success["READ_BLOG_LIST"] = true;
         } catch(e){
             this._failure["READ_BLOG_LIST"] = [true, e];

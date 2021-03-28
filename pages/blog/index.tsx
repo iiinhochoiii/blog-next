@@ -7,7 +7,7 @@ const Blog = () =>{
     const query = router.query;
     return(
         <BaseTemplate title="blog">
-            <BlogContainer query={query.title}/>
+            <BlogContainer title={query.title} page={query.page} />
         </BaseTemplate>
     );
 }

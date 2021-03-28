@@ -62,7 +62,7 @@ const BlogContent: React.FC<Props> = ({blogs, loading}) =>{
 }
 
 const BlogContents = styled.div`
-    margin:10px 0px 100px 0px;
+    margin:10px 0px 30px 0px;
     &>.blog_content{
         width:100%;
         &>article{
