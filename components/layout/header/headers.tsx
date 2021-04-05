@@ -267,6 +267,7 @@ const MenuState = styled.div`
                     }
                 &>a{
                     text-decoration:none;
+                    color:#333;
                     &:hover{
                         color:rgb(18,184,134);
                     }
