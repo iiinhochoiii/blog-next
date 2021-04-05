@@ -58,7 +58,7 @@ const BlogReadComponent: React.FC<Props> = ({blogItem, deleteBlog}) =>{
                         <div>
                             <h1>{blogItem?.title}</h1>
                             <p>{blogItem?.name}</p>
-                            <span>{moment(blogItem?.created_at).format("YYYY-MM-DD")}</span>
+                            <span>{blogItem?.created_at&&moment(blogItem.created_at).format("YYYY-MM-DD")}</span>
                             {updateState&&
                                 <div className="blog_update_container">
                                     <p onClick={()=>setSettingState(!settingState)}>설정</p>

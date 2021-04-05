@@ -32,6 +32,15 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
     const userHandler = (type:string) =>{
         router.push(`/${type}`);
     }
+
+    const blogWriteHandler = () =>{
+        if(userData.user_id===1){
+            router.push("/blog/create");
+        } else{
+            alert("현재 관리자만 글 작성이 가능합니다.");
+        }
+    }
+
     return(
         <HeaderWrap style={height>0?{position:"fixed", top:"0"}:{}}>
             <HeaderContainer>
@@ -58,7 +67,7 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                             <p onClick={()=>setUserMenu(!userMenu)}>{userData.name}</p>
                             {userMenu&&
                             <div>
-                                {userData.user_id===1&&<p onClick={()=>router.push('/blog/create')}>글쓰기</p>}
+                                <p onClick={blogWriteHandler}>글쓰기</p>
                                 {userData.user_id===1&&<p onClick={()=>router.push('/mypage')}>마이페이지</p>}
                                 <p onClick={logout}>로그아웃</p>
                             </div>
@@ -66,7 +75,7 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                         </div>
                         :
                         <div className="before_login">
-                            <p onClick={()=>userHandler("join")}>회원가입</p>
+                            {/* <p onClick={()=>userHandler("join")}>회원가입</p> */}
                             <p onClick={()=>userHandler("login")}>로그인</p>
                         </div>
                     }                    
@@ -75,21 +84,44 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                 <MenuState>
                 {menuState&&
                 <div>
-                    <p>
-                        <Link href="/blog">
-                                <a style={path&&path?.indexOf("/blog")>-1?{color:"rgb(18,184,134)"}:{}}>Blog</a>
-                        </Link>
-                    </p>
-                    <p>
-                        <Link href="/about">
-                            <a style={path&&path?.indexOf("/about")>-1?{color:"rgb(18,184,134)"}:{}}>About</a>
-                        </Link>
-                    </p>
-                    <p>
-                        <Link href="/contact">
-                            <a style={path&&path?.indexOf("/contact")>-1?{color:"rgb(18,184,134)"}:{}}>Contact</a>
-                        </Link>
-                    </p>
+                    <div className="menu_info">
+                        <p>
+                            <Link href="/blog">
+                                    <a style={path&&path?.indexOf("/blog")>-1?{color:"rgb(18,184,134)"}:{}}>Blog</a>
+                            </Link>
+                        </p>
+                        <p>
+                            <Link href="/about">
+                                <a style={path&&path?.indexOf("/about")>-1?{color:"rgb(18,184,134)"}:{}}>About</a>
+                            </Link>
+                        </p>
+                        <p>
+                            <Link href="/contact">
+                                <a style={path&&path?.indexOf("/contact")>-1?{color:"rgb(18,184,134)"}:{}}>Contact</a>
+                            </Link>
+                        </p>
+                    </div>
+                    <div className="user_info">
+                        {
+                            auth?
+                            <>
+                                <p onClick={blogWriteHandler}>
+                                    글쓰기
+                                </p>
+                                <p onClick={logout}>
+                                    로그아웃
+                                </p>
+                            </>
+                            :
+                            <>
+                                <p>
+                                    <Link href="/login">
+                                            <a>login</a>
+                                    </Link>
+                                </p>
+                            </>
+                        }
+                    </div>
                 </div>
                 }
                 </MenuState>
@@ -204,20 +236,44 @@ const MenuState = styled.div`
     background-color:#fff;
     padding:15px 0px;
     &>div{
-        margin:0 15px;
-        &>p{
-            margin:10px 0px;
-            &>a{
-                width:100%;
-                color:#333;
-                text-decoration:none;
-                font-size:16px;
-                font-weight:400;
-                &:hover{
-                    color:rgb(18,184,134);
+        &>.menu_info{
+            margin:0 15px;
+            border-bottom:1px solid;
+            &>p{
+                margin:10px 0px;
+                &>a{
+                    width:100%;
+                    color:#333;
+                    text-decoration:none;
+                    font-size:16px;
+                    font-weight:400;
+                    &:hover{
+                        color:rgb(18,184,134);
+                    }
                 }
             }
         }
+        &>.user_info{
+            margin:0 15px;
+            &>p{
+                margin:10px 0px;
+                width:100%;
+                color:#333;
+                font-size:16px;
+                font-weight:400;
+                cursor: pointer;
+                &:hover{
+                        color:rgb(18,184,134);
+                    }
+                &>a{
+                    text-decoration:none;
+                    &:hover{
+                        color:rgb(18,184,134);
+                    }
+                }
+            }
+        }
+        
     }
 
     @media screen and (max-width: 690px){

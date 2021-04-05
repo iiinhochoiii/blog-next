@@ -17,11 +17,18 @@ class MypageContainer extends React.Component<Props>{
     private contactStore = this.props.contactStore as ContactStore;
     async componentDidMount(){
         if(process.browser){
-            if(localStorage.getItem('auth')){      
-              this.setState({loading:true});
-              await this.contactStore.getContactList();
-              if(this.contactStore.success["READ_CONTACT"]){
-                this.setState({loading:false});
+            const user:any = localStorage.getItem('auth');
+
+            if(user){      
+              if(JSON.parse(user).user_id === 1){
+                this.setState({loading:true});
+                await this.contactStore.getContactList();
+                if(this.contactStore.success["READ_CONTACT"]){
+                  this.setState({loading:false});
+                }
+              }
+              else{
+                router.push('/');
               }
             } else{
                 router.push('/');

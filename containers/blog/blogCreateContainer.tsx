@@ -23,7 +23,9 @@ class BlogCreateContainer extends React.Component<Props>{
     componentDidMount(){
         if(process.browser){
             const user:any = localStorage.getItem('auth');
-            if(JSON.parse(user).user_id !== 1){
+            if(user===null){
+                router.push('/');
+            } else if(JSON.parse(user).user_id !== 1){
                 router.push('/');
             }
         }
