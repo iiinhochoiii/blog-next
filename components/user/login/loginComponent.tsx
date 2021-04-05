@@ -48,12 +48,12 @@ const LoginComponent: React.FC<Props> = ({login}) =>{
                         <input type="password" value={password} id="password" onChange={inputChangeHandler}/>
                     </div>
                     <div className="user-info-forgot">
-                        <Link href="/adminjoin">
+                        <Link href="/join">
                             <a>Sign up</a>
                         </Link>
-                        <Link href="/">
+                        {/* <Link href="/">
                             <a>Forgot Your Password?</a>
-                        </Link>
+                        </Link> */}
                     </div>
                     <div className="user-info-login">
                         <button type="submit">LOGIN</button>

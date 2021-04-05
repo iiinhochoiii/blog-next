@@ -29,6 +29,9 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
 		}
     }, [height]);
 
+    const userHandler = (type:string) =>{
+        router.push(`/${type}`);
+    }
     return(
         <HeaderWrap style={height>0?{position:"fixed", top:"0"}:{}}>
             <HeaderContainer>
@@ -50,8 +53,8 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                         </Link>
                     </div>
                     {
-                        auth&&
-                        <div className="logined">
+                        auth?
+                        <div className="after_login">
                             <p onClick={()=>setUserMenu(!userMenu)}>{userData.name}</p>
                             {userMenu&&
                             <div>
@@ -60,6 +63,11 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                                 <p onClick={logout}>로그아웃</p>
                             </div>
                             }
+                        </div>
+                        :
+                        <div className="before_login">
+                            <p onClick={()=>userHandler("join")}>회원가입</p>
+                            <p onClick={()=>userHandler("login")}>로그인</p>
                         </div>
                     }                    
                         <MenuIcon onClick={()=>setMenuState(!menuState)}/>
@@ -137,7 +145,7 @@ const HeaderContent = styled.div`
             }
         }
     }
-    &>.logined{
+    &>.after_login{
         position:relative;
         &>p{
             cursor: pointer;
@@ -163,6 +171,13 @@ const HeaderContent = styled.div`
             }
         }
     }
+    &>.before_login{
+        display:flex;
+        &>p{
+            cursor: pointer;
+            margin:0px 0px 0px 10px;
+        }
+    }
     &>svg{
         display:none;
     }
@@ -170,7 +185,7 @@ const HeaderContent = styled.div`
         &>.menu{
             display:none;
         }
-        &>.logined{
+        &>.after_login, .before_login{
             display:none;
         }
         &>svg{
