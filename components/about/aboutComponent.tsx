@@ -17,8 +17,9 @@ const AboutComponent: React.FC = () =>{
             <AboutContainer>
                 <AboutTitle>
                     <h1>introduce</h1>
-                    <p>배운것들을 꾸준히 기록하고자 노력하며, 실행하는 프론트앤드 주니어 개발자 입니다.</p>
-                    <p>현재 기부 경매 플래폼 스타트업에서 재직 중이며, 메인 web site 및 관리자 backoffice 개발을 담당하고 있습니다.</p>
+                    <p>배운것들을 꾸준히 기록하고자 노력하며, 실행하는 프론트엔드 주니어 개발자 입니다.</p>
+                    <p>주로 React를 다루고 있으며, Node.js(express) 및, PHP(Laravel)를 사용한 경험이 있습니다.</p>
+                    <p>다양한 기술을 적극 수용하며 효과적으로 활용하고자 하며, 사용자에게 양질의 서비스를 제공함으로써 보람을 느낍니다.</p>
                 </AboutTitle>
                 <AboutExperience />
                 <AboutSkill />
