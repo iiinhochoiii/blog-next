@@ -56,7 +56,7 @@ class App extends React.Component<Props>{
         ].join(';');
         if(process.env.NODE_ENV==="production"){
             console.log('%c 안녕하세요. 최인호의 DEV BLOG 입니다!', style);
-            console.log('>> https://c-tech.gq');
+            console.log('>> https://c-tech.vercel.app');
         }
     }
     render(){

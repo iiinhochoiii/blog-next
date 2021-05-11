@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-// import Link from 'next/link';
 
 const ExplainSite: React.FC = () =>{
     return(
@@ -10,9 +9,7 @@ const ExplainSite: React.FC = () =>{
             <ExplainContent>
                 <div>
                     <h2>지식 공유</h2>
-                    <p>Front-end 프레임워크인 React에 관련된 기술 및 경험을 공유 합니다. 주로 개발 환경 구성 및, 이슈 대응, 문제 해결 등 다양한 주제를 다루고 있습니다.
-                        또한, 공유한 지식에 대하여, 질의 응답 등을 이용 할 수 있습니다.
-                    </p>
+                    <p>Front-end 프레임워크인 React에 관련된 기술 및 경험을 공유 합니다. 주로 개발 환경 구성 및, 이슈 대응, 문제 해결 등 다양한 주제를 다루고 있습니다. 또한, 공유한 지식에 대하여, 질의 응답 등을 이용 할 수 있습니다.</p>
                     {/* <Link href="/blog">
                         <a style={{backgroundColor:"#99FFFF"}}># blog</a>
                     </Link> */}

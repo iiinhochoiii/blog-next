@@ -50,7 +50,7 @@ const AboutExperience: React.FC = () =>{
                 <div>
                     <h3>Choi-Tech</h3>
                     <div>
-                        <a href="https://c-tech.gq">[Site]</a>
+                        <a href="https://c-tech.vercel.app">[Site]</a>
                         <a href="https://github.com/dlsgh120">[Github]</a>
                     </div>
                     <p>2021.1 - 2021.2</p>

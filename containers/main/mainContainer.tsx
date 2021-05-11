@@ -1,7 +1,11 @@
 import React from 'react';
 import {inject, observer} from 'mobx-react';
 import BlogStore from '../../stores/blog';
-import MainComponent from '../../components/layout/main';
+
+import MainTemplate from '../../components/layout/main/MainTemplate';
+import MainTop from '../../components/layout/main/mainTop';
+import ExplainSite from '../../components/layout/main/explainSite';
+import LatestPosts from '../../components/layout/main/latestPosts';
 
 interface Props{
     blogStore?:BlogStore;
@@ -25,10 +29,11 @@ class MainContainer extends React.Component<Props>{
 
     render(){
         return(
-            <MainComponent 
-                blogs={this.blogStore.blogs}
-                loading={this.state.loading}
-            />
+            <MainTemplate>
+                <MainTop />
+                <ExplainSite />
+                <LatestPosts blogs={this.blogStore.blogs} loading={this.state.loading}/>
+            </MainTemplate>
         );
     }
 }

@@ -81,7 +81,7 @@ const BlogReadComponent: React.FC<Props> = ({blogItem, deleteBlog}) =>{
                 <DiscussionEmbed
                         shortname={"choitech-1"}
                         config={{
-                            url: `https://c-tech.gq/blog/${blogItem?.blog_id}`,
+                            url: `https://c-tech.vercel.app/blog/${blogItem?.blog_id}`,
                             identifier: "",
                             title: "this page title"
                         }}

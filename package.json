@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "next dev",
     "start": "next start",
-    "build": "next build"
+    "build": "next build",
+    "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\""
   },
   "keywords": [],
   "author": "",
@@ -50,12 +51,16 @@
     "url-loader": "^4.1.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.6",
     "@types/btoa": "^1.2.3",
     "@types/node": "^14.14.19",
     "@types/prismjs": "^1.16.2",
     "@types/qs": "^6.9.5",
     "@types/react-text-truncate": "^0.14.0",
     "@types/react-truncate": "^2.3.3",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
     "typescript": "^4.1.3"
   }
 }
