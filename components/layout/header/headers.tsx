@@ -54,9 +54,9 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
                         <Link href="/blog">
                             <a style={path&&path?.indexOf("/blog")>-1?{color:"rgb(18,184,134)"}:{}}>Blog</a>
                         </Link>
-                        <Link href="/about">
+                        {/* <Link href="/about">
                             <a style={path&&path?.indexOf("/about")>-1?{color:"rgb(18,184,134)"}:{}}>About</a>
-                        </Link>
+                        </Link> */}
                         <Link href="/contact">
                             <a style={path&&path?.indexOf("/contact")>-1?{color:"rgb(18,184,134)"}:{}}>Contact</a>
                         </Link>
