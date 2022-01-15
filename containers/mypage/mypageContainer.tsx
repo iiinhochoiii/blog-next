@@ -1,57 +1,59 @@
-import React from 'react';
-import {inject, observer} from 'mobx-react';
-import ContactStore from '../../stores/contact';
+import React, {useState, useEffect} from 'react';
+import {observer} from 'mobx-react';
 import router from 'next/router';
 import ContactComponent from '../../components/mypage';
+import useStores from '../../hooks/use-stores';
 
-interface Props{
-    contactStore?:ContactStore;
-}
+const MypageContainer = observer((): JSX.Element => {
+    const {contactStore} = useStores();
+    const [loading, setLoading] = useState(false) 
 
-@inject('contactStore')
-@observer
-class MypageContainer extends React.Component<Props>{
-    state={
-        loading:true
-    }
-    private contactStore = this.props.contactStore as ContactStore;
-    async componentDidMount(){
-        if(process.browser){
-            const user:any = localStorage.getItem('auth');
+    useEffect(()=>{
+        search()
+    },[]);
 
-            if(user){      
-              if(JSON.parse(user).user_id === 1){
-                this.setState({loading:true});
-                await this.contactStore.getContactList();
-                if(this.contactStore.success["READ_CONTACT"]){
-                  this.setState({loading:false});
+    const search = async (): Promise<void> => {
+        if(process.browser) {
+            const user: any = localStorage.getItem('auth');
+
+            if(user) {
+                if(JSON.parse(user).user_id === 1) {
+                    try {
+                        setLoading(true);
+                        const res = await contactStore.getContactList();
+                        contactStore.setContacts(res.data);
+                        setLoading(false);
+                    } catch (err) {
+                        setLoading(false);
+                        console.log(false);
+                    }
+                } else {
+                    router.push('/');
                 }
-              }
-              else{
-                router.push('/');
-              }
-            } else{
+            } else {
                 router.push('/');
             }
         }
-    }
+    };
 
-    deleteContact = async(contact_id:number) =>{
-        await this.contactStore.deleteContact(contact_id);
-        if(this.contactStore.success["DELETE_CONTACT"]){
-            alert("삭제 되었습니다.");
-            await this.contactStore.getContactList();
+    const deleteContact = async (contact_id: number): Promise<void> => {
+        try {
+            await contactStore.deleteContact(contact_id);
+            alert('삭제 되었습니다.');
+            search()
+        } catch (err) {
+            alert('삭제하는 중 오류가 발생하였습니다. 데이터를 확인해주세요');
+            console.log(err);
         }
     }
-    render(){
-        return(
-            <ContactComponent 
-                contacts={this.contactStore.contacts}
-                deleteContact={this.deleteContact}
-                loading={this.state.loading}
-            />
-        );
-    }
-}
+
+    return(
+        <ContactComponent 
+            contacts={contactStore.contacts}
+            deleteContact={deleteContact}
+            loading={loading}
+        />
+    );
+});
 
 export default MypageContainer;
