@@ -1,36 +1,34 @@
 import React from 'react';
 import LoginComponent from '../../components/user/login';
-import UserStore from '../../stores/users';
-import {inject, observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {ReactCookieProps, withCookies} from 'react-cookie';
 import router from 'next/router';
+import useStores from '../../hooks/use-stores';
 
-interface Props extends ReactCookieProps{
-    userStore?:UserStore;
-}
+interface Props extends ReactCookieProps{}
 
-@inject('userStore')
-@observer
-class LoginContainer extends React.Component<Props>{
-    private userStore = this.props.userStore as UserStore;
+const LoginContainer = observer((props: Props):JSX.Element=> {
+    const { userStore } = useStores();
 
-    login = async(email:string, password:string) =>{
-        await this.userStore.login(email, password);
-        if(this.userStore.loginStatus?.status){
-            this.props.cookies?.set("uuid_token", this.userStore.loginStatus.token);
-            router.push('/');
-        }
-        else{
-            alert(this.userStore.loginStatus?.msg);
+    const login = async(email:string, password:string) =>{
+        const { cookies } = props;
+        try {
+            const res = await userStore.login(email, password);
+            if (res.status) {
+                cookies?.set("uuid_token", res?.token)
+                router.push('/');
+            } else {
+                alert(res?.msg)
+            }
+        } catch (err) {
+            console.log(err);
+            alert('로그인 API 요청 실패 하였습니다. 다시 요청 해주세요');
         }
     }
-    render(){
-        return(
-            <LoginComponent 
-                login={this.login}
-            />
-        );
-    }
-}
-
+    return(
+        <LoginComponent 
+            login={login}
+        />
+    );
+})
 export default withCookies(LoginContainer);

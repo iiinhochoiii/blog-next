@@ -1,42 +1,44 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import JoinComponent from '../../components/user/join';
-import {inject, observer} from 'mobx-react';
-import UserStore from '../../stores/users';
+import { observer } from 'mobx-react';
 import router from 'next/router';
+import useStores from '../../hooks/use-stores';
 
-interface Props{
-    userStore?:UserStore;
-}
+const JoinContainer = observer(():JSX.Element=> {
+    const { userStore } = useStores()
 
-@inject('userStore')
-@observer
-class JoinContainer extends React.Component<Props>{
-    private userStore = this.props.userStore as UserStore;
+    useEffect(()=>{
+        userStore.setCheckIdStatus(undefined);
+    },[]);
 
-    componentDidMount(){
-        this.userStore.initUserInfo();
-    }
-    
-    checkId = async (email:string) =>{
-        await this.userStore.checkId(email);
-    }
+    const checkId = async (email: string) => {
+        try {
+            const res = await userStore.checkId(email);
 
-    createUser = async(email:string, password:string, name:string, phone:string) =>{
-        await this.userStore.createUser(email, password, name, phone);
-        if(this.userStore.success["CREATE_USER"]){
-            alert('회원가입이 완료되었습니다.');
-            router.push('/adminlogin');
+            userStore.setCheckIdStatus(res);
+        } catch (err) {
+            console.log(err)
         }
     }
-    render(){
-        return(
-            <JoinComponent 
-                checkId={this.checkId}
-                checkIdStatus={this.userStore.checkIdStatus}
-                createUser={this.createUser}
-            />
-        );
+
+    const createUser = async(email:string, password:string, name:string, phone:string) =>{
+        try {
+            await userStore.createUser(email, password, name, phone);
+            alert('회원가입이 완료되었습니다.');
+            router.push('/adminlogin');
+        } catch (err) {
+            console.log(err);
+            alert('회원가입에 실패하였습니다. 다시한번 시도 해주세요');
+        }
     }
-}
+
+    return(
+        <JoinComponent 
+            checkId={checkId}
+            checkIdStatus={userStore.checkIdStatus}
+            createUser={createUser}
+        />
+    );
+});
 
 export default JoinContainer;
