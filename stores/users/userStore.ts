@@ -1,5 +1,5 @@
 import {action, observable, makeObservable} from 'mobx';
-import {checkIdStatus, loginStatus, userData} from './types';
+import {checkIdStatus, userData} from './types';
 import qs from 'qs';
 import client from '../../lib/client';
 
