@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Headers from '../../components/layout/header';
 import {withCookies, ReactCookieProps} from 'react-cookie';
-import UserStore from '../../stores/users';
-import {inject, observer} from 'mobx-react';
+import {observer} from 'mobx-react';
 import useStores from '../../hooks/use-stores';
 
 interface Props extends ReactCookieProps{}
