@@ -1,32 +1,30 @@
 import React from 'react';
-import {inject, observer} from 'mobx-react';
-import ContactStore from '../../stores/contact';
+import { observer } from 'mobx-react';
 import ContactComponent from '../../components/contact';
+import useStores from '../../hooks/use-stores';
 
-interface Props{
-    contactStore?:ContactStore;
-}
 
-@inject('contactStore')
-@observer
-class ContactContainer extends React.Component<Props>{
-    private contactStore = this.props.contactStore as ContactStore;
-    createContact = async(contact:{name:string, email:string, phone:string, message:string}) =>{
-        await this.contactStore.createContact(contact);
-        alert(this.contactStore.createContactStatus?.msg);
-        if(this.contactStore.createContactStatus?.status){
-            location.reload();
+
+const ContactContainer = observer((): JSX.Element => {
+    const { contactStore } = useStores();
+
+    const createContact = async (contact:{name:string, email:string, phone:string, message:string}): Promise<void> => {
+        try {
+            const res = await contactStore.createContact(contact);
+            alert(res?.msg);
+            if(res?.status) {
+                location.reload();
+            }
+        } catch (err) {
+            console.log(err);
+            alert('보내기에 실패하였습니다. 다시 시도해주세요.');
         }
-       
-     }
-
-    render(){
-        return(
-            <ContactComponent 
-                 createContact={this.createContact}
-            />
-        );
     }
-}
+    return (
+        <ContactComponent 
+            createContact={createContact}
+        />
+    );
+});
 
 export default ContactContainer;

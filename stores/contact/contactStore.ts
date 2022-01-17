@@ -1,6 +1,6 @@
 import {action, observable,  makeObservable} from 'mobx';
 import client from '../../lib/client';
-import {createContactStatus, contacts} from './types';
+import {contacts} from '../../interfaces/models/contact';
 import qs from 'qs';
 
 class ContactStore{
@@ -9,16 +9,7 @@ class ContactStore{
     }
 
     @observable
-    createContactStatus?:createContactStatus = undefined;
-
-    @observable
     contacts: contacts[] = [];
-
-    
-    @action
-    setCreateContactStatus = (value: createContactStatus):void => {
-        this.createContactStatus = value
-    }
 
     @action
     setContacts = (value: contacts[]): void => {
@@ -36,7 +27,6 @@ class ContactStore{
     }
 
     getContactList = async() =>{
-        
         try {
             const res = await client.get('/api/contacts');
 
