@@ -1,7 +1,7 @@
 import {action, observable, computed, makeObservable} from 'mobx';
 import BaseStore from '../BaseStore';
 import client from '../../lib/client';
-import {blogs, pageType} from './types';
+import {blogs, pageType} from '../../interfaces/models/blog';
 import qs from 'qs';
 class BlogStore extends BaseStore{
     constructor() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import {blogs} from '../../../stores/blog/types';
+import {blogs} from '../../../interfaces/models/blog';
 import { CircularProgress } from '@material-ui/core';
 import TextTruncate from 'react-text-truncate'; // recommend
 import moment from 'moment';

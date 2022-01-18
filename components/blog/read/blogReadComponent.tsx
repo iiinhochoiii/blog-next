@@ -2,7 +2,7 @@ import React from 'react';
 import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Parser from 'html-react-parser';
-import {blogs} from '../../../stores/blog/types';
+import {blogs} from '../../../interfaces/models/blog';
 import Prism from 'prismjs';
 import {DiscussionEmbed} from 'disqus-react';
 import moment from 'moment';

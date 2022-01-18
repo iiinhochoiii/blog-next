@@ -5,7 +5,7 @@ import TextTruncate from 'react-text-truncate';
 import moment from 'moment';
 import Link from 'next/link';
 import router from 'next/router';
-import {blogs} from '../../stores/blog/types';
+import {blogs} from '../../interfaces/models/blog';
 
 interface Props{
     blogs:blogs[];

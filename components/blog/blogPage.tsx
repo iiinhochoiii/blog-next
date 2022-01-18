@@ -2,7 +2,7 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import router from "next/router";
-import {pageType} from '../../stores/blog/types';
+import {pageType} from '../../interfaces/models/blog';
 
 interface Props{
     page?: pageType;

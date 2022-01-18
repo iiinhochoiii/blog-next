@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {blogs} from '../../../stores/blog/types';
+import {blogs} from '../../../interfaces/models/blog';
 import {BlogCreateWrap, BlogContainer, BlogMainContent, BlogButton} from '../create/blogCreateComponent';
 import dynamic from 'next/dynamic';
 import 'codemirror/lib/codemirror.css';

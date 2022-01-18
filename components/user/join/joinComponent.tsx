@@ -2,7 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import {checkIdStatus} from '../../../stores/users/types';
+import {checkIdStatus} from '../../../interfaces/models/user';
 
 interface Props{
     checkId:(email:string)=>void;
