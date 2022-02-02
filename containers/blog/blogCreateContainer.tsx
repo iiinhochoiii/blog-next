@@ -1,26 +1,13 @@
-import React from 'react';
-import {inject, observer} from 'mobx-react';
-import BlogStore from '../../stores/blog';
+import React, { useEffect} from 'react';
+import {observer} from 'mobx-react';
 import BlogCreateComponent from '../../components/blog/create';
 import router from 'next/router';
+import useStores from '../../hooks/use-stores';
 
-interface Props{
-    blogStore?:BlogStore;
-}
+const BlogCreateContainer = observer((): JSX.Element=>{
+    const { blogStore } = useStores();
 
-@inject('blogStore')
-@observer
-class BlogCreateContainer extends React.Component<Props>{
-    private blogStore = this.props.blogStore as BlogStore;
-
-    createBlog = async(title:string, summary:string, content:string, type:string, markdown:string) =>{
-        await this.blogStore.createBlog(title,summary,content, type, markdown);
-        if(this.blogStore.success["CREATE_BLOG"]){
-            router.push('/blog');
-        }
-    }
-
-    componentDidMount(){
+    useEffect(()=>{
         if(process.browser){
             const user:any = localStorage.getItem('auth');
             if(user===null){
@@ -29,14 +16,25 @@ class BlogCreateContainer extends React.Component<Props>{
                 router.push('/');
             }
         }
-    }
-    render(){
-        return(
-            <BlogCreateComponent 
-                createBlog={this.createBlog}
-            />
-        );
-    }
-}
+    },[]);
+
+    const createBlog = async (title:string, summary:string, content:string, type:string, markdown:string) => {
+        try {
+            const res = await blogStore.createBlog(title,summary,content, type, markdown);
+            
+            if(res.status){
+                router.push('/blog');
+                alert(res?.massage || '게시물이 등록 되었습니다.');
+            }
+        } catch(err){
+            alert('블로그 생성 중 오류가 발생하였습니다.');
+        }
+    };
+    return (
+        <BlogCreateComponent 
+            createBlog={createBlog}
+        />
+    );
+});
 
 export default BlogCreateContainer;

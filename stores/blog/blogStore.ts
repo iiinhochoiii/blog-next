@@ -1,4 +1,4 @@
-import {action, observable, computed, makeObservable} from 'mobx';
+import {action, observable, makeObservable} from 'mobx';
 import BaseStore from '../BaseStore';
 import client from '../../lib/client';
 import {blogs, pageType} from '../../interfaces/models/blog';
@@ -10,126 +10,81 @@ class BlogStore extends BaseStore{
     }
 
     @observable
-    _blogs:blogs[] = [];
+    blogs:blogs[] = [];
     
     @observable
-    _blogItem?:blogs;
+    blogItem?:blogs;
 
     @observable
-    _blogUpdateStatus?:{status:boolean, msg:string};
-
-    @observable
-    _page?: pageType;
-
-    @computed
-    get blogs(){
-        return this._blogs;
-    }
-
-    @computed
-    get blogItem(){
-        return this._blogItem;
-    }
-
-    @computed
-    get blogUpdateStatus(){
-        return this._blogUpdateStatus;
-    }
-
-    @computed
-    get page(){
-        return this._page;
-    }
+    page?: pageType;
 
     @action
+    setBlogs = (value) => {
+        this.blogs = value; 
+    };
+
+    @action
+    setPage = (value) => {
+        this.page = value;
+    };
+
+    @action
+    setBlogItem = (value) => {
+        this.blogItem = value;
+    };
+
     getBlogList = async(page:string) =>{
-        this._blogs = [];
-        this._init("READ_BLOG_LIST");
         try{
             const res = await client.get(`/api/blogs?page=${page}`);
-            this._blogs = await res.data.data;
-            this._page = await res.data.page;
-            this._success["READ_BLOG_LIST"] = true;
-        } catch(e){
-            this._failure["READ_BLOG_LIST"] = [true, e];
-        } finally{
-            this._pending["READ_BLOG_LIST"] = false;
+            return res.data;
+        } catch(err) {
+            console.log(err);
         }
     }
 
-    @action
     getSearchBlogList = async (title:string) =>{
-        this._blogs = [];
-        this._init("READ_BLOG_LIST");
         try{
             const res = await client.get(`/api/blogs/search?title=${title}`);
-            this._blogs = await res.data.data;
-            this._success["READ_BLOG_LIST"] = true;
+            return res.data;
         } catch(e){
-            this._failure["READ_BLOG_LIST"] = [true, e];
-        } finally{
-            this._pending["READ_BLOG_LIST"] = false;
-        }
+            console.log(e);
+        } 
     }
 
-    @action
     getBlogItem = async(blog_id:number) =>{
-        this._blogItem = undefined;
-        this._init("READ_BLOG_DETAIL");
         try{
             const res = await client.get(`/api/blogs/read/${blog_id}`);
-            this._blogItem = res.data.data;
-            this._success["READ_BLOG_DETAIL"] = true;
+            return res.data;
         } catch(e){
-            this._failure["READ_BLOG_DETAIL"] = [true, e];
-        } finally{
-            this._pending["READ_BLOG_DETAIL"] = false;
+            console.log(e);
         }
     }
 
-    @action
     createBlog = async(title:string, summary:string, content:string, type:string, markdown:string)=>{
-        this._init("CREATE_BLOG");
         try{
             const res = await client.post('/api/blogs', qs.stringify({title:title, summary:summary, content:content, type:type, markdown:markdown}));
-            if(res.data.status){
-                this._success["CREATE_BLOG"] = true;
-            }
+            return res.data;
         } catch(e){
-            this._failure["CREATE_BLOG"] = [true, e];
-        } finally{
-            this._pending["CREATE_BLOG"] = false;
+            console.log(e);
         }
     }
 
-    @action
     deleteBlog = async(blog_id:number) =>{
-        this._init("DELETE_BLOG");
         try{
             const res = await client.delete(`/api/blogs/${blog_id}`);
-            if(res.data.status){
-                this._success["DELETE_BLOG"] = true;
-            }
+            return res.data;
         } catch(e){
-            this._failure["DELETE_BLOG"] = [true, e];
-        } finally{
-            this._pending["DELETE_BLOG"] = false;
+            console.log(e);
         }
     }
 
-    @action
     updateBlog = async(blog_id:number, title:string, summary:string, content:string, blog_type:string, markdown:string, token:string) =>{
-        this._init("UPDATE_BLOG");
         try{
             const res = await client.post("/api/blogs/update", qs.stringify({blog_id:blog_id, title:title, summary:summary, content:content, blog_type:blog_type, markdown:markdown, token}));
-            this._blogUpdateStatus = await res.data;
-            if(res.data.status){
-                this._success["UPDATE_BLOG"] = true;
-            }
+            return res.data;
+
         } catch(e){
-            this._failure["UPDATE_BLOG"] = [true, e];
-        } finally{
-            this._pending["UPDATE_BLOG"] = false;
+            console.log(e);
         }
     }
 }

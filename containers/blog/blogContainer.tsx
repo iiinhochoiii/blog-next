@@ -1,51 +1,54 @@
-import React from 'react';
-import {observer, inject} from 'mobx-react';
-import BlogStore from '../../stores/blog';
+import React, {useState, useEffect} from 'react';
+import {observer} from 'mobx-react';
 import BlogComponent from '../../components/blog';
+import useStores from '../../hooks/use-stores';
 
 interface Props{
-    blogStore?:BlogStore;
-    title:any;
-    page:any;
+    title: string;
+    page: string;
 }
 
-@inject('blogStore')
-@observer
-class BlogContainer extends React.Component<Props>{
-    private blogStore = this.props.blogStore as BlogStore;
-    state={
-        loading:false
-    }
-    initBlog = async () =>{
-        this.setState({loading:true});
-        if(this.props.title){
-            await this.blogStore.getSearchBlogList(String(this.props.title))
-            this.setState({loading:false});
+
+const BlogContainer = observer((props: Props): JSX.Element => {
+    const { title, page } = props;
+    const { blogStore } = useStores();
+    const [loading, setLoading] = useState(false);
+    
+    useEffect(()=> {
+        initBlog();
+    },[]);
+
+    useEffect(()=>{
+        initBlog();
+    },[title, page]);
+
+    const initBlog = async () => {
+        try {
+            setLoading(true);
+
+            if(title) {
+                const res = await blogStore.getSearchBlogList(String(title));
+                blogStore.setBlogs(res.data);
+            } else {
+               const res = await blogStore.getBlogList(String(page || 1));
+               blogStore.setBlogs(res.data);
+               blogStore.setPage(res.page);
+            }
+            setLoading(false);
+        } catch (err) {
+            alert('블로그를 불러오는 중 오류가 발생하였습니다.');
         }
-        else{
-            await this.blogStore.getBlogList(String(this.props.page?this.props.page:1));
-            this.setState({loading:false});
-        }
     }
-    async componentDidMount(){
-        this.initBlog();
-    }
-    async componentDidUpdate(prev:any){
-        if(prev.title !== this.props.title || prev.page !== this.props.page){
-            this.initBlog();
-        }
-    }
-    render(){
-        return(
-            <BlogComponent 
-                blogs={this.blogStore.blogs}
-                page={this.blogStore.page}
-                pageNum={this.props.page}
-                title={this.props.title}
-                loading={this.state.loading}
-            />
-        );
-    }
-}
+
+    return (
+        <BlogComponent 
+            blogs={blogStore.blogs}
+            page={blogStore.page}
+            pageNum={page}
+            title={title}
+            loading={loading}
+        />
+    );
+});
 
 export default BlogContainer;
