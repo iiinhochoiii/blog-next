@@ -6,11 +6,10 @@ import {pageType} from '../../interfaces/models/blog';
 
 interface Props{
     page?: pageType;
-    pageNum: string;
+    pageNum?: string|string[];
 }
 
 const BlogPage: React.FC<Props> = ({page, pageNum}) =>{
-    // const arr:any= page&&Array.from({length:page.lastPageNum},(_i, v) => v+1);
     const [queryPage, setQueryPage] = useState<number>(1);
 
     useEffect(()=>{

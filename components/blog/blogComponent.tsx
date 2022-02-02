@@ -10,7 +10,7 @@ interface Props{
     title:any;
     loading:boolean;
     page?: pageType;
-    pageNum: string;
+    pageNum?: string|string[];
 }
 const BlogComponent: React.FC<Props> = ({blogs, page, title, loading, pageNum}) =>{
     

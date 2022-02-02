@@ -4,8 +4,8 @@ import BlogComponent from '../../components/blog';
 import useStores from '../../hooks/use-stores';
 
 interface Props{
-    title: string;
-    page: string;
+    title?: string|string[];
+    page?: string|string[];
 }
 
 
