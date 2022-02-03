@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import router from 'next/router';
 import ContactComponent from '../../components/mypage';
 import useStores from '../../hooks/use-stores';
+import { Toaster } from '../../utils/common';
 
 const MypageContainer = observer((): JSX.Element => {
     const {contactStore} = useStores();
@@ -39,10 +40,10 @@ const MypageContainer = observer((): JSX.Element => {
     const deleteContact = async (contact_id: number): Promise<void> => {
         try {
             await contactStore.deleteContact(contact_id);
-            alert('삭제 되었습니다.');
+            Toaster.showSuccess('삭제 되었습니다.');
             search()
         } catch (err) {
-            alert('삭제하는 중 오류가 발생하였습니다. 데이터를 확인해주세요');
+            Toaster.showError('삭제하는 중 오류가 발생하였습니다. 데이터를 확인해주세요');
             console.log(err);
         }
     }

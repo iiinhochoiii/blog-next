@@ -5,6 +5,8 @@ import Head from 'next/head';
 import { Provider } from 'mobx-react';
 import RootStore from '../stores';
 import { configure } from 'mobx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import 'prismjs/themes/prism-tomorrow.css';
 import 'prismjs';
@@ -76,6 +78,12 @@ class App extends React.Component<Props>{
             <ThemeProvider theme={theme}>
                 <Component {...pageProps} />
             </ThemeProvider>
+            <ToastContainer 
+                position='top-center'
+                autoClose={2000}
+                closeOnClick
+                hideProgressBar={true}
+            />
             </Provider>
         );
     }

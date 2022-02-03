@@ -48,6 +48,12 @@ const ContactActivity: React.FC<Props> = ({createContact}) =>{
             document.getElementById('message')?.focus();
         } else{
             createContact(form);
+            setForm({
+                name:'',
+                email:'',
+                phone:'',
+                message:''
+            });
         }
     }
     return(
