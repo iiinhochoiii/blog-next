@@ -1,40 +1,37 @@
-import React from 'react';
-import {inject, observer} from 'mobx-react';
-import BlogStore from '../../stores/blog';
-
+import React, {useState, useEffect} from 'react';
+import {observer} from 'mobx-react';
 import MainTemplate from '../../components/layout/main/MainTemplate';
 import MainTop from '../../components/layout/main/mainTop';
 import ExplainSite from '../../components/layout/main/explainSite';
 import LatestPosts from '../../components/layout/main/latestPosts';
+import useStores from '../../hooks/use-stores';
 
-interface Props{
-    blogStore?:BlogStore;
-}
+const MainContainer = observer(() => {
+    const {blogStore} = useStores();
+    const [loading, setLoading]  = useState(false);
 
-@inject('blogStore')
-@observer
-class MainContainer extends React.Component<Props>{
-    state={
-        loading:true
+    useEffect(()=> {
+        getBlogList();
+    },[]);
+
+    const getBlogList = async (): Promise<void> => {
+        try {
+            setLoading(true);
+            const res = await blogStore.getBlogList("1");
+            blogStore.setBlogs(res.data);
+            setLoading(false);
+        } catch(err) {
+            alert('정보를 불러오는중 에러가 발생하였습니다.');
+        }
     }
-    private blogStore = this.props.blogStore as BlogStore;
 
-    async componentDidMount(){
-        this.setState({loading:true});
-        const res = await this.blogStore.getBlogList("1");
-        this.blogStore.setBlogs(res.data)
-        this.setState({loading:false});
-    }
-
-    render(){
-        return(
-            <MainTemplate>
-                <MainTop />
-                <ExplainSite />
-                <LatestPosts blogs={this.blogStore.blogs} loading={this.state.loading}/>
-            </MainTemplate>
-        );
-    }
-}
+    return (
+        <MainTemplate>
+            <MainTop />
+            <ExplainSite />
+            <LatestPosts blogs={blogStore.blogs} loading={loading}/>
+        </MainTemplate>
+    );
+})
 
 export default MainContainer;
