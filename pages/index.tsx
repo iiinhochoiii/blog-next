@@ -1,5 +1,5 @@
-import BaseTemplate from '../components/template/base';
-import MainContainer from '../containers/main/mainContainer';
+import BaseTemplate from '@/components/template/base';
+import MainContainer from '@/containers/main/mainContainer';
 
 const Index = () =>{
     return(

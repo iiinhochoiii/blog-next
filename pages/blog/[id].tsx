@@ -1,5 +1,5 @@
-import BaseTemplate from '../../components/template/base';
-import BlogReadContainer from '../../containers/blog/blogReadContainer';
+import BaseTemplate from '@/components/template/base';
+import BlogReadContainer from '@/containers/blog/blogReadContainer';
 
 const BlogDetail = ({data}:any) =>{
     return(

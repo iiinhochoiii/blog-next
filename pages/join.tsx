@@ -1,4 +1,4 @@
-import JoinContainer from '../containers/user/joinContainer';
+import JoinContainer from '@/containers/user/joinContainer';
 import Head from 'next/head';
 
 const Join = () =>{

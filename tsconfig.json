@@ -22,7 +22,13 @@
     "target": "es5",
     "noLib":false,
     "declaration":false,
-    "noImplicitAny":false
+    "noImplicitAny":false,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
   },
   "typeRoots": [
     "./types",

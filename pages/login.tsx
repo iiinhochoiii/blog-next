@@ -1,4 +1,4 @@
-import LoginContainer from '../containers/user/loginContainer';
+import LoginContainer from '@/containers/user/loginContainer';
 import Head from 'next/head';
 
 const Login = () =>{

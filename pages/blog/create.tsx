@@ -1,5 +1,5 @@
-import BaseTemplate from '../../components/template/base';
-import BlogCreateContainer from '../../containers/blog/blogCreateContainer';
+import BaseTemplate from '@/components/template/base';
+import BlogCreateContainer from '@/containers/blog/blogCreateContainer';
 
 const BlogCreate = () =>{
     return(

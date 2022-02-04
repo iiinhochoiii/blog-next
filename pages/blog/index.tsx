@@ -1,5 +1,5 @@
-import BaseTemplate from '../../components/template/base';
-import BlogContainer from '../../containers/blog/blogContainer';
+import BaseTemplate from '@/components/template/base';
+import BlogContainer from '@/containers/blog/blogContainer';
 import {useRouter} from 'next/router';
 
 const Blog = () =>{
