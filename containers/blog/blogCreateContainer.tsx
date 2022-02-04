@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import BlogCreateComponent from '../../components/blog/create';
 import router from 'next/router';
 import useStores from '../../hooks/use-stores';
+import {Toaster} from '../../utils/common';
 
 const BlogCreateContainer = observer((): JSX.Element=>{
     const { blogStore } = useStores();
@@ -24,10 +25,10 @@ const BlogCreateContainer = observer((): JSX.Element=>{
             
             if(res.status){
                 router.push('/blog');
-                alert(res?.massage || '게시물이 등록 되었습니다.');
+                Toaster.showSuccess(res?.massage || '게시물이 등록 되었습니다.');
             }
         } catch(err){
-            alert('블로그 생성 중 오류가 발생하였습니다.');
+            Toaster.showError('블로그 생성 중 오류가 발생하였습니다.');
         }
     };
     return (

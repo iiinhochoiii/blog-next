@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import router from 'next/router';
 import MenuIcon from '@material-ui/icons/Menu';
+import {Toaster} from '../../../utils/common';
 
 interface Props{
     auth:boolean;
@@ -37,7 +38,7 @@ const Headers:React.FC<Props> = ({auth, userData, logout}) =>{
         if(userData.user_id===1){
             router.push("/blog/create");
         } else{
-            alert("현재 관리자만 글 작성이 가능합니다.");
+            Toaster.showWarning("현재 관리자만 글 작성이 가능합니다.");
         }
     }
 

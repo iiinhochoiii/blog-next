@@ -4,6 +4,7 @@ import BlogUpdateComponent from '../../components/blog/update';
 import Router from 'next/router';
 import {withCookies, ReactCookieProps} from 'react-cookie';
 import useStores from '../../hooks/use-stores';
+import {Toaster} from '../../utils/common';
 
 interface Props extends ReactCookieProps{
     query: any;
@@ -30,7 +31,7 @@ const BlogUpdateContainer = observer((props: Props)=>{
             const res = await blogStore.getBlogItem(Number(blog_id));
             blogStore.setBlogItem(res.data);
         } catch (err) { 
-            alert('데이터를 불러오는 중 에러가 발생하였습니다.');
+            Toaster.showError('데이터를 불러오는 중 에러가 발생하였습니다.');
         }
     };
 
@@ -40,13 +41,13 @@ const BlogUpdateContainer = observer((props: Props)=>{
                 const res = await blogStore.updateBlog(blog_id, title, summary, content, blog_type, markdown, token);
                 console.log(res);
                 if(res?.status){
-                    alert(res?.msg || '게시글이 변경되었습니다.');
+                    Toaster.showSuccess(res?.msg || '게시글이 변경되었습니다.');
                     Router.back();
                 } else {
-                    alert(res?.msg);
+                    Toaster.showWarning(res?.msg);
                 }
             } catch(err) {
-                    alert('데이터를 변경 중 에러가 발생하였습니다.');
+                Toaster.showError('데이터를 변경 중 에러가 발생하였습니다.');
             }
        }
     }

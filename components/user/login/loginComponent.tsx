@@ -2,6 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import {Toaster} from '../../../utils/common';
 
 interface Props{
     login:(email:string, password:string)=>void;
@@ -22,10 +23,10 @@ const LoginComponent: React.FC<Props> = ({login}) =>{
     const LoginHandler = (e:any) =>{
         e.preventDefault();
         if(email===''){
-            alert('email을 입력해주세요.');
+            Toaster.showWarning('email을 입력해주세요.');
             document.getElementById('email')?.focus();
         } else if(password===''){
-            alert('password를 입력해주세요.');
+            Toaster.showWarning('password를 입력해주세요.');
             document.getElementById('password')?.focus();
         } else{
             login(email, password);

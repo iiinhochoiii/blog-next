@@ -10,6 +10,7 @@ import hljs from 'highlight.js';
 import "highlight.js/styles/github.css";
 import {Editor as EditorType, EditorProps} from '@toast-ui/react-editor';
 import {TuiEditorWithForwardedProps} from '../create/tuiEditorWrapper';
+import {Toaster} from '../../../utils/common';
 
 const Editor = dynamic<TuiEditorWithForwardedProps>(() => import('../create/tuiEditorWrapper'), { ssr: false });
 const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, any>((props, ref) => (
@@ -66,11 +67,11 @@ const BlogUpdateComponent: React.FC<Props> = (props) =>{
     }
     const blogChangeHandler = () =>{
         if(title===''){
-            alert('제목을 입력해주세요.');
+            Toaster.showWarning('제목을 입력해주세요.');
         } else if(content ===''){
-            alert('콘텐트를 입력해주세요.');
+            Toaster.showWarning('콘텐트를 입력해주세요.');
         } else if(summary===''){
-            alert('요약을 입력해주세요.');
+            Toaster.showWarning('요약을 입력해주세요.');
         } else{
             props.updateBlog(Number(props.blogItem?.blog_id), title, summary, content, type, markDown);
         }

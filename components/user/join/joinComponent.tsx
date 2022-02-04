@@ -3,6 +3,7 @@ import {useState} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import {checkIdStatus} from '../../../interfaces/models/user';
+import {Toaster} from '../../../utils/common';
 
 interface Props{
     checkId:(email:string)=>void;
@@ -37,7 +38,7 @@ const JoinComponent: React.FC<Props> = ({checkId, checkIdStatus, createUser}) =>
 
     const emailCheckHandler = () =>{
         if(!isEmail.test(email)){
-            alert('이메일을 정확히 입력해주세요.');
+            Toaster.showWarning('이메일을 정확히 입력해주세요.');
         }
         else{
             checkId(email);
@@ -46,23 +47,23 @@ const JoinComponent: React.FC<Props> = ({checkId, checkIdStatus, createUser}) =>
 
     const joinHandler = () =>{
         if(!checkIdStatus?.status){
-            alert('중복확인을 하지 않았습니다.');
+            Toaster.showWarning('중복확인을 하지 않았습니다.');
             document.getElementById('email')?.focus();
         }
         else if(!isPassword.test(password)){
-            alert('영문, 숫자, 특수문자를 포함한 8자리 이상을 입력해주세요.');
+            Toaster.showWarning('영문, 숫자, 특수문자를 포함한 8자리 이상을 입력해주세요.');
             document.getElementById('password')?.focus();
         }
         else if (password !== passwordConfirm){
-            alert('패스워드가 일치하지 않습니다.');
+            Toaster.showWarning('패스워드가 일치하지 않습니다.');
             document.getElementById('passwordConfirm')?.focus();
         }
         else if(name===''){
-            alert('이름을 입력해주세요.');
+            Toaster.showWarning('이름을 입력해주세요.');
             document.getElementById('name')?.focus();
         }
         else if(phone===''){
-            alert('핸드폰번호를 입력해주세요.')
+            Toaster.showWarning('핸드폰번호를 입력해주세요.')
             document.getElementById('phone')?.focus();
         }
         else{

@@ -14,4 +14,11 @@ export class Toaster {
             theme: 'colored'
         })
     }
+
+    static showWarning = (message: string) => {
+        toast(message, {
+            type: 'warning',
+            theme: 'colored'
+        })
+    }
 }

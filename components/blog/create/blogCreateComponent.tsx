@@ -10,6 +10,7 @@ import "highlight.js/styles/github.css";
 
 import {Editor as EditorType, EditorProps} from '@toast-ui/react-editor';
 import {TuiEditorWithForwardedProps} from './tuiEditorWrapper';
+import {Toaster} from '../../../utils/common';
 
 const Editor = dynamic<TuiEditorWithForwardedProps>(() => import('./tuiEditorWrapper'), { ssr: false });
 const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, any>((props, ref) => (
@@ -56,11 +57,11 @@ const BlogCreateComponent: React.FC<asdProps> = (props) =>{
 
    const saveHandler = () =>{
        if(title===''){
-           alert('제목을 입력해주세요.');
+           Toaster.showWarning('제목을 입력해주세요.');
        } else if(content ===''){
-           alert('콘텐트를 입력해주세요.');
+           Toaster.showWarning('콘텐트를 입력해주세요.');
        } else if(summary===''){
-           alert('요약을 입력해주세요.');
+           Toaster.showWarning('요약을 입력해주세요.');
        } else{
            createBlog(title, summary, content, type, markDown);
        }

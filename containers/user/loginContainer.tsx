@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import {ReactCookieProps, withCookies} from 'react-cookie';
 import router from 'next/router';
 import useStores from '../../hooks/use-stores';
+import {Toaster} from '../../utils/common';
 
 interface Props extends ReactCookieProps{}
 
@@ -18,11 +19,11 @@ const LoginContainer = observer((props: Props):JSX.Element=> {
                 cookies?.set("uuid_token", res?.token)
                 router.push('/');
             } else {
-                alert(res?.msg)
+                Toaster.showWarning(res?.msg)
             }
         } catch (err) {
             console.log(err);
-            alert('로그인 API 요청 실패 하였습니다. 다시 요청 해주세요');
+            Toaster.showError('로그인 API 요청 실패 하였습니다. 다시 요청 해주세요');
         }
     }
     return(

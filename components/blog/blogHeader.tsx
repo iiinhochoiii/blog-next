@@ -3,6 +3,7 @@ import {useState} from 'react';
 import router from 'next/router';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
+import {Toaster} from '../../utils/common';
 
 const BlogHeader: React.FC = () =>{
     const [keyword, setKeyword] = useState<string>('');
@@ -15,7 +16,7 @@ const BlogHeader: React.FC = () =>{
     const search = (e:any) =>{
         e.preventDefault();
         if(keyword===''){
-            alert('검색하실 내용 및 키워드를 입력해주세요.');
+            Toaster.showWarning('검색하실 내용 및 키워드를 입력해주세요.');
         } else{
             router.push({
                 pathname: '/blog',

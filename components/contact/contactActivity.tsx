@@ -3,6 +3,7 @@ import {useState} from 'react';
 import styled from 'styled-components';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import {Toaster} from '../../utils/common';
 
 type form ={
     name:string;
@@ -35,16 +36,16 @@ const ContactActivity: React.FC<Props> = ({createContact}) =>{
 
     const sendHandler = () =>{
         if(form.name===''){
-            alert("보내시는 분 성함을 입력해주세요.");
+            Toaster.showWarning("보내시는 분 성함을 입력해주세요.");
             document.getElementById('name')?.focus();
         } else if(!regExpEmail.test(form.email)){
-            alert("이메일을 정확히 입력해주세요.");
+            Toaster.showWarning("이메일을 정확히 입력해주세요.");
             document.getElementById('email')?.focus();
         } else if(!regExpPhone.test(form.phone)){
-            alert("연락처를 정확히 입력해주세요.");
+            Toaster.showWarning("연락처를 정확히 입력해주세요.");
             document.getElementById('phone')?.focus();
         } else if(form.message===''){
-            alert("보내실 내용을 입력해주세요.");
+            Toaster.showWarning("보내실 내용을 입력해주세요.");
             document.getElementById('message')?.focus();
         } else{
             createContact(form);

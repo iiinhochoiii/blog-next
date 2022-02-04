@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import BlogComponent from '../../components/blog';
 import useStores from '../../hooks/use-stores';
+import {Toaster} from '../../utils/common';
 
 interface Props{
     title?: string|string[];
@@ -36,7 +37,7 @@ const BlogContainer = observer((props: Props): JSX.Element => {
             }
             setLoading(false);
         } catch (err) {
-            alert('블로그를 불러오는 중 오류가 발생하였습니다.');
+            Toaster.showWarning('블로그를 불러오는 중 오류가 발생하였습니다.');
         }
     }
 

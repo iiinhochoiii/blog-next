@@ -5,6 +5,7 @@ import MainTop from '../../components/layout/main/mainTop';
 import ExplainSite from '../../components/layout/main/explainSite';
 import LatestPosts from '../../components/layout/main/latestPosts';
 import useStores from '../../hooks/use-stores';
+import {Toaster} from '../../utils/common';
 
 const MainContainer = observer(() => {
     const {blogStore} = useStores();
@@ -21,7 +22,7 @@ const MainContainer = observer(() => {
             blogStore.setBlogs(res.data);
             setLoading(false);
         } catch(err) {
-            alert('정보를 불러오는중 에러가 발생하였습니다.');
+            Toaster.showError('정보를 불러오는중 에러가 발생하였습니다.');
         }
     }
 
