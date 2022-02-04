@@ -1,8 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import ContactComponent from '../../components/contact';
-import useStores from '../../hooks/use-stores';
-import { Toaster } from '../../utils/common';
+import ContactComponent from '@/components/contact';
+import useStores from '@/hooks/use-stores';
+import { Toaster } from '@/utils/common';
 
 const ContactContainer = observer((): JSX.Element => {
     const { contactStore } = useStores();

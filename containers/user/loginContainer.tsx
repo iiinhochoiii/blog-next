@@ -1,10 +1,10 @@
 import React from 'react';
-import LoginComponent from '../../components/user/login';
+import LoginComponent from '@/components/user/login';
 import { observer } from 'mobx-react';
 import {ReactCookieProps, withCookies} from 'react-cookie';
 import router from 'next/router';
-import useStores from '../../hooks/use-stores';
-import {Toaster} from '../../utils/common';
+import useStores from '@/hooks/use-stores';
+import {Toaster} from '@/utils/common';
 
 interface Props extends ReactCookieProps{}
 

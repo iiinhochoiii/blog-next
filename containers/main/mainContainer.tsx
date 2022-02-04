@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
-import MainTemplate from '../../components/layout/main/MainTemplate';
-import MainTop from '../../components/layout/main/mainTop';
-import ExplainSite from '../../components/layout/main/explainSite';
-import LatestPosts from '../../components/layout/main/latestPosts';
-import useStores from '../../hooks/use-stores';
-import {Toaster} from '../../utils/common';
+import MainTemplate from '@/components/layout/main/MainTemplate';
+import MainTop from '@/components/layout/main/mainTop';
+import ExplainSite from '@/components/layout/main/explainSite';
+import LatestPosts from '@/components/layout/main/latestPosts';
+import useStores from '@/hooks/use-stores';
+import {Toaster} from '@/utils/common';
 
 const MainContainer = observer(() => {
     const {blogStore} = useStores();

@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import JoinComponent from '../../components/user/join';
+import JoinComponent from '@/components/user/join';
 import { observer } from 'mobx-react';
 import router from 'next/router';
-import useStores from '../../hooks/use-stores';
-import {Toaster} from '../../utils/common';
+import useStores from '@/hooks/use-stores';
+import {Toaster} from '@/utils/common';
 
 const JoinContainer = observer(():JSX.Element=> {
     const { userStore } = useStores()

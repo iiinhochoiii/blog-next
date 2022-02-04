@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
 import router from 'next/router';
-import ContactComponent from '../../components/mypage';
-import useStores from '../../hooks/use-stores';
-import { Toaster } from '../../utils/common';
+import ContactComponent from '@/components/mypage';
+import useStores from '@/hooks/use-stores';
+import { Toaster } from '@/utils/common';
 
 const MypageContainer = observer((): JSX.Element => {
     const {contactStore} = useStores();

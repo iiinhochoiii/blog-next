@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import {observer} from 'mobx-react';
-import BlogReadComponent from '../../components/blog/read';
+import BlogReadComponent from '@/components/blog/read';
 import router from 'next/router';
-import useStores from '../../hooks/use-stores';
-import {Toaster} from '../../utils/common';
+import useStores from '@/hooks/use-stores';
+import {Toaster} from '@/utils/common';
 
 interface Props{
     blog_id: string | number;

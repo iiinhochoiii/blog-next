@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
-import BlogUpdateComponent from '../../components/blog/update';
+import BlogUpdateComponent from '@/components/blog/update';
 import Router from 'next/router';
 import {withCookies, ReactCookieProps} from 'react-cookie';
-import useStores from '../../hooks/use-stores';
-import {Toaster} from '../../utils/common';
+import useStores from '@/hooks/use-stores';
+import {Toaster} from '@/utils/common';
 
 interface Props extends ReactCookieProps{
     query: any;

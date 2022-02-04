@@ -1,9 +1,9 @@
 import React, { useEffect} from 'react';
 import {observer} from 'mobx-react';
-import BlogCreateComponent from '../../components/blog/create';
+import BlogCreateComponent from '@/components/blog/create';
 import router from 'next/router';
-import useStores from '../../hooks/use-stores';
-import {Toaster} from '../../utils/common';
+import useStores from '@/hooks/use-stores';
+import {Toaster} from '@/utils/common';
 
 const BlogCreateContainer = observer((): JSX.Element=>{
     const { blogStore } = useStores();

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {observer} from 'mobx-react';
-import BlogComponent from '../../components/blog';
-import useStores from '../../hooks/use-stores';
-import {Toaster} from '../../utils/common';
+import BlogComponent from '@/components/blog';
+import useStores from '@/hooks/use-stores';
+import {Toaster} from '@/utils/common';
 
 interface Props{
     title?: string|string[];
