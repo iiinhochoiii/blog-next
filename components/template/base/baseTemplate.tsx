@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
-import HeaderContainer from '../../../containers/layout/headerContainer';
-import Footer from '../../layout/footer';
+import HeaderContainer from '@/containers/layout/headerContainer';
+import Footer from '@/components/layout/footer';
 import styled from 'styled-components';
 import Head from 'next/head';
 

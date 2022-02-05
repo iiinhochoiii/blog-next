@@ -1,8 +1,7 @@
-import React from 'react';
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import router from "next/router";
-import {pageType} from '../../interfaces/models/blog';
+import {pageType} from '@/interfaces/models/blog';
 
 interface Props{
     page?: pageType;

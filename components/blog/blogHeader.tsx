@@ -1,9 +1,8 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import router from 'next/router';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
-import {Toaster} from '../../utils/common';
+import {Toaster} from '@/utils/common';
 
 const BlogHeader: React.FC = () =>{
     const [keyword, setKeyword] = useState<string>('');

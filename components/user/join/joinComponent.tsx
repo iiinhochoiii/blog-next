@@ -1,9 +1,8 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import {checkIdStatus} from '../../../interfaces/models/user';
-import {Toaster} from '../../../utils/common';
+import {checkIdStatus} from '@/interfaces/models/user';
+import {Toaster} from '@/utils/common';
 
 interface Props{
     checkId:(email:string)=>void;

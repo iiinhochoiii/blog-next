@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {blogs, pageType} from '../../interfaces/models/blog';
+import {blogs, pageType} from '@/interfaces/models/blog';
 import BlogHeader from './blogHeader';
 import BlogContent from './blogContent';
 import BlogPage from './blogPage';

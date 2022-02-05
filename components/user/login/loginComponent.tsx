@@ -1,8 +1,7 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import {Toaster} from '../../../utils/common';
+import {Toaster} from '@/utils/common';
 
 interface Props{
     login:(email:string, password:string)=>void;

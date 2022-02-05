@@ -1,13 +1,12 @@
-import React from 'react';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import Parser from 'html-react-parser';
-import {blogs} from '../../../interfaces/models/blog';
+import {blogs} from '@/interfaces/models/blog';
 import Prism from 'prismjs';
 import {DiscussionEmbed} from 'disqus-react';
 import moment from 'moment';
 import Router from 'next/router';
-import blog_background from '../../../public/images/blog_background.jpg';
+import blog_background from '@/public/images/blog_background.jpg';
 import Head from 'next/head';
 
 interface Props{

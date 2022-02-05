@@ -1,6 +1,5 @@
-import React from 'react';
-import {useState, useEffect} from 'react';
-import {blogs} from '../../../interfaces/models/blog';
+import React, {useState, useEffect} from 'react';
+import {blogs} from '@/interfaces/models/blog';
 import {BlogCreateWrap, BlogContainer, BlogMainContent, BlogButton} from '../create/blogCreateComponent';
 import dynamic from 'next/dynamic';
 import 'codemirror/lib/codemirror.css';
@@ -10,7 +9,7 @@ import hljs from 'highlight.js';
 import "highlight.js/styles/github.css";
 import {Editor as EditorType, EditorProps} from '@toast-ui/react-editor';
 import {TuiEditorWithForwardedProps} from '../create/tuiEditorWrapper';
-import {Toaster} from '../../../utils/common';
+import {Toaster} from '@/utils/common';
 
 const Editor = dynamic<TuiEditorWithForwardedProps>(() => import('../create/tuiEditorWrapper'), { ssr: false });
 const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, any>((props, ref) => (

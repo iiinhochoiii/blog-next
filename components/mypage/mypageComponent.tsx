@@ -1,7 +1,6 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import {contacts} from '../../interfaces/models/contact';
+import {contacts} from '@/interfaces/models/contact';
 import moment from 'moment';
 import TextTruncate from 'react-text-truncate'; // recommend
 import TextareaAutosize from 'react-textarea-autosize';

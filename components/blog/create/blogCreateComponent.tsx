@@ -1,5 +1,4 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import 'codemirror/lib/codemirror.css';
@@ -10,7 +9,7 @@ import "highlight.js/styles/github.css";
 
 import {Editor as EditorType, EditorProps} from '@toast-ui/react-editor';
 import {TuiEditorWithForwardedProps} from './tuiEditorWrapper';
-import {Toaster} from '../../../utils/common';
+import {Toaster} from '@/utils/common';
 
 const Editor = dynamic<TuiEditorWithForwardedProps>(() => import('./tuiEditorWrapper'), { ssr: false });
 const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, any>((props, ref) => (

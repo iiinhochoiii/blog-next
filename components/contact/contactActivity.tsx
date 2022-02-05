@@ -1,9 +1,8 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import {Toaster} from '../../utils/common';
+import {Toaster} from '@/utils/common';
 
 type form ={
     name:string;
