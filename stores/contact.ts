@@ -1,6 +1,6 @@
 import {action, observable,  makeObservable} from 'mobx';
-import client from '../../lib/client';
-import {contacts} from '../../interfaces/models/contact';
+import client from '@/lib/client';
+import {contacts} from '@/interfaces/models/contact';
 import qs from 'qs';
 
 class ContactStore{

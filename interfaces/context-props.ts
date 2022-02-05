@@ -1,6 +1,8 @@
-import ContactStore from '../stores/contact/contactStore';
-import UserStore from '../stores/users/userStore';
-import BlogStore from '../stores/blog/blogStore';
+import {
+    ContactStore,
+    UserStore,
+    BlogStore
+} from '@/stores';
 
 interface ContextProps {
     contactStore: ContactStore;
