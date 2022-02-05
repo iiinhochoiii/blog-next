@@ -1,1 +1,1 @@
-export {default as StoresContext} from './stores';
+export { default as StoresContext } from './stores';
