@@ -53,7 +53,7 @@ class UserStore {
     }
   };
 
-  getTokenData = async (token: string) => {
+  getTokenData = async (token?: string) => {
     try {
       const res = await client.post('/api/auth/user', qs.stringify({ token: token }));
 

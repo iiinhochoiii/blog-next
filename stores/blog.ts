@@ -77,7 +77,7 @@ class BlogStore {
     }
   };
 
-  updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string, token: string) => {
+  updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string, token?: string) => {
     try {
       const res = await client.post(
         '/api/blogs/update',
