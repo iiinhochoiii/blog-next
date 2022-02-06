@@ -14,6 +14,16 @@ const LoginContainer = observer((): JSX.Element => {
       const res = await userStore.login(email, password);
       if (res.status) {
         setToken(res?.token);
+        const userInfo = await userStore.getTokenData(res?.token);
+
+        if (userInfo.status) {
+          userStore.setUserInfo({
+            user_id: userInfo?.data?.user_id,
+            name: userInfo?.data?.name,
+            email: userInfo?.data?.email,
+            phone: userInfo?.data?.phone,
+          });
+        }
         router.push('/');
       } else {
         Toaster.showWarning(res?.msg);

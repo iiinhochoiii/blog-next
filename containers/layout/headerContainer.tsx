@@ -10,7 +10,6 @@ const HeaderContainer = observer((): JSX.Element => {
   const logout = () => {
     removeToken();
     userStore.setUserInfo(undefined);
-    localStorage.removeItem('auth');
     window.location.href = '/';
   };
 

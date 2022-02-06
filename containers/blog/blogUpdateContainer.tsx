@@ -12,13 +12,12 @@ interface Props {
 
 const BlogUpdateContainer = observer((props: Props) => {
   const { query } = props;
-  const { blogStore } = useStores();
+  const { blogStore, userStore } = useStores();
   const token = getToken();
 
   useEffect(() => {
     if (process.browser) {
-      const user: any = localStorage.getItem('auth');
-      if (user === null || JSON.parse(user).user_id !== 1) {
+      if (userStore?.userInfo?.user_id !== 1) {
         Router.push('/');
       }
     }

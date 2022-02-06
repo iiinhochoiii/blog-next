@@ -5,7 +5,6 @@ import router from 'next/router';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Toaster } from '@/utils/common';
 import { UserInfo } from '@/interfaces/models/user';
-import { toJS } from 'mobx';
 
 interface Props {
   userInfo?: UserInfo;
@@ -13,7 +12,6 @@ interface Props {
 }
 const Headers: React.FC<Props> = (props: Props) => {
   const { userInfo, logout } = props;
-  console.log(toJS(userInfo));
   const [height, setHeight] = useState<number>(0);
   const [userMenu, setUserMenu] = useState<boolean>(false);
   const [path, setPath] = useState<string | undefined>(undefined);

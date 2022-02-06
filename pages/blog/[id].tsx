@@ -1,25 +1,14 @@
+import React from 'react';
 import BaseTemplate from '@/components/template/base';
 import BlogReadContainer from '@/containers/blog/blogReadContainer';
+import authorize from '@/hoc/authorize';
 
-const BlogDetail = ({data}:any) =>{
-    return(
-        <BaseTemplate title="blog">
-            <BlogReadContainer blog_id={data.id}/>
-        </BaseTemplate>
-    );
-}
+const BlogDetail = authorize(() => {
+  return (
+    <BaseTemplate title="blog">
+      <BlogReadContainer />
+    </BaseTemplate>
+  );
+});
 
-export async function getServerSideProps(context:any) {
-	const data = context.query;
-	if (!data) {
-		return {
-			notFound: true,
-		};
-	}
-	return {
-		props: {
-			data,
-		},
-	};
-}
 export default BlogDetail;
