@@ -1,7 +1,8 @@
 import { action, observable, makeObservable } from 'mobx';
-import { checkIdStatus, userData } from '@/interfaces/models/user';
+import { checkIdStatus, userData, UserInfo } from '@/interfaces/models/user';
 import qs from 'qs';
 import client from '@/lib/client';
+import { getToken, setToken, removeToken } from '@/utils/auth';
 
 class UserStore {
   constructor() {
@@ -13,6 +14,26 @@ class UserStore {
 
   @observable
   userData?: userData = undefined;
+
+  @observable
+  userInfo?: UserInfo = undefined;
+
+  @observable
+  token?: string = getToken();
+
+  @action
+  setUserInfo = (data?: UserInfo) => {
+    this.userInfo = data;
+  };
+
+  @action
+  setToken = (token?: string) => {
+    if (token) {
+      setToken(token);
+    } else {
+      removeToken();
+    }
+  };
 
   @action
   setCheckIdStatus = (value: checkIdStatus | undefined) => {
@@ -46,13 +67,13 @@ class UserStore {
   login = async (email: string, password: string) => {
     try {
       const res = await client.post('/api/auth/login', qs.stringify({ email: email, password: password }));
-
       return res.data;
     } catch (err) {
       console.log(err);
     }
   };
 
+  // 토근으로 사용자 정보 불러오기
   getTokenData = async (token?: string) => {
     try {
       const res = await client.post('/api/auth/user', qs.stringify({ token: token }));

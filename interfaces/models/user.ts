@@ -16,3 +16,10 @@ export type userData = {
     exp?: number;
   };
 };
+
+export interface UserInfo {
+  user_id?: number | string;
+  email?: string;
+  name?: string;
+  phone?: string;
+}
