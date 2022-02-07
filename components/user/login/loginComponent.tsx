@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Toaster } from '@/utils/common';
+import { Input, Text } from '@/components/Atom';
 
 interface Props {
   login: (email: string, password: string) => void;
@@ -42,18 +43,15 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
         </LoginHeader>
         <LoginContent onSubmit={LoginHandler}>
           <div className="user-info-wrap">
-            <p>Email or Id</p>
-            <input type="text" value={email} id="email" onChange={inputChangeHandler} />
-            <p>Password</p>
-            <input type="password" value={password} id="password" onChange={inputChangeHandler} />
+            <Text>Email or Id</Text>
+            <Input type="text" value={email} id="email" onChange={inputChangeHandler} />
+            <Text>Password</Text>
+            <Input type="password" value={password} id="password" onChange={inputChangeHandler} />
           </div>
           <div className="user-info-forgot">
             <Link href="/join">
               <a>Sign up</a>
             </Link>
-            {/* <Link href="/">
-                            <a>Forgot Your Password?</a>
-                        </Link> */}
           </div>
           <div className="user-info-login">
             <button type="submit">LOGIN</button>
@@ -90,7 +88,7 @@ const LoginContent = styled.form`
       margin: 0px 0px 5px 0px;
       font-size: 10px;
     }
-    & > input {
+    /* & > input {
       width: calc(100% - 25px);
       height: 50px;
       outline: none;
@@ -100,7 +98,7 @@ const LoginContent = styled.form`
       border-radius: 5px;
       background: none;
       border: 1px solid #333333;
-    }
+    } */
   }
   & > .user-info-forgot {
     text-align: right;
