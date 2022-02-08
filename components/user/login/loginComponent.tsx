@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Toaster } from '@/utils/common';
-import { Input, Text } from '@/components/Atom';
+import { Input, Button } from '@/components/Atom';
 
 interface Props {
   login: (email: string, password: string) => void;
@@ -43,9 +43,9 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
         </LoginHeader>
         <LoginContent onSubmit={LoginHandler}>
           <div className="user-info-wrap">
-            <Text>Email or Id</Text>
+            <p>Email or Id</p>
             <Input type="text" value={email} id="email" onChange={inputChangeHandler} />
-            <Text>Password</Text>
+            <p>Password</p>
             <Input type="password" value={password} id="password" onChange={inputChangeHandler} />
           </div>
           <div className="user-info-forgot">
@@ -54,7 +54,7 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
             </Link>
           </div>
           <div className="user-info-login">
-            <button type="submit">LOGIN</button>
+            <Button size="large">LOGIN</Button>
           </div>
         </LoginContent>
         <LoginFooter>
@@ -111,7 +111,7 @@ const LoginContent = styled.form`
     }
   }
   & > .user-info-login {
-    & > button {
+    /* & > button {
       width: 100%;
       height: 45px;
       cursor: pointer;
@@ -122,7 +122,7 @@ const LoginContent = styled.form`
       font-weight: bold;
       border: none;
       border-radius: 5px;
-    }
+    } */
   }
 `;
 
