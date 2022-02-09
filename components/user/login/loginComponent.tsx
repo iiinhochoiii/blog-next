@@ -44,9 +44,9 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
         <LoginContent onSubmit={LoginHandler}>
           <div className="user-info-wrap">
             <Text style={{ marginBottom: '5px' }}>Email or Id</Text>
-            <Input type="text" value={email} id="email" onChange={inputChangeHandler} size="FULL_SIZE" />
+            <Input type="text" value={email} id="email" onChange={inputChangeHandler} />
             <Text style={{ marginBottom: '5px' }}>Password</Text>
-            <Input type="password" value={password} id="password" onChange={inputChangeHandler} size="FULL_SIZE" />
+            <Input type="password" value={password} id="password" onChange={inputChangeHandler} />
           </div>
           <div className="user-info-forgot">
             <Link href="/join">
