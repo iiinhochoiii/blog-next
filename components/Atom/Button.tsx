@@ -1,29 +1,38 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-const sizeStyles = css<{ size: string }>`
-  ${(props) =>
-    props.size === 'large' &&
-    css`
-      width: 100%;
-    `}
-`;
-const StyledButton = styled.button`
-  background-color: rgb(18, 184, 134);
-  color: #ffffff;
-  font-weight: bold;
-  border: none;
-  height: 45px;
-
-  ${sizeStyles}
-`;
-
-const Button = ({ children, color, size, ...props }: any) => {
+interface Props {
+  children: React.ReactNode;
+  size?: string;
+  radius?: number;
+}
+const Button = ({ ...props }: Props) => {
   return (
-    <StyledButton {...props} size={size}>
-      {children}
+    <StyledButton {...props} size={props.size} radius={props.radius}>
+      {props.children}
     </StyledButton>
   );
 };
+
+const StyledButton = styled.button<{ size?: string; radius?: number }>`
+  height: 45px;
+  cursor: pointer;
+  outline: none;
+  background-color: rgb(18, 184, 134);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+
+  width: ${(props) => {
+    if (props.size === 'FULL_SIZE') {
+      return '100%';
+    }
+  }};
+
+  border-radius: ${(props) => {
+    return `${props.radius}px`;
+  }};
+`;
 
 export default Button;

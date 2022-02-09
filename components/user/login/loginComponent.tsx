@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Toaster } from '@/utils/common';
-import { Input, Button } from '@/components/Atom';
+import { Input, Button, Text } from '@/components/Atom';
 
 interface Props {
   login: (email: string, password: string) => void;
@@ -43,10 +43,10 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
         </LoginHeader>
         <LoginContent onSubmit={LoginHandler}>
           <div className="user-info-wrap">
-            <p>Email or Id</p>
-            <Input type="text" value={email} id="email" onChange={inputChangeHandler} />
-            <p>Password</p>
-            <Input type="password" value={password} id="password" onChange={inputChangeHandler} />
+            <Text style={{ marginBottom: '5px' }}>Email or Id</Text>
+            <Input type="text" value={email} id="email" onChange={inputChangeHandler} size="FULL_SIZE" />
+            <Text style={{ marginBottom: '5px' }}>Password</Text>
+            <Input type="password" value={password} id="password" onChange={inputChangeHandler} size="FULL_SIZE" />
           </div>
           <div className="user-info-forgot">
             <Link href="/join">
@@ -54,11 +54,13 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
             </Link>
           </div>
           <div className="user-info-login">
-            <Button size="large">LOGIN</Button>
+            <Button size="FULL_SIZE" radius={5}>
+              LOGIN
+            </Button>
           </div>
         </LoginContent>
         <LoginFooter>
-          <p>Copyright © 2021 by Choi Tech, Inc. All rights reserved</p>
+          <Text>Copyright © 2021 by Choi Tech, Inc. All rights reserved</Text>
         </LoginFooter>
       </LoginContainer>
     </LoginWrap>
@@ -84,21 +86,6 @@ const LoginContainer = styled.div`
 const LoginContent = styled.form`
   margin: 30px 0px 0px 0px;
   & > .user-info-wrap {
-    & > p {
-      margin: 0px 0px 5px 0px;
-      font-size: 10px;
-    }
-    /* & > input {
-      width: calc(100% - 25px);
-      height: 50px;
-      outline: none;
-      padding: 0 10px;
-      margin-bottom: 10px;
-      font-size: 12px;
-      border-radius: 5px;
-      background: none;
-      border: 1px solid #333333;
-    } */
   }
   & > .user-info-forgot {
     text-align: right;
@@ -111,25 +98,10 @@ const LoginContent = styled.form`
     }
   }
   & > .user-info-login {
-    /* & > button {
-      width: 100%;
-      height: 45px;
-      cursor: pointer;
-      outline: none;
-      background-color: rgb(18, 184, 134);
-      color: #ffffff;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 5px;
-    } */
   }
 `;
 
 const LoginFooter = styled.div`
   margin-top: 30px;
-  & > p {
-    font-size: 10px;
-  }
 `;
 export default LoginComponent;
