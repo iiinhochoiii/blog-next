@@ -16,7 +16,7 @@ const Box = (props: Props) => {
   const { children, margin, textAlign, width } = props;
 
   return (
-    <StyledBox {...props} margin={margin} textAlign={textAlign}>
+    <StyledBox {...props} margin={margin} textAlign={textAlign} width={width}>
       {children}
     </StyledBox>
   );
