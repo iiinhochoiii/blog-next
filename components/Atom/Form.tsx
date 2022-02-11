@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-interface Props extends InputHTMLAttributes<HTMLDivElement> {
+interface Props extends InputHTMLAttributes<HTMLFormElement> {
   children?: React.ReactNode;
   margin?: {
     top?: string;
@@ -9,26 +9,20 @@ interface Props extends InputHTMLAttributes<HTMLDivElement> {
     left?: string;
     right?: string;
   };
-  textAlign?: string;
-  width?: string;
 }
-const Box = (props: Props) => {
-  const { children, margin, textAlign, width } = props;
 
+const Form = (props: Props) => {
   return (
-    <StyledBox {...props} margin={margin} textAlign={textAlign} width={width}>
-      {children}
-    </StyledBox>
+    <StyledForm {...props} margin={props.margin}>
+      {props.children}
+    </StyledForm>
   );
 };
 
-const StyledBox = styled.div<Props>`
+const StyledForm = styled.form<Props>`
   margin-top: ${(props) => props.margin?.top || '0'};
   margin-bottom: ${(props) => props.margin?.bottom || '0'};
   margin-left: ${(props) => props.margin?.left || '0'};
   margin-right: ${(props) => props.margin?.right || '0'};
-
-  text-align: ${(props) => props.textAlign || 'left'};
-  width: ${(props) => props.width || '100%'};
 `;
-export default Box;
+export default Form;

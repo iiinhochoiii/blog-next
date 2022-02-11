@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import Link from 'next/link';
 import { Toaster } from '@/utils/common';
-import { Input, Button, Text, Box } from '@/components/Atom';
+import { Input, Button, Text, Box, Form, Link } from '@/components/Atom';
 
 interface Props {
   login: (email: string, password: string) => void;
@@ -36,21 +34,21 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
   return (
     <Box>
       <Box width="360px" margin={{ top: '150px', bottom: '150px', left: 'auto', right: 'auto' }}>
-        <LoginHeader>
-          <Link href="/">
-            <a>Choi Tech</a>
+        <Box textAlign="center">
+          <Link href="/" size={32} fontFamily={`'Audiowide', cursive`}>
+            Choi Tech
           </Link>
-        </LoginHeader>
-        <LoginContent onSubmit={LoginHandler}>
-          <Box>
+        </Box>
+        <Form onSubmit={LoginHandler}>
+          <Form margin={{ top: '30px' }}>
             <Text style={{ marginBottom: '5px' }}>Email or Id</Text>
             <Input type="text" value={email} id="email" onChange={inputChangeHandler} size={100} />
             <Text style={{ marginBottom: '5px' }}>Password</Text>
             <Input type="password" value={password} id="password" onChange={inputChangeHandler} size={100} />
-          </Box>
+          </Form>
           <Box textAlign="right" margin={{ bottom: '20px' }}>
-            <Link href="/join">
-              <a>Sign up</a>
+            <Link href="/join" size={12} margin={{ left: '20px' }}>
+              Sign up
             </Link>
           </Box>
           <Box>
@@ -58,7 +56,7 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
               LOGIN
             </Button>
           </Box>
-        </LoginContent>
+        </Form>
         <Box margin={{ top: '30px' }}>
           <Text>Copyright © 2021 by Choi Tech, Inc. All rights reserved</Text>
         </Box>
@@ -66,26 +64,5 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
     </Box>
   );
 };
-
-const LoginHeader = styled.div`
-  text-align: center;
-  & > a {
-    font-family: 'Audiowide', cursive;
-    text-decoration: none;
-    color: #333333;
-    font-size: 32px;
-  }
-`;
-
-const LoginContent = styled.form`
-  margin: 30px 0px 0px 0px;
-
-  & > a {
-    margin: 0px 0px 0px 20px;
-    text-decoration: none;
-    color: #333333;
-    font-size: 12px;
-  }
-`;
 
 export default LoginComponent;
