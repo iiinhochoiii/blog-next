@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 interface Props {
   children?: React.ReactNode;
+  href?: any;
   margin?: {
     top?: string;
     bottom?: string;
@@ -14,7 +15,7 @@ interface Props {
   size?: number;
 }
 
-const Links = (props: any) => {
+const Links = (props: Props) => {
   return (
     <Link href={props.href} passHref>
       <StyledLink size={props.size} fontFamily={props.fontFamily} margin={props.margin}>

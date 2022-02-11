@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  size?: string;
   radius?: number;
+  onClick?: () => void;
+  width?: string;
 }
 const Button = ({ ...props }: Props) => {
   return (
-    <StyledButton {...props} size={props.size} radius={props.radius}>
+    <StyledButton {...props} onClick={props.onClick} radius={props.radius} width={props.width}>
       {props.children}
     </StyledButton>
   );
 };
 
-const StyledButton = styled.button<{ size?: string; radius?: number }>`
+const StyledButton = styled.button<Props>`
   height: 45px;
   cursor: pointer;
   outline: none;
@@ -24,11 +25,7 @@ const StyledButton = styled.button<{ size?: string; radius?: number }>`
   font-weight: bold;
   border: none;
 
-  width: ${(props) => {
-    if (props.size === 'FULL_SIZE') {
-      return '100%';
-    }
-  }};
+  width: ${(props) => props.width || '100%'};
 
   border-radius: ${(props) => {
     return `${props.radius}px`;

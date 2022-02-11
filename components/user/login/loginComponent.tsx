@@ -41,10 +41,32 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
         </Box>
         <Form onSubmit={LoginHandler}>
           <Form margin={{ top: '30px' }}>
-            <Text style={{ marginBottom: '5px' }}>Email or Id</Text>
-            <Input type="text" value={email} id="email" onChange={inputChangeHandler} size={100} />
-            <Text style={{ marginBottom: '5px' }}>Password</Text>
-            <Input type="password" value={password} id="password" onChange={inputChangeHandler} size={100} />
+            <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
+              Email or Id
+            </Text>
+            <Input
+              type="text"
+              value={email}
+              id="email"
+              onChange={inputChangeHandler}
+              width="100%"
+              padding={{ left: '10px', right: '10px' }}
+              margin={{ bottom: '10px' }}
+              height={50}
+            />
+            <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
+              Password
+            </Text>
+            <Input
+              type="password"
+              value={password}
+              id="password"
+              onChange={inputChangeHandler}
+              width="100%"
+              padding={{ left: '10px', right: '10px' }}
+              margin={{ bottom: '10px' }}
+              height={50}
+            />
           </Form>
           <Box textAlign="right" margin={{ bottom: '20px' }}>
             <Link href="/join" size={12} margin={{ left: '20px' }}>
@@ -52,13 +74,13 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
             </Link>
           </Box>
           <Box>
-            <Button size="FULL_SIZE" radius={5}>
+            <Button width="100%" radius={5}>
               LOGIN
             </Button>
           </Box>
         </Form>
         <Box margin={{ top: '30px' }}>
-          <Text>Copyright © 2021 by Choi Tech, Inc. All rights reserved</Text>
+          <Text size={12}>Copyright © 2021 by Choi Tech, Inc. All rights reserved</Text>
         </Box>
       </Box>
     </Box>
