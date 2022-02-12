@@ -23,9 +23,10 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   size?: number;
   color?: string;
   fontWeight?: number;
+  parents?: string;
 }
 const Button = (props: Props) => {
-  const { children, radius, onClick, width, height, margin, padding, backgroundColor, size, color, fontWeight } = props;
+  const { children, radius, onClick, width, height, margin, padding, backgroundColor, size, color, fontWeight, parents } = props;
   return (
     <StyledButton
       onClick={onClick}
@@ -38,6 +39,7 @@ const Button = (props: Props) => {
       size={size}
       color={color}
       fontWeight={fontWeight}
+      parents={parents}
     >
       {children}
     </StyledButton>
@@ -79,6 +81,19 @@ const StyledButton = styled.button<Props>`
     return css`
       height: ${height};
     `;
+  }}
+
+  ${(props) => {
+    if (props?.parents === 'post_article') {
+      return css`
+        padding: 5px 10px;
+        font-weight: 200;
+        color: #333333;
+        background-color: rgb(229, 229, 229);
+        font-size: 12px;
+        height: 25px;
+      `;
+    }
   }}
 `;
 

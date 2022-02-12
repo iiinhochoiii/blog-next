@@ -30,21 +30,7 @@ const PostArticle = (props: Blog) => {
           <TextTruncate line={2} element="span" truncateText="…" text={summary} />
         </Text>
       </Link>
-      <Button
-        onClick={() => moveBlogTypeHandler(blog_type)}
-        height={25}
-        size={12}
-        backgroundColor={'rgb(229, 229, 229)'}
-        color={'#333'}
-        fontWeight={200}
-        radius={10}
-        padding={{
-          top: '5px',
-          bottom: '5px',
-          left: '10px',
-          right: '10px',
-        }}
-      >
+      <Button onClick={() => moveBlogTypeHandler(blog_type)} radius={10} parents="post_article">
         # {blog_type}
       </Button>
       <Flex justify="space-between" margin={{ top: '15px' }}>
