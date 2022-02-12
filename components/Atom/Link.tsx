@@ -5,6 +5,7 @@ import Link from 'next/link';
 interface Props {
   children?: React.ReactNode;
   href?: any;
+  as?: string;
   margin?: {
     top?: string;
     bottom?: string;
@@ -13,12 +14,15 @@ interface Props {
   };
   fontFamily?: string;
   size?: number;
+  hover?: {
+    color?: string;
+  };
 }
 
 const Links = (props: Props) => {
   return (
-    <Link href={props.href} passHref>
-      <StyledLink size={props.size} fontFamily={props.fontFamily} margin={props.margin}>
+    <Link href={props.href} passHref as={props.as}>
+      <StyledLink size={props.size} fontFamily={props.fontFamily} margin={props.margin} hover={props.hover}>
         {props.children}
       </StyledLink>
     </Link>
@@ -40,5 +44,17 @@ const StyledLink = styled.a<Props>`
   margin-right: ${(props) => props.margin?.right || '0'};
 
   font-size: ${(props) => `${props.size}px` || '12px'};
+
+  ${(props) => {
+    if (props?.hover) {
+      return css`
+        &:hover {
+          & > p {
+            color: ${props?.hover?.color};
+          }
+        }
+      `;
+    }
+  }}
 `;
 export default Links;

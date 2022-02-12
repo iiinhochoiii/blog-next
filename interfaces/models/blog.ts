@@ -17,3 +17,13 @@ export type pageType = {
   indexOfLastPost: number;
   lastPageNum: number;
 };
+
+export interface Blog {
+  blog_id?: number;
+  blog_type?: string;
+  created_at?: string;
+  name?: string;
+  summary?: string;
+  title?: string;
+  user_id?: number;
+}

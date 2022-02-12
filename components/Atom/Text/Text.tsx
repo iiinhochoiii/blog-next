@@ -5,6 +5,10 @@ interface Props {
   children?: React.ReactNode;
   size?: number;
   style?: React.CSSProperties;
+  color?: string;
+  hover?: {
+    color?: string;
+  };
   margin?: {
     top?: string;
     bottom?: string;
@@ -20,9 +24,19 @@ interface Props {
   };
 }
 const Text = (props: Props) => {
-  const { children, size, style, margin, fontWeight, textAlign, lineHeight, screen } = props;
+  const { children, size, style, color, hover, margin, fontWeight, textAlign, lineHeight, screen } = props;
   return (
-    <StyledText style={style} size={size} margin={margin} fontWeight={fontWeight} textAlign={textAlign} lineHeight={lineHeight} screen={screen}>
+    <StyledText
+      style={style}
+      color={color}
+      hover={hover}
+      size={size}
+      margin={margin}
+      fontWeight={fontWeight}
+      textAlign={textAlign}
+      lineHeight={lineHeight}
+      screen={screen}
+    >
       {children}
     </StyledText>
   );
@@ -37,7 +51,7 @@ const StyledText = styled.p<Props>`
   text-align: ${(props) => props.textAlign || 'left'};
   line-height: ${(props) => (typeof props.lineHeight === 'string' ? props.lineHeight : `${props.lineHeight}px`)};
   font-weight: ${(props) => props.fontWeight};
-
+  color: ${(props) => props.color || '#333'};
   ${(props) => {
     if (props?.screen) {
       return css`
@@ -46,7 +60,7 @@ const StyledText = styled.p<Props>`
         }
       `;
     }
-  }}
+  }};
 `;
 
 export default Text;
