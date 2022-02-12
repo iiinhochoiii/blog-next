@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -9,14 +9,22 @@ interface Props extends InputHTMLAttributes<HTMLDivElement> {
     left?: string;
     right?: string;
   };
+  padding?: {
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+  };
   textAlign?: string;
-  width?: string;
+  width?: string | number;
+  screen?: number; // 반응형 사이즈
+  backgroundColor?: string;
 }
 const Box = (props: Props) => {
-  const { children, margin, textAlign, width } = props;
+  const { children, margin, textAlign, width, screen, backgroundColor } = props;
 
   return (
-    <StyledBox {...props} margin={margin} textAlign={textAlign} width={width}>
+    <StyledBox {...props} margin={margin} textAlign={textAlign} width={width} screen={screen} backgroundColor={backgroundColor}>
       {children}
     </StyledBox>
   );
@@ -28,7 +36,24 @@ const StyledBox = styled.div<Props>`
   margin-left: ${(props) => props.margin?.left || '0'};
   margin-right: ${(props) => props.margin?.right || '0'};
 
+  padding-top: ${(props) => props.padding?.top || '0'};
+  padding-bottom: ${(props) => props.padding?.bottom || '0'};
+  padding-left: ${(props) => props.padding?.left || '0'};
+  padding-right: ${(props) => props.padding?.right || '0'};
+
   text-align: ${(props) => props.textAlign || 'left'};
-  width: ${(props) => props.width || '100%'};
+  width: ${(props) => (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};
+  background-color: ${(props) => props.backgroundColor};
+  max-width: 100%;
+
+  ${(props) => {
+    if (props.screen) {
+      return css`
+        @media screen and (max-width: ${`${props.screen}px`}) {
+          width: calc(100% - 30px);
+        }
+      `;
+    }
+  }}
 `;
 export default Box;

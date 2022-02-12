@@ -13,11 +13,17 @@ interface Props {
   };
   fontWeight?: string | number;
   textAlign?: string;
+  lineHeight?: string | number;
+  screen?: {
+    width?: number;
+    size?: number;
+  };
 }
 const Text = (props: Props) => {
+  const { children, size, style, margin, fontWeight, textAlign, lineHeight, screen } = props;
   return (
-    <StyledText style={props.style} size={props.size} margin={props.margin} fontWeight={props.fontWeight} textAlign={props.textAlign}>
-      {props.children}
+    <StyledText style={style} size={size} margin={margin} fontWeight={fontWeight} textAlign={textAlign} lineHeight={lineHeight} screen={screen}>
+      {children}
     </StyledText>
   );
 };
@@ -29,11 +35,18 @@ const StyledText = styled.p<Props>`
   margin-right: ${(props) => props.margin?.right || '0'};
   font-size: ${(props) => `${props.size}px` || '12px'};
   text-align: ${(props) => props.textAlign || 'left'};
-  ${(props) =>
-    props.fontWeight &&
-    css`
-      font-weight: ${props.fontWeight};
-    `};
+  line-height: ${(props) => (typeof props.lineHeight === 'string' ? props.lineHeight : `${props.lineHeight}px`)};
+  font-weight: ${(props) => props.fontWeight};
+
+  ${(props) => {
+    if (props?.screen) {
+      return css`
+        @media screen and (max-width: ${`${props.screen?.width}px`}) {
+          font-size: ${props.screen.size}px;
+        }
+      `;
+    }
+  }}
 `;
 
 export default Text;
