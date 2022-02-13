@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Input } from '@/components/Atom';
 import SearchIcon from '@material-ui/icons/Search';
-import { AnyStyledComponent } from 'styled-components';
 
 interface Props {
   onSubmit?: (e: any) => void;

@@ -12,7 +12,6 @@ interface Props extends InputHTMLAttributes<HTMLFormElement> {
 }
 
 const Form = (props: Props) => {
-  console.log('???', props.className);
   return (
     <StyledForm {...props} margin={props.margin}>
       {props.children}
