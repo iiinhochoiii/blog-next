@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -10,12 +10,16 @@ interface Props extends InputHTMLAttributes<HTMLDivElement> {
     right?: string;
   };
   justify?: string;
+  screen?: {
+    width?: number;
+    flexWrap?: string;
+  };
 }
 const Flex = (props: Props) => {
-  const { children, margin, justify } = props;
+  const { children, margin, justify, screen } = props;
 
   return (
-    <StyledFlex {...props} margin={margin} justify={justify}>
+    <StyledFlex {...props} margin={margin} justify={justify} screen={screen}>
       {children}
     </StyledFlex>
   );
@@ -29,5 +33,17 @@ const StyledFlex = styled.div<Props>`
 
   display: flex;
   justify-content: ${(props) => props.justify};
+
+  ${(props) => {
+    if (props?.screen) {
+      if (props?.screen?.flexWrap) {
+        return css`
+          @media screen and (max-width: ${`${props?.screen?.width}px` || '690px'}) {
+            flex-wrap: ${props?.screen?.flexWrap};
+          } ;
+        `;
+      }
+    }
+  }}
 `;
 export default Flex;

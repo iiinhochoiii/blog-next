@@ -19,12 +19,13 @@ interface Props extends InputHTMLAttributes<HTMLDivElement> {
   width?: string | number;
   screen?: number; // 반응형 사이즈
   backgroundColor?: string;
+  position?: string;
 }
 const Box = (props: Props) => {
-  const { children, margin, textAlign, width, screen, backgroundColor } = props;
+  const { children, margin, textAlign, width, screen, backgroundColor, position } = props;
 
   return (
-    <StyledBox {...props} margin={margin} textAlign={textAlign} width={width} screen={screen} backgroundColor={backgroundColor}>
+    <StyledBox {...props} margin={margin} textAlign={textAlign} width={width} screen={screen} backgroundColor={backgroundColor} position={position}>
       {children}
     </StyledBox>
   );
@@ -45,6 +46,7 @@ const StyledBox = styled.div<Props>`
   width: ${(props) => (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};
   background-color: ${(props) => props.backgroundColor};
   max-width: 100%;
+  position: ${(props) => props.position || 'relative'};
 
   ${(props) => {
     if (props.screen) {

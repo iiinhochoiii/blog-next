@@ -2,6 +2,7 @@ import React, { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  style?: React.CSSProperties;
   type?: string;
   value?: string;
   id?: string;
@@ -25,9 +26,10 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = (props: Props): JSX.Element => {
-  const { type, id, value, onChange, width, height, padding, margin, placeholder } = props;
+  const { style, type, id, value, onChange, width, height, padding, margin, placeholder } = props;
   return (
     <InputWrap
+      style={style}
       type={type}
       id={id}
       value={value}
@@ -48,7 +50,7 @@ const InputWrap = styled.input<Props>`
   background: none;
   border: 1px solid #333333;
   width: ${(props) => `calc(${props.width} - 25px)`};
-  height: ${(props) => `${props.height}px` || '50px'};
+  height: ${(props) => (props?.height ? (typeof props.height === 'string' ? props.height : `${props.height}px`) : '50px')};
   padding-top: ${(props) => props.padding?.top || '0'};
   padding-bottom: ${(props) => props.padding?.bottom || '0'};
   padding-left: ${(props) => props.padding?.left || '0'};
