@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { blogs, pageType } from '@/interfaces/models/blog';
 import BlogHeader from './blogHeader';
 import BlogContent from './blogContent';
-import BlogPage from './blogPage';
 import { Box, Background, HeaderText, Text } from '@/components/Atom';
+import { Pagination } from '@/components/Organisms';
+import { useRouter } from 'next/router';
 
 interface Props {
   blogs: blogs[];
   title: any;
   loading: boolean;
   page?: pageType;
-  pageNum?: string | string[];
+  pageNum?: number;
 }
-const BlogComponent: React.FC<Props> = ({ blogs, page, title, loading, pageNum }) => {
+
+const BlogComponent: React.FC<Props> = (props: Props) => {
+  const router = useRouter();
+  const { blogs, page, title, loading, pageNum } = props;
+  const [paging, setPaging] = useState(pageNum || 1);
+
+  useEffect(() => {
+    router.push({
+      pathname: '/blog',
+      query: {
+        page: paging,
+      },
+    });
+    scrollTo(0, 0);
+  }, [paging]);
+
   return (
     <Box>
       <Background url={'./images/blog_background.jpg'} background="no-repeat center" position="relative">
@@ -39,7 +55,7 @@ const BlogComponent: React.FC<Props> = ({ blogs, page, title, loading, pageNum }
       <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={1010}>
         <BlogHeader />
         <BlogContent blogs={blogs} loading={loading} />
-        {!title && <BlogPage page={page} pageNum={pageNum} />}
+        {!title && <Pagination page={page} pageNum={paging} setPaging={setPaging} />}
       </Box>
     </Box>
   );

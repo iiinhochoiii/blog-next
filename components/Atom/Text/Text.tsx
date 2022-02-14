@@ -22,9 +22,10 @@ interface Props {
     width?: number;
     size?: number;
   };
+  onClick?: (e: any) => void;
 }
 const Text = (props: Props) => {
-  const { children, size, style, color, hover, margin, fontWeight, textAlign, lineHeight, screen } = props;
+  const { children, size, style, color, hover, margin, fontWeight, textAlign, lineHeight, screen, onClick } = props;
   return (
     <StyledText
       style={style}
@@ -36,6 +37,7 @@ const Text = (props: Props) => {
       textAlign={textAlign}
       lineHeight={lineHeight}
       screen={screen}
+      onClick={onClick}
     >
       {children}
     </StyledText>
