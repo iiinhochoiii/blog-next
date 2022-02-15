@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import Parser from 'html-react-parser';
 import { blogs } from '@/interfaces/models/blog';
 import Prism from 'prismjs';
 import { DiscussionEmbed } from 'disqus-react';
 import moment from 'moment';
 import Router from 'next/router';
-import blog_background from '@/public/images/blog_background.jpg';
 import Head from 'next/head';
 import useStores from '@/hooks/use-stores';
 import { Box, Background, HeaderText, Text, PostContent } from '@/components/Atom';
@@ -103,99 +101,99 @@ const BlogReadComponent: React.FC<Props> = (props: Props) => {
   );
 };
 
-const BlogBackground = styled.div`
-  height: 300px;
-  background-size: 100% 300px;
-  background: no-repeat center;
-  position: relative;
-  background-image: url(${blog_background});
-  & > div {
-    background: rgba(0, 0, 0, 0.3);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+// const BlogBackground = styled.div`
+//   height: 300px;
+//   background-size: 100% 300px;
+//   background: no-repeat center;
+//   position: relative;
+//   background-image: url(${blog_background});
+//   & > div {
+//     background: rgba(0, 0, 0, 0.3);
+//     position: absolute;
+//     top: 0;
+//     bottom: 0;
+//     left: 0;
+//     right: 0;
 
-    & > div {
-      width: 980px;
-      max-width: 100%;
-      margin: 0 auto;
-      & > h1 {
-        font-size: 26px;
-        padding-top: 80px;
-        margin: 0;
-        color: #fff;
-      }
-      & > p {
-        margin: 0px 0px 10px 0px;
-        padding-top: 50px;
-        font-size: 16px;
-        font-weight: bold;
-        color: #fff;
-      }
-      & > span {
-        font-size: 18px;
-        font-weight: bold;
-        color: #fff;
-      }
-      & > .blog_update_container {
-        padding-top: 30px;
-        position: relative;
-        & > p {
-          border: 1px solid #fff;
-          color: #fff;
-          font-weight: bold;
-          padding: 5px 0px;
-          width: 100px;
-          margin: 0;
-          border-radius: 10px;
-          font-size: 14px;
-          cursor: pointer;
-          text-align: center;
-        }
-        & > div {
-          position: absolute;
-          margin-top: 10px;
-          width: 100px;
-          background-color: #fff;
-          border: 1px solid rgb(214, 214, 214);
-          padding: 5px;
-          & > p {
-            font-size: 12px;
-            text-align: center;
-            cursor: pointer;
-            padding: 10px 0px;
-            margin: 0;
-            &:hover {
-              background-color: rgb(248, 248, 248);
-            }
-          }
-        }
-      }
-    }
-  }
-  @media screen and (max-width: 1010px) {
-    & > div {
-      & > div {
-        width: calc(100% - 30px);
-      }
-    }
-  }
+//     & > div {
+//       width: 980px;
+//       max-width: 100%;
+//       margin: 0 auto;
+//       & > h1 {
+//         font-size: 26px;
+//         padding-top: 80px;
+//         margin: 0;
+//         color: #fff;
+//       }
+//       & > p {
+//         margin: 0px 0px 10px 0px;
+//         padding-top: 50px;
+//         font-size: 16px;
+//         font-weight: bold;
+//         color: #fff;
+//       }
+//       & > span {
+//         font-size: 18px;
+//         font-weight: bold;
+//         color: #fff;
+//       }
+//       & > .blog_update_container {
+//         padding-top: 30px;
+//         position: relative;
+//         & > p {
+//           border: 1px solid #fff;
+//           color: #fff;
+//           font-weight: bold;
+//           padding: 5px 0px;
+//           width: 100px;
+//           margin: 0;
+//           border-radius: 10px;
+//           font-size: 14px;
+//           cursor: pointer;
+//           text-align: center;
+//         }
+//         & > div {
+//           position: absolute;
+//           margin-top: 10px;
+//           width: 100px;
+//           background-color: #fff;
+//           border: 1px solid rgb(214, 214, 214);
+//           padding: 5px;
+//           & > p {
+//             font-size: 12px;
+//             text-align: center;
+//             cursor: pointer;
+//             padding: 10px 0px;
+//             margin: 0;
+//             &:hover {
+//               background-color: rgb(248, 248, 248);
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+//   @media screen and (max-width: 1010px) {
+//     & > div {
+//       & > div {
+//         width: calc(100% - 30px);
+//       }
+//     }
+//   }
 
-  @media screen and (max-width: 690px) {
-    & > div {
-      & > div {
-        & > h1 {
-          font-size: 22px;
-        }
-        & > p,
-        span {
-          font-size: 14px;
-        }
-      }
-    }
-  }
-`;
+//   @media screen and (max-width: 690px) {
+//     & > div {
+//       & > div {
+//         & > h1 {
+//           font-size: 22px;
+//         }
+//         & > p,
+//         span {
+//           font-size: 14px;
+//         }
+//       }
+//     }
+//   }
+// `;
 
 export default BlogReadComponent;
