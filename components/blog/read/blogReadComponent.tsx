@@ -9,6 +9,7 @@ import Router from 'next/router';
 import blog_background from '@/public/images/blog_background.jpg';
 import Head from 'next/head';
 import useStores from '@/hooks/use-stores';
+import { Box, Background, HeaderText, Text, PostContent } from '@/components/Atom';
 
 interface Props {
   blogItem?: blogs;
@@ -49,16 +50,28 @@ const BlogReadComponent: React.FC<Props> = (props: Props) => {
     });
   };
   return (
-    <ReadWrap>
+    <Box>
       <Head>
         <title>{blogItem?.title}</title>
       </Head>
-      <BlogBackground>
-        <div>
-          <div>
-            <h1>{blogItem?.title}</h1>
-            <p>{blogItem?.name}</p>
-            <span>{blogItem?.created_at && moment(blogItem.created_at).format('YYYY-MM-DD')}</span>
+      <Background url={'/images/blog_background.jpg'} background="no-repeat center" position="relative">
+        <Box
+          position="absolute"
+          backgroundColor="rgba(0, 0, 0, 0.3)"
+          textAlign="center"
+          padding={{ top: '80px' }}
+          style={{ top: 0, bottom: 0, left: 0, right: 0 }}
+        >
+          <Box width={980} margin={{ left: 'auto', right: 'auto' }}>
+            <HeaderText size={26} color="#fff">
+              {blogItem?.title}
+            </HeaderText>
+            <Text margin={{ bottom: '10px' }} padding={{ top: '50px' }} color="#fff" fontWeight="bold">
+              {blogItem?.name}
+            </Text>
+            <Text size={18} fontWeight="bold" color="#fff">
+              {blogItem?.created_at && moment(blogItem.created_at).format('YYYY-MM-DD')}
+            </Text>
             {updateState && (
               <div className="blog_update_container">
                 <p onClick={() => setSettingState(!settingState)}>설정</p>
@@ -70,12 +83,12 @@ const BlogReadComponent: React.FC<Props> = (props: Props) => {
                 )}
               </div>
             )}
-          </div>
-        </div>
-      </BlogBackground>
-      <ReadContainer>
-        <ReadContent>{blogItem && Parser(blogItem.content)}</ReadContent>
-        <Review>
+          </Box>
+        </Box>
+      </Background>
+      <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={1010}>
+        <PostContent>{blogItem && Parser(blogItem.content)}</PostContent>
+        <Box>
           <DiscussionEmbed
             shortname={'choitech-1'}
             config={{
@@ -84,13 +97,11 @@ const BlogReadComponent: React.FC<Props> = (props: Props) => {
               title: 'this page title',
             }}
           />
-        </Review>
-      </ReadContainer>
-    </ReadWrap>
+        </Box>
+      </Box>
+    </Box>
   );
 };
-
-const ReadWrap = styled.div``;
 
 const BlogBackground = styled.div`
   height: 300px;
@@ -187,36 +198,4 @@ const BlogBackground = styled.div`
   }
 `;
 
-const ReadContainer = styled.div`
-  width: 980px;
-  max-width: 100%;
-  margin: 0 auto;
-
-  @media screen and (max-width: 1010px) {
-    width: calc(100% - 30px);
-  }
-`;
-const ReadContent = styled.div`
-  height: 100%;
-  margin: 50px 0px 30px 0px;
-  max-width: 100%;
-  img {
-    width: 100%;
-  }
-  blockquote {
-    border-left: 4px solid #e5e5e5;
-    margin-block-start: 0px;
-    margin-inline-start: 0px;
-    padding: 5px 0px;
-    & > p {
-      margin: 0px 0px 0px 20px;
-    }
-  }
-  a {
-    color: rgb(65, 131, 196);
-    text-decoration: none;
-  }
-`;
-
-const Review = styled.div``;
 export default BlogReadComponent;

@@ -15,6 +15,12 @@ interface Props {
     left?: string;
     right?: string;
   };
+  padding?: {
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+  };
   fontWeight?: string | number;
   textAlign?: string;
   lineHeight?: string | number;
@@ -25,7 +31,7 @@ interface Props {
   onClick?: (e: any) => void;
 }
 const Text = (props: Props) => {
-  const { children, size, style, color, hover, margin, fontWeight, textAlign, lineHeight, screen, onClick } = props;
+  const { children, size, style, color, hover, margin, padding, fontWeight, textAlign, lineHeight, screen, onClick } = props;
   return (
     <StyledText
       style={style}
@@ -33,6 +39,7 @@ const Text = (props: Props) => {
       hover={hover}
       size={size}
       margin={margin}
+      padding={padding}
       fontWeight={fontWeight}
       textAlign={textAlign}
       lineHeight={lineHeight}
@@ -49,6 +56,12 @@ const StyledText = styled.p<Props>`
   margin-bottom: ${(props) => props.margin?.bottom || '0'};
   margin-left: ${(props) => props.margin?.left || '0'};
   margin-right: ${(props) => props.margin?.right || '0'};
+
+  padding-top: ${(props) => props.padding?.top || '0'};
+  padding-bottom: ${(props) => props.padding?.bottom || '0'};
+  padding-left: ${(props) => props.padding?.left || '0'};
+  padding-right: ${(props) => props.padding?.right || '0'};
+
   font-size: ${(props) => `${props.size}px` || '12px'};
   text-align: ${(props) => props.textAlign || 'left'};
   line-height: ${(props) => (typeof props.lineHeight === 'string' ? props.lineHeight : `${props.lineHeight}px`)};
