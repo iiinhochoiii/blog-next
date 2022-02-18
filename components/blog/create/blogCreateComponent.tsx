@@ -24,7 +24,7 @@ const BlogCreateComponent = (props: Props) => {
     const instance = editorRef.current.getInstance();
     setContent(instance.getHtml());
     setMarkDown(instance.getMarkdown());
-  }, [editorRef]);
+  }, [props, editorRef]);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
@@ -49,6 +49,7 @@ const BlogCreateComponent = (props: Props) => {
       createBlog(title, summary, content, type, markDown);
     }
   };
+
   return (
     <BlogCreateWrap>
       <BlogContainer>
