@@ -88,6 +88,7 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
               id="email"
               onChange={onChangeHandler}
               readOnly={checkIdStatus?.status && true}
+              style={{ background: 'none' }}
             />
             <Button onClick={emailCheckHandler} width="25%" radius={5}>
               중복확인
@@ -107,6 +108,7 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
             value={password}
             id="password"
             onChange={onChangeHandler}
+            style={{ background: 'none' }}
           />
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
             password Confirm
@@ -121,6 +123,7 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
             value={passwordConfirm}
             id="passwordConfirm"
             onChange={onChangeHandler}
+            style={{ background: 'none' }}
           />
           <span style={{ color: 'red' }}>{passwordConfirm.length > 0 && password !== passwordConfirm ? '비밀번호가 일치하지 않습니다.' : ''}</span>
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
@@ -136,6 +139,7 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
             value={name}
             id="name"
             onChange={onChangeHandler}
+            style={{ background: 'none' }}
           />
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
             핸드폰번호
@@ -150,6 +154,7 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
             value={phone}
             id="phone"
             onChange={onChangeHandler}
+            style={{ background: 'none' }}
           />
           <Box className="user_join">
             <Button onClick={joinHandler} width="100%" radius={5}>

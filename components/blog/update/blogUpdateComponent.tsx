@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { blogs } from '@/interfaces/models/blog';
-import { BlogCreateWrap, BlogContainer, BlogMainContent, BlogButton } from '../create/blogCreateComponent';
-import dynamic from 'next/dynamic';
-import 'codemirror/lib/codemirror.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/github.css';
-import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
-import { TuiEditorWithForwardedProps } from '../create/tuiEditorWrapper';
 import { Toaster } from '@/utils/common';
+import { Editor } from '@toast-ui/react-editor';
+import { Box, Button, Text, Input, TextArea } from '@/components/Atom';
+import { PostSelectBox } from '@/components/Molecules';
+import { TUIEditor } from '@/components/Organisms';
 
-const Editor = dynamic<TuiEditorWithForwardedProps>(() => import('../create/tuiEditorWrapper'), { ssr: false });
-// eslint-disable-next-line react/display-name
-const EditorWithForwardedRef = React.forwardRef<EditorType | undefined, any>((props, ref) => (
-  <Editor {...props} forwardedRef={ref as React.MutableRefObject<EditorType>} />
-));
-
-interface Props extends EditorProps {
+interface Props {
   blogItem?: blogs;
   updateBlog: (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string) => void;
-  valueType?: 'markdown' | 'html';
 }
 const BlogUpdateComponent: React.FC<Props> = (props) => {
   const [title, setTitle] = useState<string>(props.blogItem ? props.blogItem.content : '');
@@ -29,6 +17,7 @@ const BlogUpdateComponent: React.FC<Props> = (props) => {
   const [type, setType] = useState<string>('React');
   const [markDown, setMarkDown] = useState<string>('');
 
+  const editorRef = React.useRef<Editor>();
   useEffect(() => {
     const item = props.blogItem;
     if (item) {
@@ -40,9 +29,6 @@ const BlogUpdateComponent: React.FC<Props> = (props) => {
     }
   }, [props.blogItem]);
 
-  const { previewStyle, height, initialEditType, useCommandShortcut } = props;
-  const editorRef = React.useRef<EditorType>();
-
   const handleChange = React.useCallback(() => {
     if (!editorRef.current) {
       return;
@@ -53,13 +39,11 @@ const BlogUpdateComponent: React.FC<Props> = (props) => {
     setMarkDown(instance.getMarkdown());
   }, [props, editorRef]);
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement> | any) => {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     switch (id) {
       case 'title':
         return setTitle(value);
-      case 'type':
-        return setType(value);
       case 'summary':
         return setSummary(value);
     }
@@ -79,46 +63,46 @@ const BlogUpdateComponent: React.FC<Props> = (props) => {
   return (
     <>
       {props.blogItem && (
-        <BlogCreateWrap>
-          <BlogContainer>
-            <div>
-              <p>제목</p>
-              <input type="text" id="title" value={title} onChange={changeHandler} />
-            </div>
-            <div>
-              <p>요약</p>
-              <textarea value={summary} onChange={changeHandler} id="summary" />
-            </div>
-            <BlogMainContent>
-              <EditorWithForwardedRef
-                {...props}
-                initialValue={markDown}
-                previewStyle={previewStyle || 'vertical'}
-                height={height || '600px'}
-                initialEditType={initialEditType || 'markdown'}
-                useCommandShortcut={useCommandShortcut || true}
-                ref={editorRef}
-                onChange={handleChange}
-                plugins={[[codeSyntaxHighlightPlugin, { hljs }]]}
+        <Box width="980px" margin={{ left: 'auto', right: 'auto' }} screen={1010}>
+          <Box margin={{ top: '40px', bottom: '200px' }}>
+            <Box>
+              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+                제목
+              </Text>
+              <Input
+                width="50%"
+                height="45px"
+                type="text"
+                id="title"
+                border="1px solid #b4b2b2"
+                padding={{ left: '10px', right: '10px' }}
+                screen={1010}
+                value={title}
+                onChange={changeHandler}
               />
-            </BlogMainContent>
-            <div>
-              <p>타입</p>
-              <select value={type} id="type" onChange={changeHandler}>
-                <option value="React">React</option>
-                <option value="Express">Node</option>
-                <option value="Javascript">Javascript</option>
-                <option value="html/css">Html/Css</option>
-                <option value="Database">Database</option>
-                <option value="Git">Git</option>
-                <option value="etc">etc</option>
-              </select>
-            </div>
-            <BlogButton>
-              <button onClick={blogChangeHandler}>변경</button>
-            </BlogButton>
-          </BlogContainer>
-        </BlogCreateWrap>
+            </Box>
+            <Box>
+              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+                요약
+              </Text>
+              <TextArea width="50%" height={100} value={summary} screen={1010} onChange={changeHandler} id="summary" />
+            </Box>
+            <Box margin={{ top: '20px', bottom: '50px' }}>
+              <TUIEditor ref={editorRef} onChange={handleChange} initialValue={markDown} />
+            </Box>
+            <Box>
+              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+                타입
+              </Text>
+              <PostSelectBox type={type} setType={setType} />
+            </Box>
+            <Box margin={{ top: '30px' }}>
+              <Button width={150} radius={10} onClick={blogChangeHandler}>
+                변경
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       )}
     </>
   );

@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   style?: React.CSSProperties;
@@ -23,32 +23,19 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
     left?: string;
     right?: string;
   };
+  border?: string;
+  screen?: number;
 }
 
 const Input = (props: Props): JSX.Element => {
-  const { style, type, id, value, onChange, width, height, padding, margin, placeholder } = props;
-  return (
-    <InputWrap
-      style={style}
-      type={type}
-      id={id}
-      value={value}
-      placeholder={placeholder}
-      onChange={onChange}
-      width={width}
-      height={height}
-      padding={padding}
-      margin={margin}
-    />
-  );
+  return <InputWrap {...props} />;
 };
 
 const InputWrap = styled.input<Props>`
   outline: none;
   font-size: 12px;
   border-radius: 5px;
-  background: none;
-  border: 1px solid #333333;
+  border: ${(props) => props.border || '1px solid #333333'};
   width: ${(props) => `calc(${props.width} - 25px)`};
   height: ${(props) => (props?.height ? (typeof props.height === 'string' ? props.height : `${props.height}px`) : '50px')};
   padding-top: ${(props) => props.padding?.top || '0'};
@@ -60,6 +47,16 @@ const InputWrap = styled.input<Props>`
   margin-bottom: ${(props) => props.margin?.bottom || '0'};
   margin-left: ${(props) => props.margin?.left || '0'};
   margin-right: ${(props) => props.margin?.right || '0'};
+
+  ${(props) => {
+    if (props.screen) {
+      return css`
+        @media screen and (max-width: ${`${props.screen}px`}) {
+          width: calc(100% - 30px);
+        }
+      `;
+    }
+  }}
 `;
 
 export default Input;

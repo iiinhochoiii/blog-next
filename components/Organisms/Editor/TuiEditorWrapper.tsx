@@ -11,12 +11,12 @@ export interface TuiEditorWithForwardedProps extends EditorProps {
 }
 
 const TUIEditorWrapper = (props: TuiEditorWithForwardedProps) => {
-  const { forwardedRef } = props;
+  const { forwardedRef, initialValue } = props;
   return (
     <Editor
       {...props}
       ref={forwardedRef}
-      initialValue=""
+      initialValue={initialValue || ''}
       previewStyle="vertical"
       height="600px"
       initialEditType="markdown"

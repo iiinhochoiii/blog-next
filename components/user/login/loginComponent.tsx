@@ -53,6 +53,7 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
               padding={{ left: '10px', right: '10px' }}
               margin={{ bottom: '10px' }}
               height={50}
+              style={{ background: 'none' }}
             />
             <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
               Password
@@ -66,6 +67,7 @@ const LoginComponent: React.FC<Props> = ({ login }) => {
               padding={{ left: '10px', right: '10px' }}
               margin={{ bottom: '10px' }}
               height={50}
+              style={{ background: 'none' }}
             />
           </Form>
           <Box textAlign="right" margin={{ bottom: '20px' }}>

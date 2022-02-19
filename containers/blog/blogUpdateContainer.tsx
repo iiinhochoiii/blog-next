@@ -38,7 +38,6 @@ const BlogUpdateContainer = observer((props: Props) => {
     if (window.confirm('게시글을 수정 하시겠습니까?')) {
       try {
         const res = await blogStore.updateBlog(blog_id, title, summary, content, blog_type, markdown, token);
-        console.log(res);
         if (res?.status) {
           Toaster.showSuccess(res?.msg || '게시글이 변경되었습니다.');
           Router.back();
