@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import ContactActivity from './contactActivity';
 import { Box, Background, HeaderText, Text } from '@/components/Atom';
 
