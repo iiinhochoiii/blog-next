@@ -2,12 +2,14 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 interface Props {
+  className?: string;
   id?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   width?: string;
   height?: string | number;
   screen?: number;
+  placeholder?: string;
 }
 const TextArea = (props: Props) => {
   return <StyledTextArea {...props} />;
@@ -31,5 +33,21 @@ const StyledTextArea = styled.textarea<Props>`
       `;
     }
   }}
+
+  &.-contact {
+    margin-top: 5px;
+    width: 100%;
+    height: 300px;
+    background: none;
+    border: 1px solid #b2b2b2;
+    resize: none;
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+
+    @media screen and (max-width: 690px) {
+      font-size: 14px;
+    }
+  }
 `;
 export default TextArea;

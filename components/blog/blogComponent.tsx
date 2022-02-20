@@ -52,7 +52,7 @@ const BlogComponent: React.FC<Props> = (props: Props) => {
           )}
         </Box>
       </Background>
-      <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={1010}>
+      <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
         <BlogHeader />
         <BlogContent blogs={blogs} loading={loading} />
         {!title && <Pagination page={page} pageNum={paging} setPaging={setPaging} />}

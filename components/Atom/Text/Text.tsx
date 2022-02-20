@@ -62,9 +62,9 @@ const StyledText = styled.p<Props>`
   padding-left: ${(props) => props.padding?.left || '0'};
   padding-right: ${(props) => props.padding?.right || '0'};
 
-  font-size: ${(props) => `${props.size}px` || '12px'};
+  font-size: ${(props) => (props.size ? `${props.size}px` : '12px')};
   text-align: ${(props) => props.textAlign || 'left'};
-  line-height: ${(props) => (typeof props.lineHeight === 'string' ? props.lineHeight : `${props.lineHeight}px`)};
+  line-height: ${(props) => props.lineHeight && (typeof props.lineHeight === 'string' ? props.lineHeight : `${props.lineHeight}px`)};
   font-weight: ${(props) => props.fontWeight};
   color: ${(props) => props.color || '#333'};
   ${(props) => {

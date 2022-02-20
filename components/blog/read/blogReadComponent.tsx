@@ -74,7 +74,7 @@ const BlogReadComponent: React.FC<Props> = (props: Props) => {
           </Box>
         </Box>
       </Background>
-      <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={1010}>
+      <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
         <PostContent>{blogItem && Parser(blogItem.content)}</PostContent>
         <Box>
           <DiscussionEmbed

@@ -12,7 +12,7 @@ interface Props {
 const LatestPosts: React.FC<Props> = ({ blogs, loading }) => {
   return (
     <Box margin={{ top: '100px' }} backgroundColor="rgb(248, 248, 248)">
-      <Box padding={{ top: '50px', bottom: '100px' }} width={980} margin={{ left: 'auto', right: 'auto' }} screen={1010}>
+      <Box padding={{ top: '50px', bottom: '100px' }} width={980} margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
         <Box>
           <HeaderText size={26} fontWeight={400} color="rgb(18, 184, 134)">
             Recently Posts

@@ -3,7 +3,7 @@ import { Box, HeaderText, Flex, Text } from '@/components/Atom';
 
 const ExplainSite: React.FC = () => {
   return (
-    <Box screen={1010} margin={{ left: 'auto', right: 'auto' }} width="980px">
+    <Box screen={{ size: 1010, calc: '30px' }} margin={{ left: 'auto', right: 'auto' }} width="980px">
       <Box margin={{ top: '100px' }}>
         <HeaderText color="#333" fontWeight={400} size={28}>
           Try the various services provided by Choi Tech.

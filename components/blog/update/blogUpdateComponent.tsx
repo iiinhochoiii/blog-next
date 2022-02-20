@@ -63,7 +63,7 @@ const BlogUpdateComponent: React.FC<Props> = (props) => {
   return (
     <>
       {props.blogItem && (
-        <Box width="980px" margin={{ left: 'auto', right: 'auto' }} screen={1010}>
+        <Box width="980px" margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
           <Box margin={{ top: '40px', bottom: '200px' }}>
             <Box>
               <Text margin={{ top: '10px', bottom: '5px' }} size={12}>

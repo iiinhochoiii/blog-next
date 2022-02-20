@@ -17,7 +17,10 @@ interface Props extends InputHTMLAttributes<HTMLDivElement> {
   };
   textAlign?: string;
   width?: string | number;
-  screen?: number; // 반응형 사이즈
+  screen?: {
+    size?: number;
+    calc?: string;
+  };
   backgroundColor?: string;
   position?: string;
 }
@@ -43,7 +46,7 @@ const StyledBox = styled.div<Props>`
   padding-right: ${(props) => props.padding?.right || '0'};
 
   text-align: ${(props) => props.textAlign || 'left'};
-  width: ${(props) => (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};
+  width: ${(props) => props.width && (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};
   background-color: ${(props) => props.backgroundColor};
   max-width: 100%;
   position: ${(props) => props.position || 'relative'};
@@ -51,8 +54,8 @@ const StyledBox = styled.div<Props>`
   ${(props) => {
     if (props.screen) {
       return css`
-        @media screen and (max-width: ${`${props.screen}px`}) {
-          width: calc(100% - 30px);
+        @media screen and (max-width: ${`${props.screen.size}px`}) {
+          width: ${`calc(100% - ${props.screen.calc})`};
         }
       `;
     }
