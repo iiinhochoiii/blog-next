@@ -11,3 +11,4 @@ export { default as PostContent } from './Post/Content';
 export { default as TextArea } from './Text/TextArea';
 export { default as IconLink } from './IconLink';
 export { default as UnderlineInput } from './UnderlineInput';
+export { default as Table } from './Table';
