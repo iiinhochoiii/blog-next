@@ -8,11 +8,11 @@ import { EmptyDataBox } from '@/components/Molecules';
 
 interface Props {
   contacts: contacts[];
-  deleteContact: (contact_id: number) => void;
+  deleteContact?: (contact_id: number) => void;
   loading: boolean;
 }
 const MypageComponent = (props: Props) => {
-  const { contacts, deleteContact, loading } = props;
+  const { contacts, loading } = props;
 
   if (loading) {
     return <CircularProgress />;
