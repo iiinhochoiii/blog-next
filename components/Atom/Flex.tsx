@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
+  style?: React.CSSProperties;
   margin?: {
     top?: string;
     bottom?: string;
@@ -16,13 +17,9 @@ interface Props extends InputHTMLAttributes<HTMLDivElement> {
   };
 }
 const Flex = (props: Props) => {
-  const { children, margin, justify, screen } = props;
+  const { children } = props;
 
-  return (
-    <StyledFlex {...props} margin={margin} justify={justify} screen={screen}>
-      {children}
-    </StyledFlex>
-  );
+  return <StyledFlex {...props}>{children}</StyledFlex>;
 };
 
 const StyledFlex = styled.div<Props>`
@@ -45,5 +42,10 @@ const StyledFlex = styled.div<Props>`
       }
     }
   }}
+
+  &.modal_header {
+    border-bottom: 2px solid #e5e5e5;
+    padding-bottom: 20px;
+  }
 `;
 export default Flex;

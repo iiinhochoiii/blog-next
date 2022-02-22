@@ -76,7 +76,7 @@ const ContactActivity: React.FC<Props> = ({ createContact }) => {
       <Text size={16} margin={{ top: '10px', bottom: '10px' }}>
         OR
       </Text>
-      <Box width="50%" screen={{ size: 1010, calc: '10px' }}>
+      <Box width="50%" screen={{ size: 1010, calc: '0px' }}>
         <Box margin={{ bottom: '10px' }}>
           <UnderlineInput type="text" id="name" value={form.name} onChange={textChangeHandler} placeholder="보내는 분의 성함을 입력해주세요." />
         </Box>

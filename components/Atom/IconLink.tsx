@@ -18,6 +18,7 @@ const StyledIconLink = styled.a`
   display: flex;
   font-size: 18px;
   font-weight: bold;
+  width: 100px;
   & > svg {
     margin: auto 5px 0px 0px;
   }

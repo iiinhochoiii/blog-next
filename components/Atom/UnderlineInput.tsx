@@ -8,15 +8,16 @@ interface Props {
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;
   maxLength?: number;
+  readonly?: boolean;
 }
 
 const UnderlineInput = (props: Props) => {
-  return <StyledUnderlineInput {...props} />;
+  return <StyledUnderlineInput {...props} readOnly={!!props.readonly} />;
 };
 
 const StyledUnderlineInput = styled.input<Props>`
   height: 45px;
-  width: 100%;
+  width: calc(100% - 10px);
   background: none;
   outline: none;
   border: none;

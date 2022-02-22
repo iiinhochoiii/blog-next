@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { contacts } from '@/interfaces/models/contact';
 import moment from 'moment';
 import TextTruncate from 'react-text-truncate'; // recommend
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, Background, HeaderText, Text, Table } from '@/components/Atom';
 import { EmptyDataBox } from '@/components/Molecules';
+import MypageContactDialog from './mypageContactDialog';
 
 interface Props {
   contacts: contacts[];
@@ -13,6 +14,8 @@ interface Props {
 }
 const MypageComponent = (props: Props) => {
   const { contacts, loading } = props;
+  const [contact, setContact] = useState<contacts>({});
+  const [showContactModal, setShowContactModal] = useState(false);
 
   if (loading) {
     return <CircularProgress />;
@@ -52,14 +55,26 @@ const MypageComponent = (props: Props) => {
                 </tr>
               </thead>
               <tbody>
-                {contacts.map((item) => (
+                {contacts.map((item, index) => (
                   <tr key={item.contact_id}>
                     <td>{item.contact_id}</td>
                     <td style={{ textAlign: 'left' }}>
                       <TextTruncate line={1} element="p" truncateText="…" text={item.message} />
                     </td>
                     <td className="td_date">{moment(item.created_at).format('YYYY-MM-DD HH:mm:ss')}</td>
-                    <td>보기</td>
+                    <td>
+                      <Text
+                        style={{ cursor: 'pointer' }}
+                        textAlign="center"
+                        size={14}
+                        onClick={() => {
+                          setContact(contacts[index]);
+                          setShowContactModal(true);
+                        }}
+                      >
+                        보기
+                      </Text>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -69,6 +84,7 @@ const MypageComponent = (props: Props) => {
           <EmptyDataBox>전송된 메세지가 없습니다.</EmptyDataBox>
         )}
       </Box>
+      {showContactModal && <MypageContactDialog onClose={() => setShowContactModal(false)} contact={contact} />}
     </Box>
   );
 };

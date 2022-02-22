@@ -10,9 +10,10 @@ interface Props {
   height?: string | number;
   screen?: number;
   placeholder?: string;
+  readonly?: boolean;
 }
 const TextArea = (props: Props) => {
-  return <StyledTextArea {...props} />;
+  return <StyledTextArea {...props} readOnly={!!props.readonly} />;
 };
 
 const StyledTextArea = styled.textarea<Props>`
@@ -36,7 +37,7 @@ const StyledTextArea = styled.textarea<Props>`
 
   &.-contact {
     margin-top: 5px;
-    width: 100%;
+    width: calc(100% - 10px);
     height: 300px;
     background: none;
     border: 1px solid #b2b2b2;
