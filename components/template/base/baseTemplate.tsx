@@ -1,40 +1,27 @@
-import React, {ReactNode} from 'react';
-import HeaderContainer from '@/containers/layout/headerContainer';
-import Footer from '@/components/layout/footer';
-import styled from 'styled-components';
+import React, { ReactNode } from 'react';
 import Head from 'next/head';
+import { Footer, Header } from '@/components/Organisms';
+import { Box } from '@/components/Atom';
 
 type props = {
-    children?:ReactNode;
-    title?:string;
-}
-const BaseTemplate = ({children, title}:props) =>{
-    return(
-        <Wrap>
-            <Head>
-                <title>{title===""?"":`${title} -`} Choi Tech Blog</title>
-            </Head>
-            <Header>
-                <HeaderContainer />
-            </Header>
-                <Content>
-                {children}
-                </Content>
-            <footer>
-                <Footer />
-            </footer>
-        </Wrap>
-    );
-}
+  children?: ReactNode;
+  title?: string;
+};
+const BaseTemplate = ({ children, title }: props) => {
+  return (
+    <Box width={'100%'}>
+      <Head>
+        <title>{title === '' ? '' : `${title} -`} Choi Tech Blog</title>
+      </Head>
+      <Box>
+        <Header />
+      </Box>
+      <Box>{children}</Box>
+      <footer>
+        <Footer />
+      </footer>
+    </Box>
+  );
+};
 
-const Wrap = styled.div`
-    width:100%;
-`;
-
-const Header = styled.div`
-    
-`;
-const Content = styled.div`
-
-`;
 export default BaseTemplate;

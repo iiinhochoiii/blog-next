@@ -76,6 +76,19 @@ const StyledText = styled.p<Props>`
       `;
     }
   }};
+
+  ${(props) => {
+    if (props?.hover) {
+      return css`
+        &:hover {
+          color: ${props?.hover?.color};
+          & > p {
+            color: ${props?.hover?.color};
+          }
+        }
+      `;
+    }
+  }}
 `;
 
 export default Text;

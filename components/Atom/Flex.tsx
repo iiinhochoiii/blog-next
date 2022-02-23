@@ -47,5 +47,23 @@ const StyledFlex = styled.div<Props>`
     border-bottom: 2px solid #e5e5e5;
     padding-bottom: 20px;
   }
+
+  &.header {
+    & > svg {
+      display: none;
+
+      @media screen and (max-width: 690px) {
+        display: block;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &.header-menu,
+  .header-before-login {
+    @media screen and (max-width: 690px) {
+      display: none;
+    }
+  }
 `;
 export default Flex;

@@ -49,7 +49,7 @@ const StyledBox = styled.div<Props>`
   width: ${(props) => props.width && (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};
   background-color: ${(props) => props.backgroundColor};
   max-width: 100%;
-  position: ${(props) => props.position || 'relative'};
+  position: ${(props) => props.position};
 
   ${(props) => {
     if (props.screen) {
@@ -60,5 +60,40 @@ const StyledBox = styled.div<Props>`
       `;
     }
   }}
+
+  &.footer {
+    @media screen and (max-width: 690px) {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+  }
+
+  &.header-after-login {
+    &-menu {
+      position: absolute;
+      z-index: 100;
+      margin-top: 10px;
+      right: 0;
+      width: 100px;
+      max-width: 100px;
+      border: 1px solid rgb(214, 214, 214);
+      background-color: #ffffff;
+      padding: 5px;
+      & > p {
+        text-align: center;
+        padding: 10px 0px;
+        margin: 0;
+        font-size: 12px;
+        cursor: pointer;
+        &:hover {
+          background-color: rgb(248, 248, 248);
+        }
+      }
+    }
+
+    @media screen and (max-width: 690px) {
+      display: none;
+    }
+  }
 `;
 export default Box;
