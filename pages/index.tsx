@@ -1,12 +1,12 @@
 import React from 'react';
 import BaseTemplate from '@/components/template/base';
-import MainContainer from '@/containers/main/mainContainer';
 import authorize from '@/hoc/authorize';
+import { HomeComponent } from '@/components/Templates';
 
 const Index = authorize(() => {
   return (
     <BaseTemplate title="">
-      <MainContainer />
+      <HomeComponent />
     </BaseTemplate>
   );
 });
