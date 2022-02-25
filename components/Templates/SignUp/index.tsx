@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
-import { checkIdStatus } from '@/interfaces/models/user';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { useRouter } from 'next/router';
+import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
 import { Box, Text, Link, Flex, Input, Button } from '@/components/Atom';
+import { regExpEmail, regPassword } from '@/utils/regExp';
 
-interface Props {
-  checkId: (email: string) => void;
-  checkIdStatus?: checkIdStatus;
-  createUser: (email: string, password: string, name: string, phone: string) => void;
-}
-const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) => {
+const SignUpComponent = observer((): JSX.Element => {
+  const router = useRouter();
+  const { userStore } = useStores();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
 
-  const isEmail: any = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-  const isPassword: any = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{7,}.$/;
   const onChangeHandler = (e: any) => {
     const { id, value } = e.target;
     switch (id) {
@@ -33,8 +32,32 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
     }
   };
 
+  useEffect(() => {
+    userStore.setCheckIdStatus(undefined);
+  }, []);
+
+  const checkId = async (email: string) => {
+    try {
+      const res = await userStore.checkId(email);
+
+      userStore.setCheckIdStatus(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const createUser = async (email: string, password: string, name: string, phone: string) => {
+    try {
+      await userStore.createUser(email, password, name, phone);
+      Toaster.showSuccess('회원가입이 완료되었습니다.');
+      router.push('/login');
+    } catch (err) {
+      console.log(err);
+      Toaster.showError('회원가입에 실패하였습니다. 다시한번 시도 해주세요');
+    }
+  };
   const emailCheckHandler = () => {
-    if (!isEmail.test(email)) {
+    if (!regExpEmail.test(email)) {
       Toaster.showWarning('이메일을 정확히 입력해주세요.');
     } else {
       checkId(email);
@@ -42,10 +65,10 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
   };
 
   const joinHandler = () => {
-    if (!checkIdStatus?.status) {
+    if (!userStore.checkIdStatus?.status) {
       Toaster.showWarning('중복확인을 하지 않았습니다.');
       document.getElementById('email')?.focus();
-    } else if (!isPassword.test(password)) {
+    } else if (!regPassword.test(password)) {
       Toaster.showWarning('영문, 숫자, 특수문자를 포함한 8자리 이상을 입력해주세요.');
       document.getElementById('password')?.focus();
     } else if (password !== passwordConfirm) {
@@ -61,7 +84,6 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
       createUser(email, password, name, phone);
     }
   };
-
   return (
     <Box>
       <Box width="360px" margin={{ top: '150px', bottom: '150px', left: 'auto', right: 'auto' }}>
@@ -87,14 +109,14 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
               value={email}
               id="email"
               onChange={onChangeHandler}
-              readOnly={checkIdStatus?.status && true}
+              readOnly={userStore.checkIdStatus?.status && true}
               style={{ background: 'none' }}
             />
             <Button onClick={emailCheckHandler} width="25%" radius={5}>
               중복확인
             </Button>
           </Flex>
-          <Text style={checkIdStatus?.status ? { color: '#333333' } : { color: 'red' }}>{checkIdStatus?.massage}</Text>
+          <Text style={userStore.checkIdStatus?.status ? { color: '#333333' } : { color: 'red' }}>{userStore.checkIdStatus?.massage}</Text>
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
             password
           </Text>
@@ -168,6 +190,6 @@ const JoinComponent: React.FC<Props> = ({ checkId, checkIdStatus, createUser }) 
       </Box>
     </Box>
   );
-};
+});
 
-export default JoinComponent;
+export default SignUpComponent;
