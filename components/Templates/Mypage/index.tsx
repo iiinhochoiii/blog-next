@@ -126,7 +126,9 @@ const MypageComponent = observer((): JSX.Element => {
           <EmptyDataBox>전송된 메세지가 없습니다.</EmptyDataBox>
         )}
       </Box>
-      {showContactModal && <MypageContactDialog onClose={() => setShowContactModal(false)} contact={contact} />}
+      {showContactModal && (
+        <MypageContactDialog onClose={() => setShowContactModal(false)} contact={contact} onDelete={(value: number) => deleteContact(value)} />
+      )}
     </Box>
   );
 });

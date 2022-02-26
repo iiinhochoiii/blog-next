@@ -1,17 +1,37 @@
 import React from 'react';
 import { Modal } from '@/components/Organisms';
 import { contacts } from '@/interfaces/models/contact';
-import { Text, UnderlineInput, TextArea } from '@/components/Atom';
+import { Text, UnderlineInput, TextArea, Button } from '@/components/Atom';
 import moment from 'moment';
 
 interface Props {
   onClose: () => void;
   contact?: contacts;
+  onDelete: (value: number) => void;
 }
 const MypageContactDialog = (props: Props) => {
-  const { onClose, contact } = props;
+  const { onClose, contact, onDelete } = props;
   return (
-    <Modal title="Contact 상세보기" onClose={onClose}>
+    <Modal
+      title="Contact 상세보기"
+      onClose={onClose}
+      header={
+        <Button
+          width={80}
+          radius={5}
+          margin={{ right: '10px' }}
+          backgroundColor="#FF0000"
+          onClick={() => {
+            if (contact?.contact_id) {
+              onDelete(contact?.contact_id);
+            }
+            onClose();
+          }}
+        >
+          삭제
+        </Button>
+      }
+    >
       <Text>글쓴이</Text>
       <UnderlineInput value={contact?.name} readonly={true} />
 

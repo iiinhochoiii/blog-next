@@ -7,9 +7,10 @@ interface Props {
   children?: React.ReactNode;
   title?: string;
   onClose: () => void;
+  header?: React.ReactNode;
 }
 const ModalComponent = (props: Props) => {
-  const { children, title, onClose } = props;
+  const { children, title, onClose, header } = props;
 
   const customStyles = {
     overlay: {
@@ -24,9 +25,12 @@ const ModalComponent = (props: Props) => {
         <HeaderText color="#333" size={22} margin={{ top: '10px' }}>
           {title}
         </HeaderText>
-        <Button onClick={onClose} width={80} radius={5}>
-          닫기
-        </Button>
+        <Box>
+          {header}
+          <Button onClick={onClose} width={80} radius={5}>
+            닫기
+          </Button>
+        </Box>
       </Flex>
       <Box margin={{ top: '20px' }}>{children}</Box>
     </StyledModal>
