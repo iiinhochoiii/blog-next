@@ -25,7 +25,6 @@ const MypageContactDialog = (props: Props) => {
             if (contact?.contact_id) {
               onDelete(contact?.contact_id);
             }
-            onClose();
           }}
         >
           삭제

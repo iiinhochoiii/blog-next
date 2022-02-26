@@ -45,6 +45,10 @@ const MypageComponent = observer((): JSX.Element => {
         await contactStore.deleteContact(contact_id);
         Toaster.showSuccess('삭제 되었습니다.');
         search();
+
+        if (showContactModal) {
+          setShowContactModal(false);
+        }
       }
     } catch (err) {
       Toaster.showError('삭제하는 중 오류가 발생하였습니다. 데이터를 확인해주세요');
