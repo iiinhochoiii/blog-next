@@ -15,7 +15,7 @@ const MypageComponent = observer((): JSX.Element => {
   const router = useRouter();
   const { contactStore, userStore } = useStores();
   const [loading, setLoading] = useState(false);
-  const [contact, setContact] = useState<contacts>({});
+  const [contact, setContact] = useState<contacts>();
   const [showContactModal, setShowContactModal] = useState(false);
 
   useEffect(() => {
@@ -41,9 +41,11 @@ const MypageComponent = observer((): JSX.Element => {
   };
   const deleteContact = async (contact_id: number): Promise<void> => {
     try {
-      await contactStore.deleteContact(contact_id);
-      Toaster.showSuccess('삭제 되었습니다.');
-      search();
+      if (window.confirm('삭제하시겠습니까?')) {
+        await contactStore.deleteContact(contact_id);
+        Toaster.showSuccess('삭제 되었습니다.');
+        search();
+      }
     } catch (err) {
       Toaster.showError('삭제하는 중 오류가 발생하였습니다. 데이터를 확인해주세요');
       console.log(err);
@@ -83,13 +85,14 @@ const MypageComponent = observer((): JSX.Element => {
               <thead>
                 <tr>
                   <th style={{ width: '10%' }}>번호</th>
-                  <th style={{ width: '60%' }}>내용</th>
+                  <th style={{ width: '50%' }}>내용</th>
                   <th style={{ width: '20%' }}>보낸날짜</th>
                   <th style={{ width: '10%' }}>상세</th>
+                  <th style={{ width: '10%' }}>삭제</th>
                 </tr>
               </thead>
               <tbody>
-                {contactStore?.contacts.map((item, index) => (
+                {contactStore.contacts.map((item, index) => (
                   <tr key={item.contact_id}>
                     <td>{item.contact_id}</td>
                     <td style={{ textAlign: 'left' }}>
@@ -107,6 +110,11 @@ const MypageComponent = observer((): JSX.Element => {
                         }}
                       >
                         보기
+                      </Text>
+                    </td>
+                    <td>
+                      <Text style={{ cursor: 'pointer' }} textAlign="center" size={14} onClick={() => deleteContact(item.contact_id)}>
+                        삭제
                       </Text>
                     </td>
                   </tr>
