@@ -1,13 +1,13 @@
 import React from 'react';
-import BaseTemplate from '@/components/template/base';
+import BaseTemplates from '@/components/Layout/BaseTemplates';
 import BlogCreateContainer from '@/containers/blog/blogCreateContainer';
 import authorize from '@/hoc/authorize';
 
 const BlogCreate = authorize(() => {
   return (
-    <BaseTemplate title="blog">
+    <BaseTemplates title="blog">
       <BlogCreateContainer />
-    </BaseTemplate>
+    </BaseTemplates>
   );
 });
 
