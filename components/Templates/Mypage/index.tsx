@@ -1,25 +1,59 @@
-import React, { useState } from 'react';
-import { contacts } from '@/interfaces/models/contact';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useRouter } from 'next/router';
+import useStores from '@/hooks/use-stores';
+import { Toaster } from '@/utils/common';
 import moment from 'moment';
 import TextTruncate from 'react-text-truncate'; // recommend
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, Background, HeaderText, Text, Table } from '@/components/Atom';
 import { EmptyDataBox } from '@/components/Molecules';
-import MypageContactDialog from './mypageContactDialog';
+import { contacts } from '@/interfaces/models/contact';
+import MypageContactDialog from './Dialog/MypageContactDialog';
 
-interface Props {
-  contacts: contacts[];
-  deleteContact?: (contact_id: number) => void;
-  loading: boolean;
-}
-const MypageComponent = (props: Props) => {
-  const { contacts, loading } = props;
+const MypageComponent = observer((): JSX.Element => {
+  const router = useRouter();
+  const { contactStore, userStore } = useStores();
+  const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState<contacts>({});
   const [showContactModal, setShowContactModal] = useState(false);
+
+  useEffect(() => {
+    search();
+  }, []);
+
+  const search = async (): Promise<void> => {
+    if (process.browser) {
+      if (userStore?.userInfo?.user_id === 1) {
+        try {
+          setLoading(true);
+          const res = await contactStore.getContactList();
+          contactStore.setContacts(res.data);
+          setLoading(false);
+        } catch (err) {
+          setLoading(false);
+          console.log(false);
+        }
+      } else {
+        router.push('/');
+      }
+    }
+  };
+  const deleteContact = async (contact_id: number): Promise<void> => {
+    try {
+      await contactStore.deleteContact(contact_id);
+      Toaster.showSuccess('삭제 되었습니다.');
+      search();
+    } catch (err) {
+      Toaster.showError('삭제하는 중 오류가 발생하였습니다. 데이터를 확인해주세요');
+      console.log(err);
+    }
+  };
 
   if (loading) {
     return <CircularProgress />;
   }
+
   return (
     <Box>
       <Background url={'./images/about_background.jpg'} background="no-repeat center" position="relative">
@@ -43,7 +77,7 @@ const MypageComponent = (props: Props) => {
           Received Message
         </HeaderText>
 
-        {contacts.length > 0 ? (
+        {contactStore.contacts.length > 0 ? (
           <Box>
             <Table>
               <thead>
@@ -55,7 +89,7 @@ const MypageComponent = (props: Props) => {
                 </tr>
               </thead>
               <tbody>
-                {contacts.map((item, index) => (
+                {contactStore?.contacts.map((item, index) => (
                   <tr key={item.contact_id}>
                     <td>{item.contact_id}</td>
                     <td style={{ textAlign: 'left' }}>
@@ -68,7 +102,7 @@ const MypageComponent = (props: Props) => {
                         textAlign="center"
                         size={14}
                         onClick={() => {
-                          setContact(contacts[index]);
+                          setContact(contactStore?.contacts[index]);
                           setShowContactModal(true);
                         }}
                       >
@@ -87,6 +121,6 @@ const MypageComponent = (props: Props) => {
       {showContactModal && <MypageContactDialog onClose={() => setShowContactModal(false)} contact={contact} />}
     </Box>
   );
-};
+});
 
 export default MypageComponent;
