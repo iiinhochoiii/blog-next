@@ -1,15 +1,16 @@
-import LoginContainer from '@/containers/user/loginContainer';
+import React from 'react';
 import Head from 'next/head';
+import { Login } from '@/components/Templates';
 
-const Login = () =>{
-    return(
-        <>
-            <Head>
-                <title>Sign in - Choi Tech Blog</title>
-            </Head>
-            <LoginContainer />
-        </>
-    );
-}
+const LoginPage = () => {
+  return (
+    <>
+      <Head>
+        <title>Sign in - Choi Tech Blog</title>
+      </Head>
+      <Login />
+    </>
+  );
+};
 
-export default Login;
+export default LoginPage;
