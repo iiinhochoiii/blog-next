@@ -1,12 +1,12 @@
 import React from 'react';
 import BaseTemplates from '@/components/Layout/BaseTemplates';
-import BlogReadContainer from '@/containers/blog/blogReadContainer';
 import authorize from '@/hoc/authorize';
+import { ViewBlogComponent } from '@/components/Templates';
 
 const BlogDetail = authorize(() => {
   return (
     <BaseTemplates title="blog">
-      <BlogReadContainer />
+      <ViewBlogComponent />
     </BaseTemplates>
   );
 });

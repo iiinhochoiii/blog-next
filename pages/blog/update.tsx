@@ -1,14 +1,14 @@
 import React from 'react';
 import BaseTemplates from '@/components/Layout/BaseTemplates';
-import BlogUpdateContainer from '@/containers/blog/blogUpdateContainer';
 import { useRouter } from 'next/router';
 import authorize from '@/hoc/authorize';
+import { UpdateBlogComponent } from '@/components/Templates';
 
 const BlogCreate = authorize(() => {
   const router = useRouter();
   return (
     <BaseTemplates title="blog">
-      <BlogUpdateContainer query={router.query} />
+      <UpdateBlogComponent query={router.query} />
     </BaseTemplates>
   );
 });

@@ -3,3 +3,7 @@ export { default as ContactComponent } from './Contact';
 export { default as SignUp } from './SignUp';
 export { default as Login } from './Login';
 export { default as MypageComponent } from './Mypage';
+export { default as BlogComponent } from './Blog';
+export { default as ViewBlogComponent } from './Blog/View/[id]';
+export { default as CreateBlogComponent } from './Blog/Create';
+export { default as UpdateBlogComponent } from './Blog/Update';
