@@ -1,10 +1,8 @@
 import React, { HTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
-interface Props extends HTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+interface Props extends HTMLAttributes<HTMLInputElement> {
   radius?: string | number;
-  onClick?: () => void;
   width?: string | number;
   height?: string | number;
   margin?: {
@@ -23,18 +21,16 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   size?: number;
   color?: string;
   fontWeight?: number;
-  className?: string;
+  parents?: string;
+  type?: string;
+  value?: string;
 }
-const Button = (props: Props) => {
-  const { children } = props;
-  return (
-    <StyledButton {...props} type="button">
-      {children}
-    </StyledButton>
-  );
+
+const FormSubmit = (props: Props) => {
+  return <StyledFormSubmit {...props} />;
 };
 
-const StyledButton = styled.button<Props>`
+const StyledFormSubmit = styled.input<Props>`
   cursor: pointer;
   outline: none;
   border: none;
@@ -70,15 +66,6 @@ const StyledButton = styled.button<Props>`
       height: ${height};
     `;
   }}
-
-  &.-btn_post_article {
-    padding: 5px 10px;
-    font-weight: 200;
-    color: #333333;
-    background-color: rgb(229, 229, 229);
-    font-size: 12px;
-    height: 25px;
-  }
 `;
 
-export default Button;
+export default FormSubmit;

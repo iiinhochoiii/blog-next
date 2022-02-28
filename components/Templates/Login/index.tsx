@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
 import { setToken } from '@/utils/auth';
-import { Input, Button, Text, Box, Form, Link } from '@/components/Atom';
+import { Text, Box, Form, Link, FormSubmit, FormInput } from '@/components/Atom';
+import { useForm } from 'react-hook-form';
+import { LoginForm } from '@/interfaces/models/user';
 
 const LoginComponent = observer((): JSX.Element => {
   const router = useRouter();
   const { userStore } = useStores();
+  const { register, handleSubmit } = useForm<LoginForm>();
 
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const login = async (data: LoginForm): Promise<void> => {
+    const { email, password } = data;
 
-  const login = async (email: string, password: string) => {
     try {
       const res = await userStore.login(email, password);
       if (res.status) {
         setToken(res?.token);
         const userInfo = await userStore.getTokenData(res?.token);
-
         if (userInfo.status) {
           userStore.setUserInfo({
             user_id: userInfo?.data?.user_id,
@@ -38,28 +39,6 @@ const LoginComponent = observer((): JSX.Element => {
     }
   };
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case 'email':
-        return setEmail(value);
-      case 'password':
-        return setPassword(value);
-    }
-  };
-  const LoginHandler = (e: any) => {
-    e.preventDefault();
-    if (email === '') {
-      Toaster.showWarning('email을 입력해주세요.');
-      document.getElementById('email')?.focus();
-    } else if (password === '') {
-      Toaster.showWarning('password를 입력해주세요.');
-      document.getElementById('password')?.focus();
-    } else {
-      login(email, password);
-    }
-  };
-
   return (
     <Box>
       <Box width="360px" margin={{ top: '150px', bottom: '150px', left: 'auto', right: 'auto' }}>
@@ -68,35 +47,39 @@ const LoginComponent = observer((): JSX.Element => {
             Choi Tech
           </Link>
         </Box>
-        <Form onSubmit={LoginHandler}>
+        <Form onSubmit={handleSubmit(login)}>
           <Form margin={{ top: '30px' }}>
             <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
               Email or Id
             </Text>
-            <Input
+            <FormInput
               type="text"
-              value={email}
               id="email"
-              onChange={inputChangeHandler}
               width="100%"
               padding={{ left: '10px', right: '10px' }}
               margin={{ bottom: '10px' }}
               height={50}
               style={{ background: 'none' }}
+              {...register('email', { required: true })}
             />
             <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
               Password
             </Text>
-            <Input
+            <FormInput
               type="password"
-              value={password}
               id="password"
-              onChange={inputChangeHandler}
               width="100%"
               padding={{ left: '10px', right: '10px' }}
               margin={{ bottom: '10px' }}
               height={50}
               style={{ background: 'none' }}
+              {...register('password', { required: true })}
+              onKeyUp={(e) => {
+                e.preventDefault();
+                if (e.keyCode === 13) {
+                  handleSubmit(login);
+                }
+              }}
             />
           </Form>
           <Box textAlign="right" margin={{ bottom: '20px' }}>
@@ -105,9 +88,7 @@ const LoginComponent = observer((): JSX.Element => {
             </Link>
           </Box>
           <Box>
-            <Button width="100%" radius={5}>
-              LOGIN
-            </Button>
+            <FormSubmit type="submit" width="100%" radius={5} value="로그인" />
           </Box>
         </Form>
         <Box margin={{ top: '30px' }}>

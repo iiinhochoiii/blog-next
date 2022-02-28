@@ -23,3 +23,8 @@ export interface UserInfo {
   name?: string;
   phone?: string;
 }
+
+export interface LoginForm {
+  email: string;
+  password: string;
+}

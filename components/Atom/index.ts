@@ -12,3 +12,5 @@ export { default as TextArea } from './Text/TextArea';
 export { default as IconLink } from './IconLink';
 export { default as UnderlineInput } from './UnderlineInput';
 export { default as Table } from './Table';
+export { default as FormSubmit } from './FormSubmit';
+export { default as FormInput } from './FormInput';
