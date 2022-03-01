@@ -16,6 +16,11 @@ const LoginComponent = observer((): JSX.Element => {
   const login = async (data: LoginForm): Promise<void> => {
     const { email, password } = data;
 
+    if (!email || !password) {
+      Toaster.showError('아이디 및 패스워드를 입력해주세요.');
+      return;
+    }
+
     try {
       const res = await userStore.login(email, password);
       if (res.status) {
@@ -47,41 +52,34 @@ const LoginComponent = observer((): JSX.Element => {
             Choi Tech
           </Link>
         </Box>
-        <Form onSubmit={handleSubmit(login)}>
-          <Form margin={{ top: '30px' }}>
-            <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
-              Email or Id
-            </Text>
-            <FormInput
-              type="text"
-              id="email"
-              width="100%"
-              padding={{ left: '10px', right: '10px' }}
-              margin={{ bottom: '10px' }}
-              height={50}
-              style={{ background: 'none' }}
-              {...register('email', { required: true })}
-            />
-            <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
-              Password
-            </Text>
-            <FormInput
-              type="password"
-              id="password"
-              width="100%"
-              padding={{ left: '10px', right: '10px' }}
-              margin={{ bottom: '10px' }}
-              height={50}
-              style={{ background: 'none' }}
-              {...register('password', { required: true })}
-              onKeyUp={(e) => {
-                e.preventDefault();
-                if (e.keyCode === 13) {
-                  handleSubmit(login);
-                }
-              }}
-            />
-          </Form>
+        <Form margin={{ top: '30px' }} onSubmit={handleSubmit(login)}>
+          <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
+            Email or Id
+          </Text>
+          <FormInput
+            type="text"
+            id="email"
+            width="100%"
+            padding={{ left: '10px', right: '10px' }}
+            margin={{ bottom: '10px' }}
+            height={50}
+            style={{ background: 'none' }}
+            {...register('email')}
+          />
+          <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
+            Password
+          </Text>
+          <FormInput
+            type="password"
+            id="password"
+            width="100%"
+            padding={{ left: '10px', right: '10px' }}
+            margin={{ bottom: '10px' }}
+            height={50}
+            style={{ background: 'none' }}
+            {...register('password')}
+            enabled={true}
+          />
           <Box textAlign="right" margin={{ bottom: '20px' }}>
             <Link href="/join" size={12} margin={{ left: '20px' }}>
               Sign up

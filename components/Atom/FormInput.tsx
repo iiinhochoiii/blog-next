@@ -1,5 +1,6 @@
 import React, { HTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
+import { UseFormRegister } from 'react-hook-form';
 
 interface Props extends HTMLAttributes<HTMLInputElement> {
   style?: React.CSSProperties;
@@ -7,7 +8,6 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   value?: string;
   id?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyUp?: (e: any) => void;
   placeholder?: string;
   width?: string;
   height?: string | number;
@@ -26,18 +26,39 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   };
   border?: string;
   screen?: number;
+  readonly?: boolean;
+  enabled?: boolean; // enterkey에 대한 활성화
+  error?: {
+    type?: string;
+    message?: string;
+    ref?: any;
+  };
 }
 
 // eslint-disable-next-line react/display-name
-const FormInput = forwardRef((props: Props, ref) => {
-  return <StyledFormInput {...props} ref={ref as ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined} />;
+const FormInput = forwardRef<HTMLInputElement, Props & ReturnType<UseFormRegister<any>>>((props, ref) => {
+  return (
+    <>
+      <StyledFormInput
+        {...props}
+        ref={ref}
+        readOnly={!!props.readonly}
+        onKeyDown={(e) => {
+          if (!props.enabled && e.key === 'Enter') {
+            e.preventDefault();
+          }
+        }}
+      />
+      {props?.error?.message && <StyledErrorText>{props?.error?.message}</StyledErrorText>}
+    </>
+  );
 });
 
 const StyledFormInput = styled.input<Props>`
   outline: none;
   font-size: 12px;
   border-radius: 5px;
-  border: ${(props) => props.border || '1px solid #333333'};
+  border: ${(props) => (!props.error ? props.border || '1px solid #333333' : '1px solid #ff0000')};
   width: ${(props) => `calc(${props.width} - 25px)`};
   height: ${(props) => (props?.height ? (typeof props.height === 'string' ? props.height : `${props.height}px`) : '50px')};
   padding-top: ${(props) => props.padding?.top || '0'};
@@ -61,4 +82,9 @@ const StyledFormInput = styled.input<Props>`
   }}
 `;
 
+const StyledErrorText = styled.p`
+  font-size: 10px;
+  color: #ff0000;
+  margin: 0;
+`;
 export default FormInput;

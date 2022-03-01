@@ -28,3 +28,11 @@ export interface LoginForm {
   email: string;
   password: string;
 }
+
+export interface SignUpForm {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  name: string;
+  phone: string;
+}

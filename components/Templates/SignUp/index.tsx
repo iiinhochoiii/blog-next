@@ -1,87 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
-import { Box, Text, Link, Flex, Input, Button } from '@/components/Atom';
-import { regExpEmail, regPassword } from '@/utils/regExp';
+import { Box, Text, Link, Flex, Button, Form, FormInput, FormSubmit } from '@/components/Atom';
+import { regExpEmail, regPassword, regPhone } from '@/utils/regExp';
+import { useForm } from 'react-hook-form';
+import { SignUpForm } from '@/interfaces/models/user';
 
 const SignUpComponent = observer((): JSX.Element => {
   const router = useRouter();
   const { userStore } = useStores();
-
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-
-  const onChangeHandler = (e: any) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case 'email':
-        return setEmail(value);
-      case 'password':
-        return setPassword(value);
-      case 'passwordConfirm':
-        return setPasswordConfirm(value);
-      case 'name':
-        return setName(value);
-      case 'phone':
-        return setPhone(value);
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<SignUpForm>();
 
   useEffect(() => {
     userStore.setCheckIdStatus(undefined);
   }, []);
 
-  const checkId = async (email: string) => {
-    try {
-      const res = await userStore.checkId(email);
+  const emailCheckHandler = async (): Promise<void> => {
+    const form = watch();
 
-      userStore.setCheckIdStatus(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const createUser = async (email: string, password: string, name: string, phone: string) => {
-    try {
-      await userStore.createUser(email, password, name, phone);
-      Toaster.showSuccess('회원가입이 완료되었습니다.');
-      router.push('/login');
-    } catch (err) {
-      console.log(err);
-      Toaster.showError('회원가입에 실패하였습니다. 다시한번 시도 해주세요');
-    }
-  };
-  const emailCheckHandler = () => {
-    if (!regExpEmail.test(email)) {
+    if (!regExpEmail.test(form.email)) {
       Toaster.showWarning('이메일을 정확히 입력해주세요.');
     } else {
-      checkId(email);
+      try {
+        const res = await userStore.checkId(form.email);
+
+        userStore.setCheckIdStatus(res);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
-  const joinHandler = () => {
-    if (!userStore.checkIdStatus?.status) {
-      Toaster.showWarning('중복확인을 하지 않았습니다.');
-      document.getElementById('email')?.focus();
-    } else if (!regPassword.test(password)) {
-      Toaster.showWarning('영문, 숫자, 특수문자를 포함한 8자리 이상을 입력해주세요.');
-      document.getElementById('password')?.focus();
-    } else if (password !== passwordConfirm) {
-      Toaster.showWarning('패스워드가 일치하지 않습니다.');
-      document.getElementById('passwordConfirm')?.focus();
-    } else if (name === '') {
-      Toaster.showWarning('이름을 입력해주세요.');
-      document.getElementById('name')?.focus();
-    } else if (phone === '') {
-      Toaster.showWarning('핸드폰번호를 입력해주세요.');
-      document.getElementById('phone')?.focus();
+  const createUser = async (data: SignUpForm): Promise<void> => {
+    const { email, password, name, phone } = data;
+    if (userStore.checkIdStatus?.status) {
+      try {
+        await userStore.createUser(email, password, name, phone);
+        Toaster.showSuccess('회원가입이 완료되었습니다.');
+        router.push('/login');
+      } catch (err) {
+        console.log(err);
+        Toaster.showError('회원가입에 실패하였습니다. 다시한번 시도 해주세요');
+      }
     } else {
-      createUser(email, password, name, phone);
+      Toaster.showError('이메일 중복확인이 되지 않았습니다.');
     }
   };
   return (
@@ -92,7 +61,7 @@ const SignUpComponent = observer((): JSX.Element => {
             Choi Tech
           </Link>
         </Box>
-        <Box margin={{ top: '30px' }}>
+        <Form margin={{ top: '30px' }} onSubmit={handleSubmit(createUser)}>
           <Text size={16} fontWeight={400} textAlign="center">
             회원 정보를 입력해주세요.
           </Text>
@@ -100,90 +69,131 @@ const SignUpComponent = observer((): JSX.Element => {
             email
           </Text>
           <Flex justify="space-between" margin={{ bottom: '10px' }}>
-            <Input
+            <FormInput
               width="70%"
               height={45}
               padding={{ left: '10px', right: '10px' }}
               type="text"
               placeholder="E-mail을 입력해주세요."
-              value={email}
-              id="email"
-              onChange={onChangeHandler}
-              readOnly={userStore.checkIdStatus?.status && true}
-              style={{ background: 'none' }}
+              readonly={userStore.checkIdStatus?.status && true}
+              style={{
+                background: 'none',
+                ...(errors.email && { border: '1px solid #ff0000' }),
+                ...(userStore.checkIdStatus && !userStore.checkIdStatus.status && { border: '1px solid #ff0000' }),
+              }}
+              {...register('email', {
+                required: {
+                  value: true,
+                  message: '이메일을 입력해주세요.',
+                },
+                pattern: {
+                  value: regExpEmail,
+                  message: '이메일을 정확히 입력해주세요.',
+                },
+              })}
             />
             <Button onClick={emailCheckHandler} width="25%" radius={5}>
               중복확인
             </Button>
           </Flex>
-          <Text style={userStore.checkIdStatus?.status ? { color: '#333333' } : { color: 'red' }}>{userStore.checkIdStatus?.massage}</Text>
+          {errors.email ? (
+            <Text style={{ color: '#ff0000' }}>{errors.email.message}</Text>
+          ) : (
+            <Text style={userStore.checkIdStatus?.status ? { color: '#333333' } : { color: 'red' }}>{userStore.checkIdStatus?.massage}</Text>
+          )}
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
             password
           </Text>
-          <Input
+          <FormInput
             width="100%"
             height={50}
             padding={{ left: '10px', right: '10px' }}
             margin={{ bottom: '10px' }}
             type="password"
             placeholder="비밀번호를 입력해 주세요."
-            value={password}
-            id="password"
-            onChange={onChangeHandler}
             style={{ background: 'none' }}
+            {...register('password', {
+              required: {
+                value: true,
+                message: '패스워드를 입력해주세요.',
+              },
+              pattern: {
+                value: regPassword,
+                message: '영문, 숫자, 특수문자를 포함한 8자리 이상을 입력해주세요.',
+              },
+            })}
+            error={errors.password}
           />
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
             password Confirm
           </Text>
-          <Input
+          <FormInput
             width="100%"
             height={50}
             padding={{ left: '10px', right: '10px' }}
             margin={{ bottom: '10px' }}
             type="password"
             placeholder="비밀번호 확인"
-            value={passwordConfirm}
-            id="passwordConfirm"
-            onChange={onChangeHandler}
             style={{ background: 'none' }}
+            {...register('passwordConfirm', {
+              required: {
+                value: true,
+                message: '패스워드 확인을 입력해주세요.',
+              },
+              validate: (value) => {
+                if (value !== watch('password')) {
+                  return '패스워드가 일치하지 않습니다.';
+                }
+              },
+            })}
+            error={errors.passwordConfirm}
           />
-          <span style={{ color: 'red' }}>{passwordConfirm.length > 0 && password !== passwordConfirm ? '비밀번호가 일치하지 않습니다.' : ''}</span>
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
             name
           </Text>
-          <Input
+          <FormInput
             width="100%"
             height={50}
             padding={{ left: '10px', right: '10px' }}
             margin={{ bottom: '10px' }}
             type="text"
             placeholder="이름을 입력해 주세요."
-            value={name}
-            id="name"
-            onChange={onChangeHandler}
             style={{ background: 'none' }}
+            {...register('name', {
+              required: {
+                value: true,
+                message: '이름을 입력해주세요',
+              },
+            })}
+            error={errors.name}
           />
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
             핸드폰번호
           </Text>
-          <Input
+          <FormInput
             width="100%"
             height={50}
             padding={{ left: '10px', right: '10px' }}
             margin={{ bottom: '10px' }}
             type="text"
             placeholder="-를 제외한 핸드폰 번호를 입력해주세요."
-            value={phone}
-            id="phone"
-            onChange={onChangeHandler}
             style={{ background: 'none' }}
+            {...register('phone', {
+              required: {
+                value: true,
+                message: '핸드폰번호를 입력해주세요.',
+              },
+              pattern: {
+                value: regPhone,
+                message: '올바른 핸드폰 번호를 입력해주세요.',
+              },
+            })}
+            error={errors.phone}
           />
           <Box className="user_join">
-            <Button onClick={joinHandler} width="100%" radius={5}>
-              Sign Up
-            </Button>
+            <FormSubmit type="submit" value="Sign Up" width="100%" radius={5} />
           </Box>
-        </Box>
+        </Form>
         <Box margin={{ top: '30px' }}>
           <Text size={10}>Copyright © 2021 by Choi Tech, Inc. All rights reserved</Text>
         </Box>
