@@ -6,3 +6,10 @@ export interface contacts {
   message?: string;
   created_at?: string;
 }
+
+export interface ContactForm {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}

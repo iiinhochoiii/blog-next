@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface Props extends InputHTMLAttributes<HTMLFormElement> {
   children?: React.ReactNode;
@@ -8,6 +8,11 @@ interface Props extends InputHTMLAttributes<HTMLFormElement> {
     bottom?: string;
     left?: string;
     right?: string;
+  };
+  width?: string | number;
+  screen?: {
+    size?: number;
+    calc?: string;
   };
 }
 
@@ -24,6 +29,17 @@ const StyledForm = styled.form<Props>`
   margin-bottom: ${(props) => props.margin?.bottom || '0'};
   margin-left: ${(props) => props.margin?.left || '0'};
   margin-right: ${(props) => props.margin?.right || '0'};
+  width: ${(props) => props.width && (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};
+
+  ${(props) => {
+    if (props.screen) {
+      return css`
+        @media screen and (max-width: ${`${props.screen.size}px`}) {
+          width: ${`calc(100% - ${props.screen.calc})`};
+        }
+      `;
+    }
+  }}
 
   &.-search {
     background-color: #ffffff;

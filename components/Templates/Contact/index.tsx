@@ -1,27 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
-import { Box, Background, HeaderText, Text, IconLink, UnderlineInput, TextArea, Button } from '@/components/Atom';
+import { Box, Background, HeaderText, Text, IconLink, Form, FormUnderlineInput, FormSubmit, FormTextArea } from '@/components/Atom';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import { regExpEmail, regExpPhone } from '@/utils/regExp';
-
-interface Form {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
+import { useForm } from 'react-hook-form';
+import { ContactForm } from '@/interfaces/models/contact';
 
 const ContactComponent = observer((): JSX.Element => {
   const { contactStore } = useStores();
-  const [form, setForm] = useState<Form>({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ContactForm>();
 
   const createContact = async (contact: { name: string; email: string; phone: string; message: string }): Promise<void> => {
     try {
@@ -32,36 +26,8 @@ const ContactComponent = observer((): JSX.Element => {
     }
   };
 
-  const textChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
-    setForm({ ...form, [id]: value });
-    if (form.phone.length === 2 || form.phone.length === 7) {
-      setForm({ ...form, [id]: value + '-' });
-    }
-  };
-
-  const sendHandler = () => {
-    if (form.name === '') {
-      Toaster.showWarning('보내시는 분 성함을 입력해주세요.');
-      document.getElementById('name')?.focus();
-    } else if (!regExpEmail.test(form.email)) {
-      Toaster.showWarning('이메일을 정확히 입력해주세요.');
-      document.getElementById('email')?.focus();
-    } else if (!regExpPhone.test(form.phone)) {
-      Toaster.showWarning('연락처를 정확히 입력해주세요.');
-      document.getElementById('phone')?.focus();
-    } else if (form.message === '') {
-      Toaster.showWarning('보내실 내용을 입력해주세요.');
-      document.getElementById('message')?.focus();
-    } else {
-      createContact(form);
-      setForm({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-      });
-    }
+  const create = (data: ContactForm) => {
+    createContact(data);
   };
 
   return (
@@ -102,31 +68,65 @@ const ContactComponent = observer((): JSX.Element => {
           <Text size={16} margin={{ top: '10px', bottom: '10px' }}>
             OR
           </Text>
-          <Box width="50%" screen={{ size: 1010, calc: '0px' }}>
+          <Form width="50%" screen={{ size: 1010, calc: '0px' }} onSubmit={handleSubmit(create)}>
             <Box margin={{ bottom: '10px' }}>
-              <UnderlineInput type="text" id="name" value={form.name} onChange={textChangeHandler} placeholder="보내는 분의 성함을 입력해주세요." />
-            </Box>
-            <Box margin={{ bottom: '10px' }}>
-              <UnderlineInput type="text" id="email" value={form.email} onChange={textChangeHandler} placeholder="이메일을 입력해주세요." />
-            </Box>
-            <Box margin={{ bottom: '10px' }}>
-              <UnderlineInput
+              <FormUnderlineInput
                 type="text"
-                id="phone"
-                value={form.phone}
-                onChange={textChangeHandler}
+                placeholder="보내는 분의 성함을 입력해주세요."
+                {...register('name', {
+                  required: true,
+                })}
+                error={errors.name}
+              />
+            </Box>
+            <Box margin={{ bottom: '10px' }}>
+              <FormUnderlineInput
+                type="text"
+                placeholder="이메일을 입력해주세요."
+                {...register('email', {
+                  required: {
+                    value: true,
+                    message: '이메일을 입력해주세요.',
+                  },
+                  pattern: {
+                    value: regExpEmail,
+                    message: '올바른 형식의 이메일을 입력해주세요.',
+                  },
+                })}
+                error={errors.email}
+              />
+            </Box>
+            <Box margin={{ bottom: '10px' }}>
+              <FormUnderlineInput
+                type="text"
                 placeholder='보내시는 분의 연락처("-" 포함)를 입력해주세요.'
                 maxLength={13}
+                {...register('phone', {
+                  required: {
+                    value: true,
+                    message: '연락처를 입력해주세요.',
+                  },
+                  pattern: {
+                    value: regExpPhone,
+                    message: '올바른 형식의 연락처를 입력해주세요.',
+                  },
+                })}
+                error={errors.phone}
               />
             </Box>
             <Box margin={{ bottom: '10px' }}>
               <Text margin={{ top: '10px', bottom: '5px' }}>Meassage</Text>
-              <TextArea className="-contact" id="message" value={form.message} onChange={textChangeHandler} placeholder="보내실 내용을 입력해주세요." />
+              <FormTextArea
+                className="-contact"
+                placeholder="보내실 내용을 입력해주세요."
+                {...register('message', {
+                  required: true,
+                })}
+                error={errors.message}
+              />
             </Box>
-            <Button padding={{ top: '10px', bottom: '10px', left: '30px', right: '30px' }} radius={10} onClick={sendHandler}>
-              보내기
-            </Button>
-          </Box>
+            <FormSubmit type="submit" radius={10} width={110} value="보내기" />
+          </Form>
         </Box>
       </Box>
     </Box>
