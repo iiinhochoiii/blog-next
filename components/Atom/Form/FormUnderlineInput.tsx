@@ -1,6 +1,5 @@
 import React, { HTMLAttributes, forwardRef } from 'react';
 import styled from 'styled-components';
-import { UseFormRegister } from 'react-hook-form';
 
 interface Props extends HTMLAttributes<HTMLInputElement> {
   type?: string;
@@ -18,7 +17,7 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
 }
 
 // eslint-disable-next-line react/display-name
-const FormUnderlineInput = forwardRef<HTMLInputElement, Props & ReturnType<UseFormRegister<any>>>((props, ref) => {
+const FormUnderlineInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
   return (
     <StyledFormUnderlineInput
       {...props}

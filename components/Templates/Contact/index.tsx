@@ -15,19 +15,22 @@ const ContactComponent = observer((): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<ContactForm>();
 
-  const createContact = async (contact: { name: string; email: string; phone: string; message: string }): Promise<void> => {
+  const create = async (data: ContactForm): Promise<void> => {
     try {
-      await contactStore.createContact(contact);
+      await contactStore.createContact(data);
       Toaster.showSuccess('메세지가 전송되었습니다.');
+      reset({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+      });
     } catch (err) {
       Toaster.showError('메세지 전송에 실패하였습니다.');
     }
-  };
-
-  const create = (data: ContactForm) => {
-    createContact(data);
   };
 
   return (

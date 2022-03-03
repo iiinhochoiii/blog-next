@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from '@/components/Organisms';
 import { contacts } from '@/interfaces/models/contact';
-import { Text, UnderlineInput, TextArea, Button } from '@/components/Atom';
+import { Text, FormUnderlineInput, FormTextArea, Button } from '@/components/Atom';
 import moment from 'moment';
 
 interface Props {
@@ -32,19 +32,19 @@ const MypageContactDialog = (props: Props) => {
       }
     >
       <Text>글쓴이</Text>
-      <UnderlineInput value={contact?.name} readonly={true} />
+      <FormUnderlineInput value={contact?.name} readonly={true} />
 
       <Text>이메일</Text>
-      <UnderlineInput value={contact?.email} readonly={true} />
+      <FormUnderlineInput value={contact?.email} readonly={true} />
 
       <Text>전화번호</Text>
-      <UnderlineInput value={contact?.phone} readonly={true} />
+      <FormUnderlineInput value={contact?.phone} readonly={true} />
 
       <Text>생성 날짜</Text>
-      <UnderlineInput value={moment(contact?.created_at).format('YYYY-MM-DD HH:mm:ss')} readonly={true} />
+      <FormUnderlineInput value={moment(contact?.created_at).format('YYYY-MM-DD HH:mm:ss')} readonly={true} />
 
       <Text>내용</Text>
-      <TextArea className="-contact" value={contact?.message} readonly={true} />
+      <FormTextArea className="-contact" value={contact?.message} readonly={true} />
     </Modal>
   );
 };

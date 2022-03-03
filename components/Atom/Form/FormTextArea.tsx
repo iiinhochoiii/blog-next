@@ -1,6 +1,5 @@
 import React, { HTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
-import { UseFormRegister } from 'react-hook-form';
 
 interface Props extends HTMLAttributes<HTMLTextAreaElement> {
   className?: string;
@@ -20,7 +19,7 @@ interface Props extends HTMLAttributes<HTMLTextAreaElement> {
 }
 
 // eslint-disable-next-line react/display-name
-const FormTextArea = forwardRef<HTMLTextAreaElement, Props & ReturnType<UseFormRegister<any>>>((props, ref) => {
+const FormTextArea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
   return <StyledFormTextArea {...props} ref={ref} readOnly={!!props.readonly} />;
 });
 
