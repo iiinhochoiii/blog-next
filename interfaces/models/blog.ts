@@ -27,3 +27,7 @@ export interface Blog {
   title?: string;
   user_id?: number;
 }
+
+export interface SearchKeywordForm {
+  keyword?: string;
+}

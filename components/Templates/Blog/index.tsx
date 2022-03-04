@@ -20,7 +20,6 @@ const BlogComponent = observer((props: Props): JSX.Element => {
   const { blogStore } = useStores();
   const [loading, setLoading] = useState(false);
   const [paging, setPaging] = useState(Number(page) || 1);
-  const [keyword, setKeyword] = useState<string>('');
 
   useEffect(() => {
     initBlog();
@@ -54,24 +53,15 @@ const BlogComponent = observer((props: Props): JSX.Element => {
     }
   };
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    if (id === 'keyword') {
-      setKeyword(value);
-    }
-  };
-  const search = (e: any) => {
-    e.preventDefault();
-    if (keyword === '') {
-      Toaster.showWarning('검색하실 내용 및 키워드를 입력해주세요.');
-    } else {
-      router.push({
-        pathname: '/blog',
+  const search = (value?: string) => {
+    router.push({
+      pathname: '/blog',
+      ...(value && {
         query: {
-          title: keyword,
+          title: value,
         },
-      });
-    }
+      }),
+    });
   };
 
   return (
@@ -102,7 +92,7 @@ const BlogComponent = observer((props: Props): JSX.Element => {
           <HeaderText size={26} fontWeight={400} color="rgb(18, 184, 134)">
             Related Posts
           </HeaderText>
-          <SearchForm onSubmit={search} onChange={changeHandler} value={keyword} />
+          <SearchForm onSubmit={(value?: string) => search(value)} />
         </Flex>
         <Box margin={{ top: '10px', bottom: '30px' }} style={{ minHeight: '60vh' }}>
           {loading ? (

@@ -1,29 +1,42 @@
 import React from 'react';
-import { Form, Input } from '@/components/Atom';
+import { Form, FormInput } from '@/components/Atom';
 import SearchIcon from '@material-ui/icons/Search';
+import { useForm } from 'react-hook-form';
+import { SearchKeywordForm } from '@/interfaces/models/blog';
 
 interface Props {
-  onSubmit?: (e: any) => void;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
+  onSubmit: (value?: string) => void;
 }
 
 const SearchForm = (props: Props) => {
-  const { onSubmit, onChange, value } = props;
+  const { onSubmit } = props;
+  const { register, handleSubmit, watch } = useForm<SearchKeywordForm>();
+
+  const search = (data: SearchKeywordForm) => {
+    const { keyword } = data;
+
+    onSubmit(keyword);
+  };
+
   return (
-    <Form className="-search" onSubmit={onSubmit}>
-      <Input
+    <Form className="-search" onSubmit={handleSubmit(search)}>
+      <FormInput
         type="text"
         placeholder="검색하실 내용 및 키워드를 입력해주세요."
-        value={value}
-        id="keyword"
-        onChange={onChange}
         margin={{ top: 'auto', bottom: 'auto', left: '10px' }}
         width={'80%'}
         height={'80%'}
         style={{ border: 'none' }}
+        {...register('keyword')}
+        enabled={true}
       />
-      <SearchIcon onClick={onSubmit} style={{ margin: 'auto 10px auto auto', cursor: 'pointer' }} />
+      <SearchIcon
+        onClick={() => {
+          const { keyword } = watch();
+          onSubmit(keyword);
+        }}
+        style={{ margin: 'auto 10px auto auto', cursor: 'pointer' }}
+      />
     </Form>
   );
 };
