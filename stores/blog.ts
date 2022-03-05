@@ -2,6 +2,7 @@ import { action, observable, makeObservable } from 'mobx';
 import client from '@/lib/client';
 import { blogs, pageType } from '@/interfaces/models/blog';
 import qs from 'qs';
+import { getToken } from '@/utils/auth';
 
 class BlogStore {
   constructor() {
@@ -77,7 +78,8 @@ class BlogStore {
     }
   };
 
-  updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string, token?: string) => {
+  updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string) => {
+    const token = getToken();
     try {
       const res = await client.post(
         '/api/blogs/update',

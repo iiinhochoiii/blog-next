@@ -3,29 +3,28 @@ import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
-import { getToken } from '@/utils/auth';
 import { Editor } from '@toast-ui/react-editor';
 
-import { Box, Button, Text, Input, TextArea } from '@/components/Atom';
-// import { PostSelectBox } from '@/components/Molecules';
+import { Box, Text, Form, FormInput, FormSubmit, FormTextArea } from '@/components/Atom';
+import { PostSelectBox } from '@/components/Molecules';
 import { TUIEditor } from '@/components/Organisms';
+import { useForm } from 'react-hook-form';
+import { BlogForm } from '@/interfaces/models/blog';
+import { postType } from '@/utils/post';
 
-interface Props {
-  query: any;
-}
-
-const UpdateBlogComponent = observer((props: Props): JSX.Element => {
+const UpdateBlogComponent = observer((): JSX.Element => {
   const router = useRouter();
-  const { query } = props;
   const { blogStore, userStore } = useStores();
-  const token = getToken();
 
   const editorRef = React.useRef<Editor>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<BlogForm>();
 
-  const [title, setTitle] = useState<string>(blogStore.blogItem ? blogStore.blogItem.content : '');
-  const [summary, setSummary] = useState<string>('');
-  const [content, setContent] = useState<any>('');
-  const [type, setType] = useState<string>('React');
+  const [content, setContent] = useState<string>('');
   const [markDown, setMarkDown] = useState<string>('');
 
   useEffect(() => {
@@ -34,35 +33,53 @@ const UpdateBlogComponent = observer((props: Props): JSX.Element => {
         router.push('/');
       }
     }
-    if (query.blog_id) {
-      getBlogItem(query.blog_id);
+    if (router.query.blog_id) {
+      getBlogItem(Number(router.query.blog_id));
     }
   }, []);
 
   useEffect(() => {
     const item = blogStore.blogItem;
     if (item) {
-      setTitle(item.title);
-      setSummary(item.summary);
-      setType(item.blog_type);
       setContent(item.content);
       setMarkDown(item.markdown);
+      reset({
+        title: item.title,
+        summary: item.summary,
+        type: item.blog_type,
+      });
     }
   }, [blogStore.blogItem]);
 
-  const getBlogItem = async (blog_id: string) => {
+  const getBlogItem = async (blog_id: number) => {
     try {
-      const res = await blogStore.getBlogItem(Number(blog_id));
+      const res = await blogStore.getBlogItem(blog_id);
       blogStore.setBlogItem(res.data);
     } catch (err) {
       Toaster.showError('데이터를 불러오는 중 에러가 발생하였습니다.');
     }
   };
 
-  const updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string) => {
+  const handleChange = React.useCallback(() => {
+    if (!editorRef.current) {
+      return;
+    }
+    const instance = editorRef.current.getInstance();
+    setContent(instance.getHtml());
+    setMarkDown(instance.getMarkdown());
+  }, [editorRef]);
+
+  const update = async (data: BlogForm): Promise<void> => {
+    const { title, summary, type } = data;
+
+    if (!content || !markDown) {
+      Toaster.showWarning('콘텐트를 입력해주세요.');
+      return;
+    }
+
     if (window.confirm('게시글을 수정 하시겠습니까?')) {
       try {
-        const res = await blogStore.updateBlog(blog_id, title, summary, content, blog_type, markdown, token);
+        const res = await blogStore.updateBlog(Number(router.query.blog_id), title, summary, content, type, markDown);
         if (res?.status) {
           Toaster.showSuccess(res?.msg || '게시글이 변경되었습니다.');
           router.back();
@@ -75,82 +92,46 @@ const UpdateBlogComponent = observer((props: Props): JSX.Element => {
     }
   };
 
-  const handleChange = React.useCallback(() => {
-    if (!editorRef.current) {
-      return;
-    }
-    const instance = editorRef.current.getInstance();
-    // const valueType = props.valueType || 'markdown';
-    setContent(instance.getHtml());
-    setMarkDown(instance.getMarkdown());
-  }, [editorRef]);
-
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
-    switch (id) {
-      case 'title':
-        return setTitle(value);
-      case 'summary':
-        return setSummary(value);
-    }
-  };
-  const blogChangeHandler = () => {
-    if (title === '') {
-      Toaster.showWarning('제목을 입력해주세요.');
-    } else if (content === '') {
-      Toaster.showWarning('콘텐트를 입력해주세요.');
-    } else if (summary === '') {
-      Toaster.showWarning('요약을 입력해주세요.');
-    } else {
-      updateBlog(Number(blogStore.blogItem?.blog_id), title, summary, content, type, markDown);
-    }
-  };
-
-  return (
-    <>
-      {blogStore.blogItem && (
-        <Box width="980px" margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
-          <Box margin={{ top: '40px', bottom: '200px' }}>
-            <Box>
-              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
-                제목
-              </Text>
-              <Input
-                width="50%"
-                height="45px"
-                type="text"
-                id="title"
-                border="1px solid #b4b2b2"
-                padding={{ left: '10px', right: '10px' }}
-                screen={1010}
-                value={title}
-                onChange={changeHandler}
-              />
-            </Box>
-            <Box>
-              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
-                요약
-              </Text>
-              <TextArea width="50%" height={100} value={summary} screen={1010} onChange={changeHandler} id="summary" />
-            </Box>
-            <Box margin={{ top: '20px', bottom: '50px' }}>
-              <TUIEditor ref={editorRef} onChange={handleChange} initialValue={markDown} />
-            </Box>
-            <Box>
-              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
-                타입
-              </Text>
-              {/* <PostSelectBox type={type} setType={setType} /> */}
-            </Box>
-            <Box margin={{ top: '30px' }}>
-              <Button width={150} radius={10} onClick={blogChangeHandler}>
-                변경
-              </Button>
-            </Box>
-          </Box>
+  return blogStore?.blogItem ? (
+    <Box width="980px" margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
+      <Form margin={{ top: '40px', bottom: '200px' }} onSubmit={handleSubmit(update)}>
+        <Box>
+          <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+            제목
+          </Text>
+          <FormInput
+            width="50%"
+            height="45px"
+            type="text"
+            border="1px solid #b4b2b2"
+            padding={{ left: '10px', right: '10px' }}
+            screen={1010}
+            {...register('title', { required: true })}
+            error={errors.title}
+          />
         </Box>
-      )}
-    </>
+        <Box>
+          <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+            요약
+          </Text>
+          <FormTextArea width="50%" height={100} screen={1010} {...register('summary', { required: true })} error={errors.summary} />
+        </Box>
+        <Box margin={{ top: '20px', bottom: '50px' }}>
+          <TUIEditor ref={editorRef} onChange={handleChange} initialValue={markDown} />
+        </Box>
+        <Box>
+          <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+            타입
+          </Text>
+          <PostSelectBox {...register('type')} options={postType} />
+        </Box>
+        <Box margin={{ top: '30px' }}>
+          <FormSubmit type="submit" width="150px" radius={10} value="변경" />
+        </Box>
+      </Form>
+    </Box>
+  ) : (
+    <></>
   );
 });
 
