@@ -7,7 +7,7 @@ import { getToken } from '@/utils/auth';
 import { Editor } from '@toast-ui/react-editor';
 
 import { Box, Button, Text, Input, TextArea } from '@/components/Atom';
-import { PostSelectBox } from '@/components/Molecules';
+// import { PostSelectBox } from '@/components/Molecules';
 import { TUIEditor } from '@/components/Organisms';
 
 interface Props {
@@ -140,7 +140,7 @@ const UpdateBlogComponent = observer((props: Props): JSX.Element => {
               <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
                 타입
               </Text>
-              <PostSelectBox type={type} setType={setType} />
+              {/* <PostSelectBox type={type} setType={setType} /> */}
             </Box>
             <Box margin={{ top: '30px' }}>
               <Button width={150} radius={10} onClick={blogChangeHandler}>

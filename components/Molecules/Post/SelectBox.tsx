@@ -1,29 +1,22 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { HTMLAttributes, forwardRef } from 'react';
 import styled from 'styled-components';
-import { postType } from '@/utils/post';
+import { PostType } from '@/interfaces/models/blog';
 
-interface Props {
-  type: string;
-  setType: Dispatch<SetStateAction<string>>;
+interface Props extends HTMLAttributes<HTMLSelectElement> {
+  options?: PostType[];
 }
-const PostSelectBox = (props: Props) => {
-  const { type, setType } = props;
-
-  const change = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target;
-
-    setType(value);
-  };
+// eslint-disable-next-line react/display-name
+const PostSelectBox = forwardRef<HTMLSelectElement, Props>((props, ref) => {
   return (
-    <StyledPostSelectBox value={type} id="type" onChange={change}>
-      {postType.map((type) => (
-        <option key={type.id} value={type.value}>
-          {type.value}
+    <StyledPostSelectBox {...props} ref={ref}>
+      {props?.options?.map((option) => (
+        <option key={option.id} value={option.value}>
+          {option.value}
         </option>
       ))}
     </StyledPostSelectBox>
   );
-};
+});
 
 const StyledPostSelectBox = styled.select`
   width: 200px;
@@ -33,4 +26,5 @@ const StyledPostSelectBox = styled.select`
   outline: none;
   padding: 0 10px;
 `;
+
 export default PostSelectBox;

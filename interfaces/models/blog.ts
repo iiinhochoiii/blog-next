@@ -31,3 +31,16 @@ export interface Blog {
 export interface SearchKeywordForm {
   keyword?: string;
 }
+
+export interface PostType {
+  id: number;
+  value: string;
+}
+
+export interface BlogForm {
+  title: string;
+  summary: string;
+  type: string;
+  content?: string;
+  markdown?: string;
+}

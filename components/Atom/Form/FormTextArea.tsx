@@ -27,7 +27,7 @@ const StyledFormTextArea = styled.textarea<Props>`
   outline: none;
   padding: 10px;
   resize: none;
-  border: 1px solid #b4b2b2;
+  border: ${(props) => (!props.error ? '1px solid #b4b2b2' : '1px solid #ff0000')};
   border-radius: 5px;
   width: ${(props) => `calc(${props.width} - 25px)`};
   height: ${(props) => (props?.height ? (typeof props.height === 'string' ? props.height : `${props.height}px`) : '50px')};
