@@ -43,10 +43,9 @@ const CreateBlogComponent = observer((): JSX.Element => {
     if (instance.getMarkdown().indexOf('![image](data:image') > -1) {
       const dataMarkdown = instance.getMarkdown();
       const startIndex = dataMarkdown.indexOf('![image](data:image');
-      const endIndex = dataMarkdown.indexOf('=)');
 
       alert('이미지 등록은 URL 입력으로 가능합니다.');
-      editorRef.current.getInstance().setMarkdown(dataMarkdown.replace(dataMarkdown.substring(startIndex, endIndex + 2), ''));
+      editorRef.current.getInstance().setMarkdown(dataMarkdown.replace(dataMarkdown.substring(startIndex, instance.getMarkdown().length - 1), ''));
     }
 
     setContent(instance.getHtml());
