@@ -7,3 +7,7 @@ export const postType = [
   { id: 6, value: 'Git' },
   { id: 7, value: 'etc' },
 ];
+
+export const replacePostContent = (value: string) => {
+  return value.replace(/'/gi, '"');
+};

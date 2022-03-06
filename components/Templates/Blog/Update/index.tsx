@@ -10,7 +10,7 @@ import { PostSelectBox } from '@/components/Molecules';
 import { TUIEditor } from '@/components/Organisms';
 import { useForm } from 'react-hook-form';
 import { BlogForm } from '@/interfaces/models/blog';
-import { postType } from '@/utils/post';
+import { postType, replacePostContent } from '@/utils/post';
 
 const UpdateBlogComponent = observer((): JSX.Element => {
   const router = useRouter();
@@ -79,7 +79,7 @@ const UpdateBlogComponent = observer((): JSX.Element => {
 
     if (window.confirm('게시글을 수정 하시겠습니까?')) {
       try {
-        const res = await blogStore.updateBlog(Number(router.query.blog_id), title, summary, content, type, markDown);
+        const res = await blogStore.updateBlog(Number(router.query.blog_id), title, summary, replacePostContent(content), type, replacePostContent(markDown));
         if (res?.status) {
           Toaster.showSuccess(res?.msg || '게시글이 변경되었습니다.');
           router.back();

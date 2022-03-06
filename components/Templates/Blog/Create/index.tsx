@@ -9,7 +9,7 @@ import { Box, Text, FormInput, Form, FormSubmit, FormTextArea } from '@/componen
 import { PostSelectBox } from '@/components/Molecules';
 import { TUIEditor } from '@/components/Organisms';
 import { useForm } from 'react-hook-form';
-import { postType } from '@/utils/post';
+import { postType, replacePostContent } from '@/utils/post';
 import { BlogForm } from '@/interfaces/models/blog';
 
 const CreateBlogComponent = observer((): JSX.Element => {
@@ -37,7 +37,18 @@ const CreateBlogComponent = observer((): JSX.Element => {
     if (!editorRef.current) {
       return;
     }
+
     const instance = editorRef.current.getInstance();
+
+    if (instance.getMarkdown().indexOf('![image](data:image') > -1) {
+      const dataMarkdown = instance.getMarkdown();
+      const startIndex = dataMarkdown.indexOf('![image](data:image');
+      const endIndex = dataMarkdown.indexOf('=)');
+
+      alert('이미지 등록은 URL 입력으로 가능합니다.');
+      editorRef.current.getInstance().setMarkdown(dataMarkdown.replace(dataMarkdown.substring(startIndex, endIndex + 2), ''));
+    }
+
     setContent(instance.getHtml());
     setMarkDown(instance.getMarkdown());
   }, [editorRef]);
@@ -49,9 +60,8 @@ const CreateBlogComponent = observer((): JSX.Element => {
       Toaster.showWarning('콘텐트를 입력해주세요.');
       return;
     }
-
     try {
-      const res = await blogStore.createBlog(title, summary, content, type, markDown);
+      const res = await blogStore.createBlog(title, summary, replacePostContent(content), type, replacePostContent(markDown));
 
       if (res.status) {
         router.push('/blog');
