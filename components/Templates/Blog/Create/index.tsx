@@ -40,13 +40,16 @@ const CreateBlogComponent = observer((): JSX.Element => {
 
     const instance = editorRef.current.getInstance();
 
-    if (instance.getMarkdown().indexOf('![image](data:image') > -1) {
-      const dataMarkdown = instance.getMarkdown();
-      const startIndex = dataMarkdown.indexOf('![image](data:image');
+    // 기존 이미지 업로드 기능 제거
+    editorRef.current.getInstance().removeHook('addImageBlobHook');
 
-      alert('이미지 등록은 URL 입력으로 가능합니다.');
-      editorRef.current.getInstance().setMarkdown(dataMarkdown.replace(dataMarkdown.substring(startIndex, instance.getMarkdown().length - 1), ''));
-    }
+    // 이미지 서버로 데이터를 전달하는 기능 추가
+    editorRef.current.getInstance().addHook('addImageBlobHook', (blob) => {
+      if (blob) {
+        alert('이미지 첨부는 URL 입력만 가능합니다.');
+        return;
+      }
+    });
 
     setContent(instance.getHtml());
     setMarkDown(instance.getMarkdown());

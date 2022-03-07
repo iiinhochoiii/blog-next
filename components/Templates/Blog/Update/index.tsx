@@ -26,6 +26,7 @@ const UpdateBlogComponent = observer((): JSX.Element => {
 
   const [content, setContent] = useState<string>('');
   const [markDown, setMarkDown] = useState<string>('');
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     if (process.browser) {
@@ -48,6 +49,8 @@ const UpdateBlogComponent = observer((): JSX.Element => {
         summary: item.summary,
         type: item.blog_type,
       });
+
+      setInitialized(true);
     }
   }, [blogStore.blogItem]);
 
@@ -61,13 +64,28 @@ const UpdateBlogComponent = observer((): JSX.Element => {
   };
 
   const handleChange = React.useCallback(() => {
-    if (!editorRef.current) {
-      return;
+    if (initialized) {
+      if (!editorRef.current) {
+        return;
+      }
+
+      const instance = editorRef.current.getInstance();
+
+      // 기존 이미지 업로드 기능 제거
+      editorRef.current.getInstance().removeHook('addImageBlobHook');
+
+      // 이미지 서버로 데이터를 전달하는 기능 추가
+      editorRef.current.getInstance().addHook('addImageBlobHook', (blob) => {
+        if (blob) {
+          alert('이미지 첨부는 URL 입력만 가능합니다.');
+          return;
+        }
+      });
+
+      setContent(instance.getHtml());
+      setMarkDown(instance.getMarkdown());
     }
-    const instance = editorRef.current.getInstance();
-    setContent(instance.getHtml());
-    setMarkDown(instance.getMarkdown());
-  }, [editorRef]);
+  }, [editorRef, initialized]);
 
   const update = async (data: BlogForm): Promise<void> => {
     const { title, summary, type } = data;
@@ -92,46 +110,48 @@ const UpdateBlogComponent = observer((): JSX.Element => {
     }
   };
 
-  return blogStore?.blogItem ? (
-    <Box width="980px" margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
-      <Form margin={{ top: '40px', bottom: '200px' }} onSubmit={handleSubmit(update)}>
-        <Box>
-          <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
-            제목
-          </Text>
-          <FormInput
-            width="50%"
-            height="45px"
-            type="text"
-            border="1px solid #b4b2b2"
-            padding={{ left: '10px', right: '10px' }}
-            screen={1010}
-            {...register('title', { required: true })}
-            error={errors.title}
-          />
+  return (
+    <>
+      {initialized && (
+        <Box width="980px" margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
+          <Form margin={{ top: '40px', bottom: '200px' }} onSubmit={handleSubmit(update)}>
+            <Box>
+              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+                제목
+              </Text>
+              <FormInput
+                width="50%"
+                height="45px"
+                type="text"
+                border="1px solid #b4b2b2"
+                padding={{ left: '10px', right: '10px' }}
+                screen={1010}
+                {...register('title', { required: true })}
+                error={errors.title}
+              />
+            </Box>
+            <Box>
+              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+                요약
+              </Text>
+              <FormTextArea width="50%" height={100} screen={1010} {...register('summary', { required: true })} error={errors.summary} />
+            </Box>
+            <Box margin={{ top: '20px', bottom: '50px' }}>
+              <TUIEditor ref={editorRef} onChange={handleChange} initialValue={markDown} />
+            </Box>
+            <Box>
+              <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
+                타입
+              </Text>
+              <PostSelectBox {...register('type')} options={postType} />
+            </Box>
+            <Box margin={{ top: '30px' }}>
+              <FormSubmit type="submit" width="150px" radius={10} value="변경" />
+            </Box>
+          </Form>
         </Box>
-        <Box>
-          <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
-            요약
-          </Text>
-          <FormTextArea width="50%" height={100} screen={1010} {...register('summary', { required: true })} error={errors.summary} />
-        </Box>
-        <Box margin={{ top: '20px', bottom: '50px' }}>
-          <TUIEditor ref={editorRef} onChange={handleChange} initialValue={markDown} />
-        </Box>
-        <Box>
-          <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
-            타입
-          </Text>
-          <PostSelectBox {...register('type')} options={postType} />
-        </Box>
-        <Box margin={{ top: '30px' }}>
-          <FormSubmit type="submit" width="150px" radius={10} value="변경" />
-        </Box>
-      </Form>
-    </Box>
-  ) : (
-    <></>
+      )}
+    </>
   );
 });
 
