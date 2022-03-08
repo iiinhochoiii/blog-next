@@ -35,7 +35,17 @@ const BlogComponent = observer((props: Props): JSX.Element => {
     scrollTo(0, 0);
   }, [paging]);
 
+  const tokenTest = async () => {
+    try {
+      const res = await blogStore.tokenTest();
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const initBlog = async () => {
+    tokenTest();
     try {
       setLoading(true);
 

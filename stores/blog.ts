@@ -3,6 +3,7 @@ import client from '@/lib/client';
 import { blogs, pageType } from '@/interfaces/models/blog';
 import qs from 'qs';
 import { getToken } from '@/utils/auth';
+import axios from '@/utils/axios';
 
 class BlogStore {
   constructor() {
@@ -88,6 +89,15 @@ class BlogStore {
       return res.data;
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  tokenTest = async () => {
+    try {
+      const res = await axios.get('/api/blogs/tokenTest');
+      return res;
+    } catch (err) {
+      console.log(err);
     }
   };
 }
