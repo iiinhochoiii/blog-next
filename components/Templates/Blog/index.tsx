@@ -30,28 +30,20 @@ const BlogComponent = observer((props: Props): JSX.Element => {
       pathname: '/blog',
       query: {
         page: paging,
+        ...(router.query.title && { title: router.query.title }),
       },
     });
     scrollTo(0, 0);
   }, [paging]);
 
-  const tokenTest = async () => {
-    try {
-      const res = await blogStore.tokenTest();
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const initBlog = async () => {
-    tokenTest();
     try {
       setLoading(true);
 
       if (title) {
-        const res = await blogStore.getSearchBlogList(String(title));
+        const res = await blogStore.getSearchBlogList(String(title), String(page));
         blogStore.setBlogs(res.data);
+        blogStore.setPage(res.page);
       } else {
         const res = await blogStore.getBlogList(String(page || 1));
         blogStore.setBlogs(res.data);
@@ -64,10 +56,12 @@ const BlogComponent = observer((props: Props): JSX.Element => {
   };
 
   const search = (value?: string) => {
+    setPaging(1);
     router.push({
       pathname: '/blog',
       ...(value && {
         query: {
+          page: 1,
           title: value,
         },
       }),
@@ -107,7 +101,7 @@ const BlogComponent = observer((props: Props): JSX.Element => {
         <Box margin={{ top: '10px', bottom: '30px' }} style={{ minHeight: '60vh' }}>
           {loading ? (
             <CircularProgress />
-          ) : blogStore.blogs.length > 0 ? (
+          ) : blogStore.blogs?.length > 0 ? (
             <Box>
               {blogStore.blogs.map((item) => (
                 <PostArticle
@@ -125,7 +119,7 @@ const BlogComponent = observer((props: Props): JSX.Element => {
             <EmptyDataBox>작성된 게시글이 없습니다.</EmptyDataBox>
           )}
         </Box>
-        {!title && <Pagination page={blogStore.page} pageNum={paging} setPaging={setPaging} />}
+        <Pagination page={blogStore.page} pageNum={paging} setPaging={setPaging} />
       </Box>
     </Box>
   );

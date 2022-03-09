@@ -14,6 +14,7 @@ const PostArticle = (props: Blog) => {
       pathname: '/blog',
       query: {
         title: type,
+        page: 1,
       },
     });
   };

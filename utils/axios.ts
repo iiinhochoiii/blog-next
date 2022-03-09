@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { getToken } from '@/utils/auth';
 
 const axiosInstance = Axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'https://c-tech.herokuapp.com',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

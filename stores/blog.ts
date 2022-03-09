@@ -1,5 +1,4 @@
 import { action, observable, makeObservable } from 'mobx';
-import client from '@/lib/client';
 import { blogs, pageType } from '@/interfaces/models/blog';
 import qs from 'qs';
 import { getToken } from '@/utils/auth';
@@ -36,16 +35,16 @@ class BlogStore {
 
   getBlogList = async (page: string) => {
     try {
-      const res = await client.get(`/api/blogs?page=${page}`);
+      const res = await axios.get(`/api/blogs?page=${page}`);
       return res.data;
     } catch (err) {
       console.log(err);
     }
   };
 
-  getSearchBlogList = async (title: string) => {
+  getSearchBlogList = async (title: string, page?: string) => {
     try {
-      const res = await client.get(`/api/blogs/search?title=${title}`);
+      const res = await axios.get(`/api/blogs/search?title=${title}&page=${page}`);
       return res.data;
     } catch (e) {
       console.log(e);
@@ -54,7 +53,7 @@ class BlogStore {
 
   getBlogItem = async (blog_id: number) => {
     try {
-      const res = await client.get(`/api/blogs/read/${blog_id}`);
+      const res = await axios.get(`/api/blogs/read/${blog_id}`);
       return res.data;
     } catch (e) {
       console.log(e);
@@ -63,7 +62,7 @@ class BlogStore {
 
   createBlog = async (title: string, summary: string, content: string, type: string, markdown: string) => {
     try {
-      const res = await client.post('/api/blogs', qs.stringify({ title: title, summary: summary, content: content, type: type, markdown: markdown }));
+      const res = await axios.post('/api/blogs', qs.stringify({ title: title, summary: summary, content: content, type: type, markdown: markdown }));
       return res.data;
     } catch (e) {
       console.log(e);
@@ -72,7 +71,7 @@ class BlogStore {
 
   deleteBlog = async (blog_id: number) => {
     try {
-      const res = await client.delete(`/api/blogs/${blog_id}`);
+      const res = await axios.delete(`/api/blogs/${blog_id}`);
       return res.data;
     } catch (e) {
       console.log(e);
@@ -82,22 +81,13 @@ class BlogStore {
   updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string) => {
     const token = getToken();
     try {
-      const res = await client.post(
+      const res = await axios.post(
         '/api/blogs/update',
         qs.stringify({ blog_id: blog_id, title: title, summary: summary, content: content, blog_type: blog_type, markdown: markdown, token }),
       );
       return res.data;
     } catch (e) {
       console.log(e);
-    }
-  };
-
-  tokenTest = async () => {
-    try {
-      const res = await axios.get('/api/blogs/tokenTest');
-      return res;
-    } catch (err) {
-      console.log(err);
     }
   };
 }

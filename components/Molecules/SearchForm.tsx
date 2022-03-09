@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, FormInput } from '@/components/Atom';
 import SearchIcon from '@material-ui/icons/Search';
 import { useForm } from 'react-hook-form';
 import { SearchKeywordForm } from '@/interfaces/models/blog';
+import { useRouter } from 'next/router';
 
 interface Props {
   onSubmit: (value?: string) => void;
@@ -10,13 +11,22 @@ interface Props {
 
 const SearchForm = (props: Props) => {
   const { onSubmit } = props;
-  const { register, handleSubmit, watch } = useForm<SearchKeywordForm>();
+  const router = useRouter();
+  const { register, handleSubmit, watch, reset } = useForm<SearchKeywordForm>();
 
   const search = (data: SearchKeywordForm) => {
     const { keyword } = data;
 
     onSubmit(keyword);
   };
+
+  useEffect(() => {
+    if (router.query.title) {
+      reset({
+        keyword: String(router.query.title),
+      });
+    }
+  }, [router]);
 
   return (
     <Form className="-search" onSubmit={handleSubmit(search)}>
