@@ -9,28 +9,25 @@ import { EmptyDataBox, SearchForm } from '@/components/Molecules';
 import { PostArticle } from '@/components/Organisms';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-interface Props {
-  title?: string | string[];
-  page?: string | string[];
-}
-
-const BlogComponent = observer((props: Props): JSX.Element => {
+const BlogComponent = observer((): JSX.Element => {
   const router = useRouter();
-  const { title, page } = props;
+  const { title, page, isMyBlog } = router.query;
   const { blogStore } = useStores();
   const [loading, setLoading] = useState(false);
   const [paging, setPaging] = useState(Number(page) || 1);
+  const [isBlogState, setIsBlogState] = useState(false); // 내가 쓴 글 보기
 
   useEffect(() => {
     initBlog();
-  }, [title, page]);
+  }, [title, page, isMyBlog]);
 
   useEffect(() => {
     router.push({
       pathname: '/blog',
       query: {
         page: paging,
-        ...(router.query.title && { title: router.query.title }),
+        ...(title && { title: title }),
+        ...(isMyBlog && { isMyBlog: isMyBlog }),
       },
     });
     scrollTo(0, 0);
@@ -40,15 +37,15 @@ const BlogComponent = observer((props: Props): JSX.Element => {
     try {
       setLoading(true);
 
-      if (title) {
-        const res = await blogStore.getSearchBlogList(String(title), String(page));
-        blogStore.setBlogs(res.data);
-        blogStore.setPage(res.page);
-      } else {
-        const res = await blogStore.getBlogList(String(page || 1));
-        blogStore.setBlogs(res.data);
-        blogStore.setPage(res.page);
-      }
+      const params = {
+        page: String(page),
+        ...(title && { title: String(title) }),
+        ...(isMyBlog && { isMyBlog: Boolean(isMyBlog) }),
+      };
+      const res = await blogStore.getSearchBlogList(params);
+      blogStore.setBlogs(res.data);
+      blogStore.setPage(res.page);
+
       setLoading(false);
     } catch (err) {
       Toaster.showWarning('블로그를 불러오는 중 오류가 발생하였습니다.');
@@ -59,12 +56,11 @@ const BlogComponent = observer((props: Props): JSX.Element => {
     setPaging(1);
     router.push({
       pathname: '/blog',
-      ...(value && {
-        query: {
-          page: 1,
-          title: value,
-        },
-      }),
+      query: {
+        page: 1,
+        ...(value && { title: value }),
+        ...(isBlogState && { isMyBlog: isBlogState }),
+      },
     });
   };
 
@@ -98,6 +94,9 @@ const BlogComponent = observer((props: Props): JSX.Element => {
           </HeaderText>
           <SearchForm onSubmit={(value?: string) => search(value)} />
         </Flex>
+        <input type="checkbox" onChange={() => setIsBlogState(!isBlogState)} />
+        <label>내가 쓴 글 보기</label>
+
         <Box margin={{ top: '10px', bottom: '30px' }} style={{ minHeight: '60vh' }}>
           {loading ? (
             <CircularProgress />

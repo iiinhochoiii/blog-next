@@ -102,7 +102,7 @@ const UpdateBlogComponent = observer((): JSX.Element => {
           Toaster.showSuccess(res?.msg || '게시글이 변경되었습니다.');
           router.back();
         } else {
-          Toaster.showWarning(res?.msg);
+          Toaster.showWarning(res?.message || res?.msg);
         }
       } catch (err) {
         Toaster.showError('데이터를 변경 중 에러가 발생하였습니다.');

@@ -1,7 +1,5 @@
 import { action, observable, makeObservable } from 'mobx';
 import { blogs, pageType } from '@/interfaces/models/blog';
-import qs from 'qs';
-import { getToken } from '@/utils/auth';
 import axios from '@/utils/axios';
 
 class BlogStore {
@@ -42,9 +40,13 @@ class BlogStore {
     }
   };
 
-  getSearchBlogList = async (title: string, page?: string) => {
+  getSearchBlogList = async (params: { title?: string; page: string; isMyBlog?: boolean }) => {
     try {
-      const res = await axios.get(`/api/blogs/search?title=${title}&page=${page}`);
+      const { page, title, isMyBlog } = params;
+      const titleQuery = title ? `&title=${title}` : '';
+      const isMyBlogQuery = isMyBlog ? `&isMyBlog=${isMyBlog}` : '';
+
+      const res = await axios.get(`/api/blogs/search?page=${page || 1}${titleQuery}${isMyBlogQuery}`);
       return res.data;
     } catch (e) {
       console.log(e);
@@ -62,7 +64,7 @@ class BlogStore {
 
   createBlog = async (title: string, summary: string, content: string, type: string, markdown: string) => {
     try {
-      const res = await axios.post('/api/blogs', qs.stringify({ title: title, summary: summary, content: content, type: type, markdown: markdown }));
+      const res = await axios.post('/api/blogs', { title: title, summary: summary, content: content, type: type, markdown: markdown });
       return res.data;
     } catch (e) {
       console.log(e);
@@ -79,12 +81,15 @@ class BlogStore {
   };
 
   updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string) => {
-    const token = getToken();
     try {
-      const res = await axios.post(
-        '/api/blogs/update',
-        qs.stringify({ blog_id: blog_id, title: title, summary: summary, content: content, blog_type: blog_type, markdown: markdown, token }),
-      );
+      const res = await axios.post('/api/blogs/update', {
+        blog_id: blog_id,
+        title: title,
+        summary: summary,
+        content: content,
+        blog_type: blog_type,
+        markdown: markdown,
+      });
       return res.data;
     } catch (e) {
       console.log(e);
