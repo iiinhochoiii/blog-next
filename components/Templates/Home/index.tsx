@@ -19,7 +19,9 @@ const HomeComponent = observer((): JSX.Element => {
   const getBlogList = async (): Promise<void> => {
     try {
       setLoading(true);
-      const res = await blogStore.getBlogList('1');
+      const res = await blogStore.getSearchBlogList({
+        page: 1,
+      });
       blogStore.setBlogs(res.data);
       setLoading(false);
     } catch (err) {
@@ -75,6 +77,7 @@ const HomeComponent = observer((): JSX.Element => {
                       blog_type={item?.blog_type}
                       created_at={item.created_at}
                       name={item?.name}
+                      user_id={item?.user_id}
                     />
                   ),
               )}
