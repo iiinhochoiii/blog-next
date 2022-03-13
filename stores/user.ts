@@ -3,6 +3,7 @@ import { checkIdStatus, userData, UserInfo } from '@/interfaces/models/user';
 import qs from 'qs';
 import client from '@/lib/client';
 import { getToken, setToken, removeToken } from '@/utils/auth';
+import axios from '@/utils/axios';
 
 class UserStore {
   constructor() {
@@ -79,6 +80,15 @@ class UserStore {
       const res = await client.post('/api/auth/user', qs.stringify({ token: token }));
 
       return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getUser = async (id: number) => {
+    try {
+      const res = await axios.get(`/api/users/${id}`);
+      return res.data.data;
     } catch (err) {
       console.log(err);
     }

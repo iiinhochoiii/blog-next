@@ -8,26 +8,29 @@ import { useRouter } from 'next/router';
 import { EmptyDataBox, SearchForm } from '@/components/Molecules';
 import { PostArticle } from '@/components/Organisms';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Head from 'next/head';
+import { UserInfo } from '@/interfaces/models/user';
 
 const BlogComponent = observer((): JSX.Element => {
   const router = useRouter();
-  const { title, page, isMyBlog } = router.query;
-  const { blogStore } = useStores();
+  const { title, page, userId } = router.query;
+  const { blogStore, userStore } = useStores();
   const [loading, setLoading] = useState(false);
   const [paging, setPaging] = useState(Number(page) || 1);
-  const [isBlogState, setIsBlogState] = useState(false); // 내가 쓴 글 보기
+  const [user, setUser] = useState<UserInfo>({});
 
   useEffect(() => {
-    initBlog();
-  }, [title, page, isMyBlog]);
+    if (paging) {
+      initBlog();
+    }
+  }, [router]);
 
   useEffect(() => {
     router.push({
-      pathname: '/blog',
+      pathname: userId ? `/blog/${userId}` : '/blog',
       query: {
         page: paging,
         ...(title && { title: title }),
-        ...(isMyBlog && { isMyBlog: isMyBlog }),
       },
     });
     scrollTo(0, 0);
@@ -36,12 +39,16 @@ const BlogComponent = observer((): JSX.Element => {
   const initBlog = async () => {
     try {
       setLoading(true);
-
+      if (userId) {
+        const user = await userStore.getUser(Number(String(userId).replace('@', '')));
+        setUser(user);
+      }
       const params = {
-        page: String(page),
+        page: paging,
         ...(title && { title: String(title) }),
-        ...(isMyBlog && { isMyBlog: Boolean(isMyBlog) }),
+        ...(userId && { userId: String(userId) }),
       };
+
       const res = await blogStore.getSearchBlogList(params);
       blogStore.setBlogs(res.data);
       blogStore.setPage(res.page);
@@ -55,17 +62,19 @@ const BlogComponent = observer((): JSX.Element => {
   const search = (value?: string) => {
     setPaging(1);
     router.push({
-      pathname: '/blog',
+      pathname: userId ? `/blog/${userId}` : '/blog',
       query: {
         page: 1,
         ...(value && { title: value }),
-        ...(isBlogState && { isMyBlog: isBlogState }),
       },
     });
   };
 
   return (
     <Box>
+      <Head>
+        <title>{user?.name ? `${user?.name}(${user?.email?.split('@')[0]}) -` : 'blog - '} Choi Tech Blog</title>
+      </Head>
       <Background url={'./images/blog_background.jpg'} background="no-repeat center" position="relative">
         <Box
           position="absolute"
@@ -94,8 +103,6 @@ const BlogComponent = observer((): JSX.Element => {
           </HeaderText>
           <SearchForm onSubmit={(value?: string) => search(value)} />
         </Flex>
-        <input type="checkbox" onChange={() => setIsBlogState(!isBlogState)} />
-        <label>내가 쓴 글 보기</label>
 
         <Box margin={{ top: '10px', bottom: '30px' }} style={{ minHeight: '60vh' }}>
           {loading ? (
@@ -111,6 +118,7 @@ const BlogComponent = observer((): JSX.Element => {
                   blog_type={item?.blog_type}
                   created_at={item.created_at}
                   name={item?.name}
+                  user_id={item?.user_id}
                 />
               ))}
             </Box>

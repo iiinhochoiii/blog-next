@@ -5,7 +5,7 @@ import { pageType } from '@/interfaces/models/blog';
 
 interface Props {
   page?: pageType;
-  pageNum?: number;
+  pageNum?: string | number | string[];
   setPaging: Dispatch<SetStateAction<any>>;
 }
 

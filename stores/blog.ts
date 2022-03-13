@@ -40,13 +40,22 @@ class BlogStore {
     }
   };
 
-  getSearchBlogList = async (params: { title?: string; page: string; isMyBlog?: boolean }) => {
+  getSearchBlogList = async (params: { title?: string; page: number; userId?: string }) => {
     try {
-      const { page, title, isMyBlog } = params;
-      const titleQuery = title ? `&title=${title}` : '';
-      const isMyBlogQuery = isMyBlog ? `&isMyBlog=${isMyBlog}` : '';
+      const { page, title, userId } = params;
 
-      const res = await axios.get(`/api/blogs/search?page=${page || 1}${titleQuery}${isMyBlogQuery}`);
+      let query = `page=${page || 1}`;
+      if (title) {
+        query = query + `&title=${title}`;
+      }
+
+      let url = '';
+      if (userId && userId.includes('@')) {
+        url = `api/blogs/${userId.replace('@', '')}/search?`;
+      } else {
+        url = 'api/blogs/search?';
+      }
+      const res = await axios.get(`${url}${query}`);
       return res.data;
     } catch (e) {
       console.log(e);

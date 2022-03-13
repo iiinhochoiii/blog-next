@@ -7,11 +7,11 @@ type props = {
   children?: ReactNode;
   title?: string;
 };
-const BaseTemplates = ({ children, title }: props) => {
+const BaseTemplates = ({ children, title = '' }: props) => {
   return (
     <Box width={'100%'}>
       <Head>
-        <title>{title === '' ? '' : `${title} -`} Choi Tech Blog</title>
+        <title>{title && `${title} -`} Choi Tech Blog</title>
       </Head>
       <Box>
         <Header />
