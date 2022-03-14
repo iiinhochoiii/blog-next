@@ -1,8 +1,11 @@
 import Axios from 'axios';
 import { getToken } from '@/utils/auth';
+import { getProtocolHost } from '@/utils/env';
+
+const baseURL = getProtocolHost();
 
 const axiosInstance = Axios.create({
-  baseURL: 'https://c-tech.herokuapp.com',
+  baseURL: baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

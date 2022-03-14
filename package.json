@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "next dev",
-    "start": "next start",
+    "dev": "env-cmd -f ./env/development.env next dev",
+    "start": "env-cmd -f ./env/production.env next start",
     "build": "next build",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\""
   },
@@ -32,6 +32,7 @@
     "@zeit/next-typescript": "^1.1.1",
     "axios": "^0.21.1",
     "disqus-react": "^1.0.11",
+    "env-cmd": "^10.1.0",
     "file-loader": "^6.2.0",
     "highlight.js": "^10.5.0",
     "html-react-parser": "^1.2.1",

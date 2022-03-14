@@ -71,6 +71,7 @@ const HomeComponent = observer((): JSX.Element => {
                 (item, index) =>
                   index < 3 && (
                     <PostArticle
+                      key={item?.blog_id}
                       blog_id={item.blog_id}
                       title={item?.title}
                       summary={item?.summary}
