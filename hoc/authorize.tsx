@@ -1,8 +1,8 @@
 import React from 'react';
 import useStores from '@/hooks/use-stores';
 import cookies from 'next-cookies';
-import client from '@/lib/client';
 import { UserInfo } from '@/interfaces/models/user';
+import axios from '@/utils/axios';
 
 interface PageProps {
   isServer: boolean;
@@ -40,7 +40,7 @@ const WrapComponent = (TargetComponent): ((props: PageProps) => JSX.Element) => 
     if (isServer) {
       if (token) {
         try {
-          const [res] = await Promise.all([client.post('/api/auth/user', { token: token })]);
+          const [res] = await Promise.all([axios.post('/api/auth/user', { token: token })]);
           userInfo = res.data.data;
         } catch (err) {
           console.log(err);

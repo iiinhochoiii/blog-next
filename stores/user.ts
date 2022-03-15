@@ -1,7 +1,5 @@
 import { action, observable, makeObservable } from 'mobx';
 import { checkIdStatus, userData, UserInfo } from '@/interfaces/models/user';
-import qs from 'qs';
-import client from '@/lib/client';
 import { getToken, setToken, removeToken } from '@/utils/auth';
 import axios from '@/utils/axios';
 
@@ -49,7 +47,7 @@ class UserStore {
   checkId = async (email: string) => {
     this.checkIdStatus = undefined;
     try {
-      const res = await client.post('/api/users/checkId', qs.stringify({ email: email }));
+      const res = await axios.post('/api/users/checkId', { email: email });
       // this.checkIdStatus = await res.data;
       return res.data;
     } catch (err) {
@@ -59,7 +57,7 @@ class UserStore {
 
   createUser = async (email: string, password: string, name: string, phone: string) => {
     try {
-      await client.post('/api/users', qs.stringify({ email: email, password: password, name: name, phone: phone }));
+      await axios.post('/api/users', { email: email, password: password, name: name, phone: phone });
     } catch (err) {
       console.log(err);
     }
@@ -67,7 +65,7 @@ class UserStore {
 
   login = async (email: string, password: string) => {
     try {
-      const res = await client.post('/api/auth/login', qs.stringify({ email: email, password: password }));
+      const res = await axios.post('/api/auth/login', { email: email, password: password });
       return res.data;
     } catch (err) {
       console.log(err);
@@ -77,7 +75,7 @@ class UserStore {
   // 토근으로 사용자 정보 불러오기
   getTokenData = async (token?: string) => {
     try {
-      const res = await client.post('/api/auth/user', qs.stringify({ token: token }));
+      const res = await axios.post('/api/auth/user', { token: token });
 
       return res.data;
     } catch (err) {

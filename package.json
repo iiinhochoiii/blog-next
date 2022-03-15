@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "dev": "env-cmd -f ./env/development.env next dev",
+    "dev:prod": "env-cmd -f ./env/production.env next dev",
     "start": "env-cmd -f ./env/production.env next start",
     "build": "next build",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\""

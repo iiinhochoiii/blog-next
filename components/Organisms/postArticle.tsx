@@ -11,8 +11,10 @@ const PostArticle = (props: Blog) => {
   const router = useRouter();
 
   const moveBlogTypeHandler = (type?: string) => {
+    const { userId } = router.query;
+
     router.push({
-      pathname: router.pathname === '/blog/[userId]' ? `blog/@${user_id}` : '/blog',
+      pathname: userId ? `/blog/${userId}` : '/blog',
       query: {
         title: type,
         page: 1,
