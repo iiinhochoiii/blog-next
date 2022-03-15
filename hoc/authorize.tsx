@@ -40,7 +40,7 @@ const WrapComponent = (TargetComponent): ((props: PageProps) => JSX.Element) => 
     if (isServer) {
       if (token) {
         try {
-          const [res] = await Promise.all([axios.post('/api/auth/user', { token: token })]);
+          const [res] = await Promise.all([axios.post('/auth/user', { token: token })]);
           userInfo = res.data.data;
         } catch (err) {
           console.log(err);

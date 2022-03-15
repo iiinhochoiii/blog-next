@@ -4,8 +4,11 @@ import { getToken, setToken, removeToken } from '@/utils/auth';
 import axios from '@/utils/axios';
 
 class UserStore {
+  protected modelName: string;
+
   constructor() {
     makeObservable(this);
+    this.modelName = 'users';
   }
 
   @observable
@@ -47,7 +50,7 @@ class UserStore {
   checkId = async (email: string) => {
     this.checkIdStatus = undefined;
     try {
-      const res = await axios.post('/api/users/checkId', { email: email });
+      const res = await axios.post(`/${this.modelName}/checkId`, { email: email });
       // this.checkIdStatus = await res.data;
       return res.data;
     } catch (err) {
@@ -65,7 +68,7 @@ class UserStore {
 
   login = async (email: string, password: string) => {
     try {
-      const res = await axios.post('/api/auth/login', { email: email, password: password });
+      const res = await axios.post('/auth/login', { email: email, password: password });
       return res.data;
     } catch (err) {
       console.log(err);
@@ -75,7 +78,7 @@ class UserStore {
   // 토근으로 사용자 정보 불러오기
   getTokenData = async (token?: string) => {
     try {
-      const res = await axios.post('/api/auth/user', { token: token });
+      const res = await axios.post('/auth/user', { token: token });
 
       return res.data;
     } catch (err) {
@@ -85,7 +88,7 @@ class UserStore {
 
   getUser = async (id: number) => {
     try {
-      const res = await axios.get(`/api/users/${id}`);
+      const res = await axios.get(`/${this.modelName}/${id}`);
       return res.data.data;
     } catch (err) {
       console.log(err);

@@ -5,7 +5,7 @@ import { getProtocolHost } from '@/utils/env';
 const baseURL = getProtocolHost();
 
 const axiosInstance = Axios.create({
-  baseURL: baseURL,
+  baseURL: baseURL + '/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

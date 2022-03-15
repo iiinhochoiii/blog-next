@@ -3,8 +3,11 @@ import { blogs, pageType } from '@/interfaces/models/blog';
 import axios from '@/utils/axios';
 
 class BlogStore {
+  protected modelName: string;
+
   constructor() {
     makeObservable(this);
+    this.modelName = 'blogs';
   }
 
   @observable
@@ -33,7 +36,7 @@ class BlogStore {
 
   getBlogList = async (page: string) => {
     try {
-      const res = await axios.get(`/api/blogs?page=${page}`);
+      const res = await axios.get(`/${this.modelName}?page=${page}`);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -51,9 +54,9 @@ class BlogStore {
 
       let url = '';
       if (userId && userId.includes('@')) {
-        url = `api/blogs/${userId.replace('@', '')}/search?`;
+        url = `/${this.modelName}/${userId.replace('@', '')}/search?`;
       } else {
-        url = 'api/blogs/search?';
+        url = `/${this.modelName}/search?`;
       }
       const res = await axios.get(`${url}${query}`);
       return res.data;
@@ -64,7 +67,7 @@ class BlogStore {
 
   getBlogItem = async (blog_id: number) => {
     try {
-      const res = await axios.get(`/api/blogs/read/${blog_id}`);
+      const res = await axios.get(`/${this.modelName}/read/${blog_id}`);
       return res.data;
     } catch (e) {
       console.log(e);
@@ -73,7 +76,7 @@ class BlogStore {
 
   createBlog = async (title: string, summary: string, content: string, type: string, markdown: string) => {
     try {
-      const res = await axios.post('/api/blogs', { title: title, summary: summary, content: content, type: type, markdown: markdown });
+      const res = await axios.post(`/${this.modelName}`, { title: title, summary: summary, content: content, type: type, markdown: markdown });
       return res.data;
     } catch (e) {
       console.log(e);
@@ -82,7 +85,7 @@ class BlogStore {
 
   deleteBlog = async (blog_id: number) => {
     try {
-      const res = await axios.delete(`/api/blogs/${blog_id}`);
+      const res = await axios.delete(`/${this.modelName}/${blog_id}`);
       return res.data;
     } catch (e) {
       console.log(e);
@@ -91,7 +94,7 @@ class BlogStore {
 
   updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string) => {
     try {
-      const res = await axios.post('/api/blogs/update', {
+      const res = await axios.post(`/${this.modelName}/update`, {
         blog_id: blog_id,
         title: title,
         summary: summary,
