@@ -1,6 +1,5 @@
 import { action, observable, makeObservable } from 'mobx';
 import { checkIdStatus, userData, UserInfo } from '@/interfaces/models/user';
-import { getToken, setToken, removeToken } from '@/utils/auth';
 import axios from '@/utils/axios';
 
 class UserStore {
@@ -19,9 +18,6 @@ class UserStore {
 
   @observable
   userInfo?: UserInfo = undefined;
-
-  @observable
-  token?: string = getToken();
 
   @action
   setUserInfo = (data?: UserInfo) => {
