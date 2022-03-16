@@ -1,9 +1,10 @@
-import { ContactStore, UserStore, BlogStore } from '@/stores';
+import { ContactStore, UserStore, BlogStore, AuthStore } from '@/stores';
 
 interface ContextProps {
   contactStore: ContactStore;
   userStore: UserStore;
   blogStore: BlogStore;
+  authStore: AuthStore;
 }
 
 export default ContextProps;

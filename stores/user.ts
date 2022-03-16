@@ -29,15 +29,6 @@ class UserStore {
   };
 
   @action
-  setToken = (token?: string) => {
-    if (token) {
-      setToken(token);
-    } else {
-      removeToken();
-    }
-  };
-
-  @action
   setCheckIdStatus = (value: checkIdStatus | undefined) => {
     this.checkIdStatus = value;
   };
@@ -60,27 +51,7 @@ class UserStore {
 
   createUser = async (email: string, password: string, name: string, phone: string) => {
     try {
-      await axios.post('/api/users', { email: email, password: password, name: name, phone: phone });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  login = async (email: string, password: string) => {
-    try {
-      const res = await axios.post('/auth/login', { email: email, password: password });
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // 토근으로 사용자 정보 불러오기
-  getTokenData = async (token?: string) => {
-    try {
-      const res = await axios.post('/auth/user', { token: token });
-
-      return res.data;
+      await axios.post(`/${this.modelName}`, { email: email, password: password, name: name, phone: phone });
     } catch (err) {
       console.log(err);
     }

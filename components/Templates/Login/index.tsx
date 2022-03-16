@@ -10,7 +10,7 @@ import { LoginForm } from '@/interfaces/models/user';
 
 const LoginComponent = observer((): JSX.Element => {
   const router = useRouter();
-  const { userStore } = useStores();
+  const { userStore, authStore } = useStores();
   const { register, handleSubmit } = useForm<LoginForm>();
 
   const login = async (data: LoginForm): Promise<void> => {
@@ -22,10 +22,10 @@ const LoginComponent = observer((): JSX.Element => {
     }
 
     try {
-      const res = await userStore.login(email, password);
+      const res = await authStore.login(email, password);
       if (res.status) {
         setToken(res?.token);
-        const userInfo = await userStore.getTokenData(res?.token);
+        const userInfo = await authStore.getTokenData(res?.token);
         if (userInfo.status) {
           userStore.setUserInfo({
             user_id: userInfo?.data?.user_id,
