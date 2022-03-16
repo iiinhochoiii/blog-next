@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
 import { setToken } from '@/utils/auth';
-import { Text, Box, Form, Link, FormSubmit, FormInput } from '@/components/Atom';
+import { Text, Box, Form, Link, FormSubmit, FormInput, Flex } from '@/components/Atom';
 import { useForm } from 'react-hook-form';
 import { LoginForm } from '@/interfaces/models/user';
+import FindPasswordDioalog from './Dialog/FindPasswordDialog';
 
 const LoginComponent = observer((): JSX.Element => {
   const router = useRouter();
   const { userStore, authStore } = useStores();
   const { register, handleSubmit } = useForm<LoginForm>();
+  const [showModal, setShowModal] = useState(false);
 
   const login = async (data: LoginForm): Promise<void> => {
     const { email, password } = data;
@@ -80,11 +82,19 @@ const LoginComponent = observer((): JSX.Element => {
             {...register('password')}
             enabled={true}
           />
-          <Box textAlign="right" margin={{ bottom: '20px' }}>
-            <Link href="/join" size={12} margin={{ left: '20px' }}>
+          <Flex justify="right" margin={{ bottom: '20px' }}>
+            <Text
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setShowModal(true);
+              }}
+            >
+              비밀번호 찾기
+            </Text>
+            <Link href="/join" size={12} margin={{ left: '10px' }}>
               Sign up
             </Link>
-          </Box>
+          </Flex>
           <Box>
             <FormSubmit type="submit" width="100%" radius={5} value="로그인" />
           </Box>
@@ -93,6 +103,8 @@ const LoginComponent = observer((): JSX.Element => {
           <Text size={12}>Copyright © 2021 by Choi Tech, Inc. All rights reserved</Text>
         </Box>
       </Box>
+
+      {showModal && <FindPasswordDioalog onClose={() => setShowModal(false)} />}
     </Box>
   );
 });

@@ -8,9 +8,11 @@ interface Props {
   title?: string;
   onClose: () => void;
   header?: React.ReactNode;
+  width?: string | number;
+  height?: string | number;
 }
 const ModalComponent = (props: Props) => {
-  const { children, title, onClose, header } = props;
+  const { children, title, onClose, header, width, height } = props;
 
   const customStyles = {
     overlay: {
@@ -20,7 +22,7 @@ const ModalComponent = (props: Props) => {
   };
 
   return (
-    <StyledModal isOpen={true} ariaHideApp={false} style={customStyles}>
+    <StyledModal isOpen={true} ariaHideApp={false} style={customStyles} width={width} height={height}>
       <Flex justify="space-between" className="modal_header">
         <HeaderText color="#333" size={22} margin={{ top: '10px' }}>
           {title}
@@ -37,7 +39,7 @@ const ModalComponent = (props: Props) => {
   );
 };
 
-const StyledModal = styled(Modal)`
+const StyledModal = styled(Modal)<Props>`
   position: absolute;
   inset: 40px 40px 40px 0px;
   border: 1px solid rgb(204, 204, 204);
@@ -47,8 +49,8 @@ const StyledModal = styled(Modal)`
   outline: none;
   padding: 10px;
   margin: auto;
-  width: 800px;
-  height: 800px;
+  width: ${(props) => (props.width ? `${props.width}px` : '800px')};
+  height: ${(props) => (props.height ? `${props.height}px` : '800px')};
 
   @media screen and (max-width: 1010px) {
     width: 600px;
