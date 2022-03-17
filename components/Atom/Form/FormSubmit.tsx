@@ -24,21 +24,22 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   parents?: string;
   type?: string;
   value?: string;
+  disabled?: boolean;
 }
 
 const FormSubmit = (props: Props) => {
   return <StyledFormSubmit {...props} />;
 };
-
+// #8adbc3
 const StyledFormSubmit = styled.input<Props>`
-  cursor: pointer;
+  cursor: ${(props) => !props.disabled && 'pointer'};
   outline: none;
   border: none;
 
   color: ${(props) => props.color || '#ffffff'};
   font-size: ${(props) => (props?.size ? `${props?.size}px` : '16px')};
   font-weight: ${(props) => props?.fontWeight || 'bold'};
-  background-color: ${(props) => props.backgroundColor || 'rgb(18, 184, 134)'};
+  background-color: ${(props) => (props.disabled ? '#8adbc3' : props.backgroundColor || '#12b886')};
   width: ${(props) => (props.width ? (typeof props.width === 'string' ? props.width : `${props.width}px`) : '100%')};
   border-radius: ${(props) => props.radius && (typeof props.radius === 'string' ? props.radius : `${props.radius}px`)};
 

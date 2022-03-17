@@ -24,7 +24,7 @@ const ModalComponent = (props: Props) => {
   return (
     <StyledModal isOpen={true} ariaHideApp={false} style={customStyles} width={width} height={height}>
       <Flex justify="space-between" className="modal_header">
-        <HeaderText color="#333" size={22} margin={{ top: '10px' }}>
+        <HeaderText color="#333" size={18} margin={{ top: '10px' }}>
           {title}
         </HeaderText>
         <Box>

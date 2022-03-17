@@ -26,6 +26,7 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   };
   border?: string;
   screen?: number;
+  fontSize?: number;
   readonly?: boolean;
   enabled?: boolean; // enterkey에 대한 활성화
   error?: {
@@ -56,7 +57,7 @@ const FormInput = forwardRef<HTMLInputElement, Props & ReturnType<UseFormRegiste
 
 const StyledFormInput = styled.input<Props>`
   outline: none;
-  font-size: 12px;
+  font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : '12px')};
   border-radius: 5px;
   border: ${(props) => (!props.error ? props.border || '1px solid #333333' : '1px solid #ff0000')};
   width: ${(props) => `calc(${props.width} - 25px)`};
@@ -71,6 +72,7 @@ const StyledFormInput = styled.input<Props>`
   margin-left: ${(props) => props.margin?.left || '0'};
   margin-right: ${(props) => props.margin?.right || '0'};
 
+  background-color: ${(props) => (props.readOnly ? '#e5e5e5' : '#fff')};
   ${(props) => {
     if (props.screen) {
       return css`
@@ -85,6 +87,6 @@ const StyledFormInput = styled.input<Props>`
 const StyledErrorText = styled.p`
   font-size: 10px;
   color: #ff0000;
-  margin: 0;
+  margin: 0px 0px 10px 0px;
 `;
 export default FormInput;
