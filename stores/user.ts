@@ -61,6 +61,25 @@ class UserStore {
       console.log(err);
     }
   };
+
+  sendMail = async (email: string) => {
+    try {
+      const res = await axios.post(`/${this.modelName}/sendMail`, { email: email });
+
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  verifyCertCode = async (params: { email: string; certificationCode: string }) => {
+    try {
+      const res = await axios.post(`/${this.modelName}/verify-certCode`, params);
+
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 }
 
 export default UserStore;

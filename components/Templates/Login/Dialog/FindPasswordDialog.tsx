@@ -46,20 +46,42 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
     }
   };
 
-  const sendMail = () => {
-    if (isEmailCheck) {
-      setIsSendMail(true);
-    } else {
-      Toaster.showWarning('이메일 확인이 되지않았습니다.');
+  const sendMail = async (): Promise<void> => {
+    try {
+      if (isEmailCheck) {
+        const { email } = watch();
+        const res = await userStore.sendMail(email);
+
+        console.log(res);
+        if (res?.status) {
+          setIsSendMail(true);
+        } else {
+          Toaster.showWarning(res?.message);
+        }
+      } else {
+        Toaster.showWarning('이메일 확인이 되지않았습니다.');
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const certify = (data) => {
-    const { certificationCode } = data;
-    if (certificationCode === '112233') {
-      setIsSuccessCert(true);
-    } else {
-      Toaster.showWarning('인증번호가 맞지 않습니다. 다시 확인해주세요.');
+  const certify = async (data): Promise<void> => {
+    try {
+      const { email, certificationCode } = data;
+
+      const res = await userStore.verifyCertCode({
+        email: email,
+        certificationCode: certificationCode,
+      });
+
+      if (res?.status) {
+        setIsSuccessCert(true);
+      } else {
+        Toaster.showWarning(res?.message || '인증번호가 맞지 않습니다. 다시 확인해주세요.');
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
