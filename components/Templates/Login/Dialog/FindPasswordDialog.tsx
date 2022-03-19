@@ -16,6 +16,7 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
   const [isEmailCheck, setIsEmailCheck] = useState(false);
   const [isSendMail, setIsSendMail] = useState(false);
   const [isSuccessCert, setIsSuccessCert] = useState(false);
+  const [certToken, setCertToken] = useState(undefined);
 
   const {
     register,
@@ -52,7 +53,6 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
         const { email } = watch();
         const res = await userStore.sendMail(email);
 
-        console.log(res);
         if (res?.status) {
           setIsSendMail(true);
         } else {
@@ -66,7 +66,7 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
     }
   };
 
-  const certify = async (data): Promise<void> => {
+  const verify = async (data): Promise<void> => {
     try {
       const { email, certificationCode } = data;
 
@@ -77,6 +77,7 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
 
       if (res?.status) {
         setIsSuccessCert(true);
+        setCertToken(res?.token);
       } else {
         Toaster.showWarning(res?.message || '인증번호가 맞지 않습니다. 다시 확인해주세요.');
       }
@@ -85,8 +86,19 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
     }
   };
 
-  const updatePassword = (data) => {
-    console.log(data);
+  const updatePassword = async (data): Promise<void> => {
+    try {
+      const { password } = data;
+
+      const res = await userStore.updatePassowrd(password, certToken);
+      if (res?.status) {
+        doneAction();
+        onClose();
+        Toaster.showSuccess(res?.message || '비밀번호가 변경 되었습니다.');
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const doneAction = () => {
@@ -144,7 +156,7 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
           </Form>
           <Box>
             {isSendMail && (
-              <Form margin={{ top: '20px' }} onSubmit={handleSubmit(certify)}>
+              <Form margin={{ top: '20px' }} onSubmit={handleSubmit(verify)}>
                 <FormInput
                   {...register('certificationCode', {
                     required: {

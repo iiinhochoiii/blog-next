@@ -80,6 +80,25 @@ class UserStore {
       console.log(err);
     }
   };
+
+  updatePassowrd = async (password: string, token?: string) => {
+    try {
+      const res = await axios.post(
+        `/${this.modelName}/update-password`,
+        { password: password },
+        {
+          ...(token && {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }),
+        },
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 }
 
 export default UserStore;
