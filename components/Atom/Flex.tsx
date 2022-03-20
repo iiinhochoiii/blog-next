@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   style?: React.CSSProperties;
+  width?: string | number;
   margin?: {
     top?: string;
     bottom?: string;
@@ -27,6 +28,7 @@ const StyledFlex = styled.div<Props>`
   margin-bottom: ${(props) => props.margin?.bottom || '0'};
   margin-left: ${(props) => props.margin?.left || '0'};
   margin-right: ${(props) => props.margin?.right || '0'};
+  width: ${(props) => props.width && (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};
 
   display: flex;
   justify-content: ${(props) => props.justify};
