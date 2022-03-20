@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { Flex, Form, FormInput, FormSubmit, Box, Button, Text, Link } from '@/components/Atom';
 import { regExpEmail, regPassword } from '@/utils/regExp';
 import { Toaster } from '@/utils/common';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 interface Props {
   onClose: () => void;
