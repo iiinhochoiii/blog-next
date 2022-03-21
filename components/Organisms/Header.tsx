@@ -87,7 +87,7 @@ const Header = observer((): JSX.Element => {
               {userMenu && (
                 <Box className="header-after-login-menu">
                   <Text onClick={blogWriteHandler}>글쓰기</Text>
-                  {userStore?.userInfo?.user_id === 1 && <Text onClick={() => router.push('/mypage')}>마이페이지</Text>}
+                  {userStore?.userInfo?.user_id === 1 && <Text onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/contact`)}>마이페이지</Text>}
                   <Text onClick={logout}>로그아웃</Text>
                 </Box>
               )}
@@ -140,6 +140,16 @@ const Header = observer((): JSX.Element => {
                       onClick={blogWriteHandler}
                     >
                       글쓰기
+                    </Text>
+                    <Text
+                      size={16}
+                      hover={{ color: 'rgb(18, 184, 134)' }}
+                      margin={{ top: '10px', bottom: '10px' }}
+                      fontWeight={400}
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/contact`)}
+                    >
+                      마이페이지
                     </Text>
                     <Text
                       size={16}

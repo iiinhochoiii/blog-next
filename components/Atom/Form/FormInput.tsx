@@ -1,6 +1,5 @@
 import React, { HTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
-import { UseFormRegister } from 'react-hook-form';
 
 interface Props extends HTMLAttributes<HTMLInputElement> {
   style?: React.CSSProperties;
@@ -34,10 +33,11 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
     message?: string;
     ref?: any;
   };
+  maxLength?: number;
 }
 
 // eslint-disable-next-line react/display-name
-const FormInput = forwardRef<HTMLInputElement, Props & ReturnType<UseFormRegister<any>>>((props, ref) => {
+const FormInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
   return (
     <>
       <StyledFormInput
@@ -60,7 +60,7 @@ const StyledFormInput = styled.input<Props>`
   font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : '12px')};
   border-radius: 5px;
   border: ${(props) => (!props.error ? props.border || '1px solid #333333' : '1px solid #ff0000')};
-  width: ${(props) => `calc(${props.width} - 25px)`};
+  width: ${(props) => (props.width ? `calc(${props.width} - 25px)` : 'calc(100% - 25px)')};
   height: ${(props) => (props?.height ? (typeof props.height === 'string' ? props.height : `${props.height}px`) : '50px')};
   padding-top: ${(props) => props.padding?.top || '0'};
   padding-bottom: ${(props) => props.padding?.bottom || '0'};

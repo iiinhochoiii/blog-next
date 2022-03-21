@@ -11,7 +11,7 @@ import { EmptyDataBox } from '@/components/Molecules';
 import { contacts } from '@/interfaces/models/contact';
 import MypageContactDialog from './Dialog/MypageContactDialog';
 
-const MypageComponent = observer((): JSX.Element => {
+const MypageContactComponent = observer((): JSX.Element => {
   const router = useRouter();
   const { contactStore, userStore } = useStores();
   const [loading, setLoading] = useState(false);
@@ -120,4 +120,4 @@ const MypageComponent = observer((): JSX.Element => {
   );
 });
 
-export default MypageComponent;
+export default MypageContactComponent;

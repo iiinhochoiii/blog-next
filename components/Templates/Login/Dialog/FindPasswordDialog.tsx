@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { Flex, Form, FormInput, FormSubmit, Box, Button, Text, Link } from '@/components/Atom';
 import { regExpEmail, regPassword } from '@/utils/regExp';
 import { Toaster } from '@/utils/common';
+import { FindPasswordForm } from '@/interfaces/models/user';
 
 interface Props {
   onClose: () => void;
@@ -24,9 +25,9 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
     formState: { errors },
     watch,
     reset,
-  } = useForm();
+  } = useForm<FindPasswordForm>();
 
-  const checkEmail = async (data): Promise<void> => {
+  const checkEmail = async (data: FindPasswordForm): Promise<void> => {
     try {
       if (isEmailCheck) {
         return;
@@ -66,7 +67,7 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
     }
   };
 
-  const verify = async (data): Promise<void> => {
+  const verify = async (data: FindPasswordForm): Promise<void> => {
     try {
       const { email, certificationCode } = data;
 
@@ -86,7 +87,7 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
     }
   };
 
-  const updatePassword = async (data): Promise<void> => {
+  const updatePassword = async (data: FindPasswordForm): Promise<void> => {
     try {
       const { password } = data;
 
@@ -98,6 +99,7 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
       }
     } catch (err) {
       console.log(err);
+      Toaster.showError('비밀번호가 변경되지 않았습니다. 다시 시도해주세요.');
     }
   };
 
@@ -153,14 +155,16 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
               </Box>
               <FormSubmit type="submit" value="확인" width="30%" disabled={isEmailCheck} />
             </Flex>
-            <Box textAlign="center" backgroundColor={'rgb(247, 248, 250)'} margin={{ top: '30px' }} padding={{ top: '20px', bottom: '20px' }}>
-              <Text size={12} textAlign="center">
-                회원가입시 입력한 정보가 기억나지 않으신가요?
-              </Text>
-              <Link href="mailto:dlsgh120@gmail.com" style={{ color: '#12b886', fontWeight: 'bold' }}>
-                Email 문의하기
-              </Link>
-            </Box>
+            {!isEmailCheck && (
+              <Box textAlign="center" backgroundColor={'rgb(247, 248, 250)'} margin={{ top: '30px' }} padding={{ top: '20px', bottom: '20px' }}>
+                <Text size={12} textAlign="center">
+                  회원가입시 입력한 정보가 기억나지 않으신가요?
+                </Text>
+                <Link href="mailto:dlsgh120@gmail.com" style={{ color: '#12b886', fontWeight: 'bold' }}>
+                  Email 문의하기
+                </Link>
+              </Box>
+            )}
           </Form>
           <Box>
             {isSendMail && (
@@ -182,24 +186,22 @@ const FindPasswordDialog = observer((props: Props): JSX.Element => {
                   fontSize={14}
                   error={errors.certificationCode}
                 />
-                {isSendMail && (
-                  <Box>
-                    <FormSubmit type="submit" margin={{ top: '20px' }} width={'100%'} value="인증하기" />
-                    <Flex margin={{ top: '15px' }}>
-                      인증번호를 받지 않으셨나요?{' '}
-                      <Text
-                        margin={{ top: 'auto', bottom: 'auto', left: '5px' }}
-                        size={14}
-                        style={{ textDecoration: 'underline', cursor: 'pointer' }}
-                        onClick={() => {
-                          sendMail();
-                        }}
-                      >
-                        인증번호 전송
-                      </Text>
-                    </Flex>
-                  </Box>
-                )}
+                <Box>
+                  <FormSubmit type="submit" margin={{ top: '20px' }} width={'100%'} value="인증하기" />
+                  <Flex margin={{ top: '15px' }}>
+                    인증번호를 받지 않으셨나요?{' '}
+                    <Text
+                      margin={{ top: 'auto', bottom: 'auto', left: '5px' }}
+                      size={14}
+                      style={{ textDecoration: 'underline', cursor: 'pointer' }}
+                      onClick={() => {
+                        sendMail();
+                      }}
+                    >
+                      인증번호 전송
+                    </Text>
+                  </Flex>
+                </Box>
               </Form>
             )}
             {isEmailCheck && !isSendMail && (

@@ -29,10 +29,26 @@ export interface LoginForm {
   password: string;
 }
 
-export interface SignUpForm {
-  email: string;
+export interface UpdatePasswordForm {
   password: string;
   passwordConfirm: string;
+}
+
+export interface SignUpForm extends UpdatePasswordForm {
+  email: string;
   name: string;
   phone: string;
+}
+
+export interface FindPasswordForm extends UpdatePasswordForm {
+  email: string;
+  certificationCode: string;
+}
+
+export interface UpdateUserForm {
+  user_id: number;
+  email: string;
+  name: string;
+  phone: string;
+  password: string;
 }

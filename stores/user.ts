@@ -99,6 +99,33 @@ class UserStore {
       console.log(err);
     }
   };
+
+  verifyPassword = async (id: number, password: string) => {
+    try {
+      const res = await axios.post(`/${this.modelName}/verify-password`, {
+        id: id,
+        password: password,
+      });
+
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  updateUserInfo = async (id: number, name: string, phone: string) => {
+    try {
+      const res = await axios.post(`/${this.modelName}/update-user`, {
+        id: id,
+        name: name,
+        phone: phone,
+      });
+
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 }
 
 export default UserStore;
