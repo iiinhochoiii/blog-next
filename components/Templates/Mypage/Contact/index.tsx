@@ -61,7 +61,7 @@ const MypageContactComponent = observer((): JSX.Element => {
   }
 
   return (
-    <Box style={{ minHeight: '100vh' }} width={'70%'}>
+    <Box style={{ minHeight: '100vh' }} width={'70%'} screen={{ size: 1010, calc: '0px' }}>
       <HeaderText size={22} fontWeight={400} color="rgb(18, 184, 134)">
         Received Message
       </HeaderText>

@@ -27,7 +27,9 @@ const MypageMenu = observer((props: Props) => {
   };
   return (
     <StyledMypageMenu width={width}>
-      <Text {...textProps}>내가 쓴 글 보기</Text>
+      <Text {...textProps} onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/blogs`)}>
+        내가 쓴 글 보기
+      </Text>
       <Text {...textProps} onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/settings`)}>
         비밀번호 변경
       </Text>
@@ -47,6 +49,10 @@ const StyledMypageMenu = styled.div<Props>`
   border-radius: 5px;
   text-align: center;
   border: 1px solid #e5e5e5;
+
+  @media screen and (max-width: 1010px) {
+    width: 100%;
+  }
 `;
 
 export default MypageMenu;

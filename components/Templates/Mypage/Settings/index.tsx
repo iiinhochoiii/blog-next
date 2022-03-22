@@ -77,12 +77,12 @@ const MypageSettingsComponent = observer(() => {
   };
 
   return (
-    <Box width={'70%'} style={{ minHeight: '100vh' }}>
+    <Box width={'70%'} style={{ minHeight: '100vh' }} screen={{ size: 1010, calc: '0px' }}>
       <HeaderText size={22} fontWeight={400} color="rgb(18, 184, 134)">
         개인정보 변경
       </HeaderText>
       {isVerifyPassword ? (
-        <Form width={'70%'} onSubmit={handleSubmit(updateUserInfo)}>
+        <Form width={'100%'} onSubmit={handleSubmit(updateUserInfo)}>
           <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
             이메일
           </Text>
@@ -132,7 +132,7 @@ const MypageSettingsComponent = observer(() => {
           </Flex>
         </Form>
       ) : (
-        <Form width={'70%'} onSubmit={handleSubmit(verifyPassword)}>
+        <Form width={'100%'} onSubmit={handleSubmit(verifyPassword)}>
           <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
             Password
           </Text>

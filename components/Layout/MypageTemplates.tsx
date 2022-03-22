@@ -17,7 +17,12 @@ const MypageTemplates = ({ children, title = '' }: props) => {
       <Box>
         <Header />
       </Box>
-      <Flex justify="space-between" width={980} margin={{ top: '30px', bottom: '30px', left: 'auto', right: 'auto' }}>
+      <Flex
+        justify="space-between"
+        width={980}
+        margin={{ top: '30px', bottom: '30px', left: 'auto', right: 'auto' }}
+        screen={{ width: 1010, flexWrap: 'wrap' }}
+      >
         <MypageMenu width={'25%'} />
         {children}
       </Flex>

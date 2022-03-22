@@ -39,6 +39,7 @@ const StyledFlex = styled.div<Props>`
         return css`
           @media screen and (max-width: ${`${props?.screen?.width}px` || '690px'}) {
             flex-wrap: ${props?.screen?.flexWrap};
+            width: calc(100% - 30px) !important;
           } ;
         `;
       }
