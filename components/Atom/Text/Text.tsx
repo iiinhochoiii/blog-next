@@ -31,7 +31,7 @@ interface Props extends InputHTMLAttributes<HTMLParagraphElement> {
   };
 }
 const Text = (props: Props) => {
-  const { children, size, style, color, hover, margin, padding, fontWeight, textAlign, lineHeight, screen, onClick } = props;
+  const { children, size, style, color, hover, margin, padding, fontWeight, textAlign, lineHeight, screen } = props;
   return (
     <StyledText
       style={style}
