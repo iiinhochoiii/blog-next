@@ -21,7 +21,7 @@ const MypageBlogComponent = observer(() => {
     try {
       const params = {
         page: paging,
-        userId: '@' + String(userStore.userInfo?.user_id),
+        userId: String(userStore.userInfo?.user_id),
       };
 
       const res = await blogStore.getSearchBlogList(params);

@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLParagraphElement> {
   children?: React.ReactNode;
   size?: number;
   style?: React.CSSProperties;
   color?: string;
   hover?: {
     color?: string;
+    background?: string;
   };
   margin?: {
     top?: string;
@@ -28,7 +29,6 @@ interface Props {
     width?: number;
     size?: number;
   };
-  onClick?: (e: any) => void;
 }
 const Text = (props: Props) => {
   const { children, size, style, color, hover, margin, padding, fontWeight, textAlign, lineHeight, screen, onClick } = props;
@@ -44,7 +44,7 @@ const Text = (props: Props) => {
       textAlign={textAlign}
       lineHeight={lineHeight}
       screen={screen}
-      onClick={onClick}
+      {...props}
     >
       {children}
     </StyledText>
@@ -82,6 +82,7 @@ const StyledText = styled.p<Props>`
       return css`
         &:hover {
           color: ${props?.hover?.color};
+          background-color: ${props?.hover?.background};
           & > p {
             color: ${props?.hover?.color};
           }

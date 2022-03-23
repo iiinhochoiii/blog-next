@@ -53,8 +53,8 @@ class BlogStore {
       }
 
       let url = '';
-      if (userId && userId.includes('@')) {
-        url = `/${this.modelName}/${userId.replace('@', '')}/search?`;
+      if (userId) {
+        url = `/${this.modelName}/${userId}/search?`;
       } else {
         url = `/${this.modelName}/search?`;
       }

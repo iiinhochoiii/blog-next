@@ -40,7 +40,7 @@ const BlogComponent = observer((): JSX.Element => {
     try {
       setLoading(true);
       if (userId) {
-        const user = await userStore.getUser(Number(String(userId).replace('@', '')));
+        const user = await userStore.getUser(Number(userId));
         setUser(user);
       }
       const params = {
@@ -119,6 +119,7 @@ const BlogComponent = observer((): JSX.Element => {
                   created_at={item.created_at}
                   name={item?.name}
                   user_id={item?.user_id}
+                  abled={true}
                 />
               ))}
             </Box>
