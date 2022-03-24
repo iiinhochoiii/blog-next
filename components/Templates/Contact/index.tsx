@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
@@ -8,9 +8,12 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import { regExpEmail, regExpPhone } from '@/utils/regExp';
 import { useForm } from 'react-hook-form';
 import { ContactForm } from '@/interfaces/models/contact';
+import { useRouter } from 'next/router';
 
 const ContactComponent = observer((): JSX.Element => {
-  const { contactStore } = useStores();
+  const { contactStore, userStore } = useStores();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -18,6 +21,24 @@ const ContactComponent = observer((): JSX.Element => {
     reset,
   } = useForm<ContactForm>();
 
+  useEffect(() => {
+    const { receiver } = router.query;
+    if (receiver) {
+      getUser();
+    } else {
+      Toaster.showWarning('받는 사람이 지정 되어 있지 않습니다.');
+      router.back();
+    }
+  }, [router]);
+
+  const getUser = async (): Promise<void> => {
+    try {
+      const res = await userStore.getUser(Number(router.query.receiver));
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const create = async (data: ContactForm): Promise<void> => {
     try {
       await contactStore.createContact(data);

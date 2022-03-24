@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { Text } from '@/components/Atom';
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   routeBlog: () => void;
   routeContact: () => void;
 }
@@ -24,7 +24,7 @@ const ArticleOptionBox = (props: Props) => {
   };
 
   return (
-    <StyledArticleOptionBox>
+    <StyledArticleOptionBox {...props}>
       <Text {...textProps} onClick={() => routeBlog()}>
         작성한 글 보기
       </Text>
@@ -38,7 +38,6 @@ const ArticleOptionBox = (props: Props) => {
 const StyledArticleOptionBox = styled.div`
   position: absolute;
   right: 0;
-  top: 180px;
   width: 100px;
   border: 1px solid #e5e5e5;
   background-color: #fff;

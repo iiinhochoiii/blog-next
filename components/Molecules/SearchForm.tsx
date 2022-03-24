@@ -21,9 +21,9 @@ const SearchForm = (props: Props) => {
   };
 
   useEffect(() => {
-    if (router.query.title) {
+    if (router.query) {
       reset({
-        keyword: String(router.query.title),
+        keyword: router.query?.title ? String(router.query.title) : '',
       });
     }
   }, [router]);

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import styled, { css } from 'styled-components';
 import { Blog } from '@/interfaces/models/blog';
 import { Link, Text, Button, Flex } from '@/components/Atom';
 import { ArticleOptionBox } from '@/components/Molecules';
@@ -14,8 +14,6 @@ interface Props extends Blog {
 const PostArticle = (props: Props) => {
   const { blog_id, title, summary, blog_type, created_at, name, user_id, abled = false } = props;
   const router = useRouter();
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const moveBlogTypeHandler = (type?: string) => {
     const { userId } = router.query;
@@ -46,21 +44,12 @@ const PostArticle = (props: Props) => {
       </Button>
       <Flex justify="space-between" margin={{ top: '15px' }}>
         <Text size={14}>{moment(created_at).format('YYYY-MM-DD')}</Text>
-        <Text
-          size={14}
-          style={{
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            if (abled) {
-              setIsOpen(!isOpen);
-            }
-          }}
-        >
-          {name}
-        </Text>
-        {isOpen && (
+        <StyledArticleNameBox abled={abled}>
+          <Text className="article-user-name" size={14}>
+            {name}
+          </Text>
           <ArticleOptionBox
+            className="article-option-box"
             routeBlog={(): void => {
               router.push({
                 pathname: `/blog/${user_id}`,
@@ -70,10 +59,15 @@ const PostArticle = (props: Props) => {
               });
             }}
             routeContact={(): void => {
-              router.push('/contact');
+              router.push({
+                pathname: '/contact',
+                query: {
+                  receiver: user_id,
+                },
+              });
             }}
           />
-        )}
+        </StyledArticleNameBox>
       </Flex>
     </StyledArticle>
   );
@@ -84,4 +78,24 @@ const StyledArticle = styled.article`
   border-bottom: 1px solid #b4b2b2;
   padding: 15px 0px;
 `;
+
+const StyledArticleNameBox = styled.div<Props>`
+  .article-option-box {
+    display: none;
+  }
+
+  ${(props) => {
+    if (props.abled) {
+      return css`
+        cursor: pointer;
+        &:hover {
+          & > .article-option-box {
+            display: block;
+          }
+        }
+      `;
+    }
+  }}
+`;
+
 export default PostArticle;
