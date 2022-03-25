@@ -23,20 +23,14 @@ const MypageContactComponent = observer((): JSX.Element => {
   }, []);
 
   const search = async (): Promise<void> => {
-    if (process.browser) {
-      if (userStore?.userInfo?.user_id === 1) {
-        try {
-          setLoading(true);
-          const res = await contactStore.getContactList();
-          contactStore.setContacts(res.data);
-          setLoading(false);
-        } catch (err) {
-          setLoading(false);
-          console.log(false);
-        }
-      } else {
-        router.push('/');
-      }
+    try {
+      setLoading(true);
+      const res = await contactStore.getContactList();
+      contactStore.setContacts(res.data);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      console.log(false);
     }
   };
   const deleteContact = async (contact_id: number): Promise<void> => {
@@ -81,7 +75,7 @@ const MypageContactComponent = observer((): JSX.Element => {
             <tbody>
               {contactStore.contacts.map((item, index) => (
                 <tr key={item.contact_id}>
-                  <td>{item.contact_id}</td>
+                  <td>{index + 1}</td>
                   <td style={{ textAlign: 'left' }}>
                     <TextTruncate line={1} element="p" truncateText="…" text={item.message} />
                   </td>

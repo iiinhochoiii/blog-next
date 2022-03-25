@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
 import { Box, Background, HeaderText, Text, IconLink, Form, FormUnderlineInput, FormSubmit, FormTextArea } from '@/components/Atom';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import { regExpEmail, regExpPhone } from '@/utils/regExp';
+import { regExpEmail } from '@/utils/regExp';
 import { useForm } from 'react-hook-form';
 import { ContactForm } from '@/interfaces/models/contact';
 import { useRouter } from 'next/router';
+import { UserInfo } from '@/interfaces/models/user';
 
 const ContactComponent = observer((): JSX.Element => {
   const { contactStore, userStore } = useStores();
   const router = useRouter();
+  const [receiverUser, setReceiverUser] = useState<UserInfo>();
 
   const {
     register,
@@ -22,34 +23,43 @@ const ContactComponent = observer((): JSX.Element => {
   } = useForm<ContactForm>();
 
   useEffect(() => {
-    const { receiver } = router.query;
-    if (receiver) {
-      getUser();
-    } else {
-      Toaster.showWarning('받는 사람이 지정 되어 있지 않습니다.');
-      router.back();
+    getUser();
+    if (!router.query?.receiver) {
+      Toaster.showWarning('받는사람이 지정되어있지 않을 시, 관리자에게 전송 됩니다.');
     }
-  }, [router]);
+
+    if (userStore.userInfo) {
+      reset({
+        name: userStore.userInfo?.name,
+        email: userStore.userInfo?.email,
+        phone: userStore.userInfo?.phone,
+      });
+    }
+  }, [router.query, userStore.userInfo]);
 
   const getUser = async (): Promise<void> => {
     try {
-      const res = await userStore.getUser(Number(router.query.receiver));
-      console.log(res);
+      const params = router.query?.receiver ? Number(router.query.receiver) : 1;
+      const res = await userStore.getUser(params);
+      setReceiverUser(res);
     } catch (err) {
       console.log(err);
     }
   };
   const create = async (data: ContactForm): Promise<void> => {
     try {
-      await contactStore.createContact(data);
+      const params = {
+        ...data,
+        receiverUserId: router.query?.receiver ? Number(router.query.receiver) : 1,
+      };
+      await contactStore.createContact(params);
+
       Toaster.showSuccess('메세지가 전송되었습니다.');
       reset({
-        name: '',
-        email: '',
-        phone: '',
         message: '',
       });
     } catch (err) {
+      console.log(err);
       Toaster.showError('메세지 전송에 실패하였습니다.');
     }
   };
@@ -78,19 +88,13 @@ const ContactComponent = observer((): JSX.Element => {
             Contact
           </HeaderText>
           <Box margin={{ bottom: '10px' }}>
-            <IconLink href="mailto:dlsgh120@gmail.com">
+            <IconLink href={`mailto:${receiverUser?.email}`}>
               <MailOutlineIcon />
               email
             </IconLink>
           </Box>
-          <Box margin={{ bottom: '10px' }}>
-            <IconLink href="https://github.com/dlsgh120">
-              <GitHubIcon />
-              github
-            </IconLink>
-          </Box>
-          <Text size={16} margin={{ top: '10px', bottom: '10px' }}>
-            OR
+          <Text size={22} fontWeight="bold">
+            To. {router.query?.receiver ? receiverUser?.name : '관리자'}님
           </Text>
           <Form width="50%" screen={{ size: 1010, calc: '0px' }} onSubmit={handleSubmit(create)}>
             <Box margin={{ bottom: '10px' }}>
@@ -123,16 +127,12 @@ const ContactComponent = observer((): JSX.Element => {
             <Box margin={{ bottom: '10px' }}>
               <FormUnderlineInput
                 type="text"
-                placeholder='보내시는 분의 연락처("-" 포함)를 입력해주세요.'
+                placeholder="보내시는 분의 연락처를 입력해주세요."
                 maxLength={13}
                 {...register('phone', {
                   required: {
                     value: true,
                     message: '연락처를 입력해주세요.',
-                  },
-                  pattern: {
-                    value: regExpPhone,
-                    message: '올바른 형식의 연락처를 입력해주세요.',
                   },
                 })}
                 error={errors.phone}

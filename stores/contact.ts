@@ -18,32 +18,26 @@ class ContactStore {
     this.contacts = value;
   };
 
-  createContact = async (contact: { name: string; email: string; phone: string; message: string }) => {
-    try {
-      const res = await axios.post(`/${this.modelName}`, { name: contact.name, email: contact.email, phone: contact.phone, message: contact.message });
+  createContact = async (params: { name: string; email: string; phone: string; message: string; receiverUserId: number }) => {
+    const res = await axios.post(`/${this.modelName}`, {
+      receiverUserId: params.receiverUserId,
+      name: params.name,
+      email: params.email,
+      phone: params.phone,
+      message: params.message,
+    });
 
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
+    return res.data;
   };
 
   getContactList = async () => {
-    try {
-      const res = await axios.get(`/${this.modelName}`);
+    const res = await axios.get(`/${this.modelName}`);
 
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
+    return res.data;
   };
 
   deleteContact = async (contact_id: number) => {
-    try {
-      await axios.delete(`/${this.modelName}/${contact_id}`);
-    } catch (err) {
-      console.log(err);
-    }
+    await axios.delete(`/${this.modelName}/${contact_id}`);
   };
 }
 
