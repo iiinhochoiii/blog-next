@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
-import { useRouter } from 'next/router';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
 import moment from 'moment';
@@ -12,8 +11,7 @@ import { contacts } from '@/interfaces/models/contact';
 import MypageContactDialog from './Dialog/MypageContactDialog';
 
 const MypageContactComponent = observer((): JSX.Element => {
-  const router = useRouter();
-  const { contactStore, userStore } = useStores();
+  const { contactStore } = useStores();
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState<contacts>();
   const [showContactModal, setShowContactModal] = useState(false);
