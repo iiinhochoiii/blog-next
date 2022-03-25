@@ -36,8 +36,12 @@ const Header = observer((): JSX.Element => {
     window.location.href = '/';
   };
 
-  const userHandler = (type: string) => {
-    router.push(`/${type}`);
+  const login = () => {
+    if (router.asPath === '/') {
+      router.push('/login');
+    } else {
+      router.push(`/login?redirect=${encodeURIComponent(router.asPath)}`);
+    }
   };
 
   const blogWriteHandler = () => {
@@ -94,7 +98,7 @@ const Header = observer((): JSX.Element => {
             </Box>
           ) : (
             <Flex className="header-before-login">
-              <Text onClick={() => userHandler('login')} margin={{ left: '10px' }} size={16} style={{ cursor: 'pointer' }}>
+              <Text onClick={() => login()} margin={{ left: '10px' }} size={16} style={{ cursor: 'pointer' }}>
                 로그인
               </Text>
             </Flex>
@@ -164,7 +168,7 @@ const Header = observer((): JSX.Element => {
                   </>
                 ) : (
                   <Text
-                    onClick={() => userHandler('login')}
+                    onClick={() => login()}
                     size={16}
                     hover={{ color: 'rgb(18, 184, 134)' }}
                     margin={{ top: '10px', bottom: '10px' }}

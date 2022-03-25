@@ -36,7 +36,11 @@ const LoginComponent = observer((): JSX.Element => {
             phone: userInfo?.data?.phone,
           });
         }
-        router.push('/');
+        if (router.query?.redirect) {
+          router.push(String(router.query.redirect));
+        } else {
+          router.push('/');
+        }
       } else {
         Toaster.showWarning(res?.msg);
       }
