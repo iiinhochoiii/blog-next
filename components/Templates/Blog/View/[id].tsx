@@ -35,12 +35,6 @@ const ViewBlogComponent = observer((): JSX.Element => {
     Prism.highlightAll();
   });
 
-  const deleteHandler = () => {
-    if (window.confirm('삭제하시겠습니까?')) {
-      deleteBlog(Number(blogStore.blogItem?.blog_id));
-    }
-  };
-
   const getBlogItem = async () => {
     try {
       const res = await blogStore.getBlogItem(Number(blog_id));
@@ -50,15 +44,21 @@ const ViewBlogComponent = observer((): JSX.Element => {
     }
   };
 
-  const deleteBlog = async (blog_id: number) => {
-    try {
-      const res = await blogStore.deleteBlog(blog_id);
-      if (res?.status) {
-        Toaster.showSuccess('삭제되었습니다.');
-        router.back();
+  const hideHandler = async () => {
+    if (window.confirm('숨김 처리 하시겠습니까?')) {
+      try {
+        const params = {
+          blog_id: Number(blog_id),
+          hideStatus: true,
+        };
+        const res = await blogStore.hideBlog(params);
+        if (res?.status) {
+          Toaster.showSuccess('숨김 처리 되었습니다. 숨김 상태는 마이페이지에서 확인할 수 있습니다.');
+          router.back();
+        }
+      } catch (err) {
+        Toaster.showError('숨김처리 중 에러가 발생하였습니다.');
       }
-    } catch (err) {
-      Toaster.showError('삭제 중 에러가 발생하였습니다.');
     }
   };
 
@@ -94,7 +94,7 @@ const ViewBlogComponent = observer((): JSX.Element => {
             <Text size={18} fontWeight="bold" color="#fff">
               {blogStore.blogItem?.created_at && moment(blogStore.blogItem.created_at).format('YYYY-MM-DD')}
             </Text>
-            {updateState && <PostSettingBox updateHandler={updateHandler} deleteHandler={deleteHandler} />}
+            {updateState && <PostSettingBox updateHandler={updateHandler} hideHandler={hideHandler} />}
           </Box>
         </Box>
       </Background>

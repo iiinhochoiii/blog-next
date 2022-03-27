@@ -8,6 +8,7 @@ export type blogs = {
   blog_type: string;
   name: string;
   markdown: string;
+  show_status?: string;
 };
 
 export type pageType = {
@@ -26,6 +27,7 @@ export interface Blog {
   summary?: string;
   title?: string;
   user_id?: number;
+  show_status?: string;
 }
 
 export interface SearchKeywordForm {

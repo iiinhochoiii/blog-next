@@ -43,13 +43,16 @@ class BlogStore {
     }
   };
 
-  getSearchBlogList = async (params: { title?: string; page: number; userId?: string }) => {
+  getSearchBlogList = async (params: { title?: string; page: number; userId?: string; showStatus?: boolean }) => {
     try {
-      const { page, title, userId } = params;
+      const { page, title, userId, showStatus } = params;
 
       let query = `page=${page || 1}`;
       if (title) {
         query = query + `&title=${title}`;
+      }
+      if (showStatus) {
+        query = query + `&showStatus=${showStatus}`;
       }
 
       let url = '';
@@ -106,6 +109,11 @@ class BlogStore {
     } catch (e) {
       console.log(e);
     }
+  };
+
+  hideBlog = async (params: { blog_id: number; hideStatus: boolean }) => {
+    const res = await axios.post(`/${this.modelName}/hide`, params);
+    return res.data;
   };
 }
 

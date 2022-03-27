@@ -9,10 +9,11 @@ import moment from 'moment';
 
 interface Props extends Blog {
   abled?: boolean; // 글쓴이를 클릭 했을 때 메뉴 활성화 여부
+  hideAction?: boolean; // 게시글 숨기기 및 활성화에 대한 여부
 }
 
 const PostArticle = (props: Props) => {
-  const { blog_id, title, summary, blog_type, created_at, name, user_id, abled = false } = props;
+  const { blog_id, title, summary, blog_type, created_at, name, user_id, show_status, abled = false, hideAction = false } = props;
   const router = useRouter();
 
   const moveBlogTypeHandler = (type?: string) => {
@@ -66,6 +67,8 @@ const PostArticle = (props: Props) => {
                 },
               });
             }}
+            hideAction={hideAction}
+            show_status={show_status}
           />
         </StyledArticleNameBox>
       </Flex>

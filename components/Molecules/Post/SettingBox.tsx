@@ -5,11 +5,11 @@ import { Box } from '@/components/Atom';
 
 interface Props {
   updateHandler: () => void;
-  deleteHandler: () => void;
+  hideHandler: () => void;
 }
 
 const PostSettingBox = (props: Props) => {
-  const { updateHandler, deleteHandler } = props;
+  const { updateHandler, hideHandler } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ const PostSettingBox = (props: Props) => {
       {isOpen && (
         <StyledPostSettingBox>
           <StyledSettingItems onClick={() => updateHandler()}>수정</StyledSettingItems>
-          <StyledSettingItems onClick={() => deleteHandler()}>삭제</StyledSettingItems>
+          <StyledSettingItems onClick={() => hideHandler()}>숨김</StyledSettingItems>
         </StyledPostSettingBox>
       )}
     </Box>

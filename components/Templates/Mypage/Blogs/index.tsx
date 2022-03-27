@@ -22,6 +22,7 @@ const MypageBlogComponent = observer(() => {
       const params = {
         page: paging,
         userId: String(userStore.userInfo?.user_id),
+        showStatus: true,
       };
 
       const res = await blogStore.getSearchBlogList(params);
@@ -48,6 +49,9 @@ const MypageBlogComponent = observer(() => {
               created_at={item.created_at}
               name={item?.name}
               user_id={item?.user_id}
+              show_status={item?.show_status}
+              abled={true}
+              hideAction={true}
             />
           ))}
           <Box margin={{ top: '20px' }}>
