@@ -20,7 +20,7 @@ export type pageType = {
 };
 
 export interface Blog {
-  blog_id?: number;
+  blog_id: number;
   blog_type?: string;
   created_at?: string;
   name?: string;

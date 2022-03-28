@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
+import { observer } from 'mobx-react';
+import useStores from '@/hooks/use-stores';
 import styled, { css } from 'styled-components';
 import { Blog } from '@/interfaces/models/blog';
 import { Link, Text, Button, Flex } from '@/components/Atom';
@@ -6,14 +8,17 @@ import { ArticleOptionBox } from '@/components/Molecules';
 import TextTruncate from 'react-text-truncate'; // recommend
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { Toaster } from '@/utils/common';
 
-interface Props extends Blog {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   abled?: boolean; // 글쓴이를 클릭 했을 때 메뉴 활성화 여부
-  hideAction?: boolean; // 게시글 숨기기 및 활성화에 대한 여부
+  blog: Blog;
+  doneCallback?: () => Promise<void>;
 }
 
-const PostArticle = (props: Props) => {
-  const { blog_id, title, summary, blog_type, created_at, name, user_id, show_status, abled = false, hideAction = false } = props;
+const PostArticle = observer((props: Props) => {
+  const { blog, doneCallback } = props;
+  const { blogStore } = useStores();
   const router = useRouter();
 
   const moveBlogTypeHandler = (type?: string) => {
@@ -28,32 +33,54 @@ const PostArticle = (props: Props) => {
     });
   };
 
+  const hideBlog = async (blog_id: number, status: boolean): Promise<void> => {
+    try {
+      const params = {
+        blog_id: blog_id,
+        hideStatus: status,
+      };
+      const res = await blogStore.hideBlog(params);
+      console.log(res);
+      if (res.status) {
+        if (doneCallback) {
+          doneCallback();
+        }
+        Toaster.showSuccess(res?.msg || '상태가 변경되었습니다.');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <StyledArticle key={blog_id}>
-      <Link href="/blog/[userId]/[id]" as={`/blog/${user_id}/${blog_id}`} hover={{ color: '#0085a1' }}>
+    <StyledArticle key={blog.blog_id}>
+      <Link href="/blog/[userId]/[id]" as={`/blog/${blog?.user_id}/${blog?.blog_id}`} hover={{ color: '#0085a1' }}>
         {/* title */}
         <Text size={22} fontWeight={400} margin={{ top: '10px', bottom: '10px' }} screen={{ width: 690, size: 18 }}>
-          {title}
+          {blog?.show_status && blog?.show_status === 'HIDE_STATUS' && (
+            <span style={{ fontSize: '14px', fontWeight: 'bold', color: 'rgb(18,184,134)' }}>{'[숨김] '}</span>
+          )}
+          {blog?.title}
         </Text>
         {/* summary */}
         <Text margin={{ bottom: '10px' }} size={18} lineHeight={30} screen={{ width: 690, size: 16 }}>
-          <TextTruncate line={2} element="span" truncateText="…" text={summary} />
+          <TextTruncate line={2} element="span" truncateText="…" text={blog?.summary} />
         </Text>
       </Link>
-      <Button onClick={() => moveBlogTypeHandler(blog_type)} radius={10} className="-btn_post_article">
-        # {blog_type}
+      <Button onClick={() => moveBlogTypeHandler(blog?.blog_type)} radius={10} className="-btn_post_article">
+        # {blog?.blog_type}
       </Button>
       <Flex justify="space-between" margin={{ top: '15px' }}>
-        <Text size={14}>{moment(created_at).format('YYYY-MM-DD')}</Text>
-        <StyledArticleNameBox abled={abled}>
+        <Text size={14}>{moment(blog?.created_at).format('YYYY-MM-DD')}</Text>
+        <StyledArticleNameBox {...props}>
           <Text className="article-user-name" size={14}>
-            {name}
+            {blog?.name}
           </Text>
           <ArticleOptionBox
             className="article-option-box"
             routeBlog={(): void => {
               router.push({
-                pathname: `/blog/${user_id}`,
+                pathname: `/blog/${blog?.user_id}`,
                 query: {
                   page: 1,
                 },
@@ -63,18 +90,20 @@ const PostArticle = (props: Props) => {
               router.push({
                 pathname: '/contact',
                 query: {
-                  receiver: user_id,
+                  receiver: blog.user_id,
                 },
               });
             }}
-            hideAction={hideAction}
-            show_status={show_status}
+            hide={(status: boolean): void => {
+              hideBlog(blog.blog_id, status);
+            }}
+            show_status={blog?.show_status}
           />
         </StyledArticleNameBox>
       </Flex>
     </StyledArticle>
   );
-};
+});
 
 const StyledArticle = styled.article`
   position: relative;

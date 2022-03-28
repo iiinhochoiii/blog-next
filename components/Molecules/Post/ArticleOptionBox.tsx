@@ -5,12 +5,12 @@ import { Text } from '@/components/Atom';
 interface Props extends HTMLAttributes<HTMLDivElement> {
   routeBlog: () => void;
   routeContact: () => void;
-  hideAction?: boolean;
   show_status?: string;
+  hide: (status: boolean) => void;
 }
 
 const ArticleOptionBox = (props: Props) => {
-  const { routeBlog, routeContact, show_status } = props;
+  const { routeBlog, routeContact, show_status, hide } = props;
   const textProps = {
     textAlign: 'center',
     padding: {
@@ -34,7 +34,7 @@ const ArticleOptionBox = (props: Props) => {
         메세지 보내기
       </Text>
       {show_status && (
-        <Text {...textProps} onClick={() => routeContact()}>
+        <Text {...textProps} onClick={() => hide(show_status === 'HIDE_STATUS' ? false : true)}>
           {show_status === 'HIDE_STATUS' && '숨김해제'}
           {show_status === 'SHOW_STATUS' && '숨김'}
         </Text>

@@ -110,17 +110,7 @@ const BlogComponent = observer((): JSX.Element => {
           ) : blogStore.blogs?.length > 0 ? (
             <Box>
               {blogStore.blogs.map((item) => (
-                <PostArticle
-                  key={item?.blog_id}
-                  blog_id={item?.blog_id}
-                  title={item?.title}
-                  summary={item?.summary}
-                  blog_type={item?.blog_type}
-                  created_at={item.created_at}
-                  name={item?.name}
-                  user_id={item?.user_id}
-                  abled={true}
-                />
+                <PostArticle key={item?.blog_id} blog={item} abled={true} />
               ))}
             </Box>
           ) : (

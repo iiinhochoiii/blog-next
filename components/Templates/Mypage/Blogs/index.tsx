@@ -40,19 +40,7 @@ const MypageBlogComponent = observer(() => {
       {blogStore.blogs?.length > 0 ? (
         <Box>
           {blogStore.blogs.map((item) => (
-            <PostArticle
-              key={item?.blog_id}
-              blog_id={item?.blog_id}
-              title={item?.title}
-              summary={item?.summary}
-              blog_type={item?.blog_type}
-              created_at={item.created_at}
-              name={item?.name}
-              user_id={item?.user_id}
-              show_status={item?.show_status}
-              abled={true}
-              hideAction={true}
-            />
+            <PostArticle key={item?.blog_id} blog={item} abled={true} doneCallback={() => initBlog()} />
           ))}
           <Box margin={{ top: '20px' }}>
             <Pagination page={blogStore.page} pageNum={paging} setPaging={setPaging} />
