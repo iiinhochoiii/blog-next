@@ -29,9 +29,11 @@ const MypageBlogComponent = observer(() => {
       blogStore.setBlogs(res.data);
       blogStore.setPage(res.page);
     } catch (err) {
+      console.log(err);
       Toaster.showWarning('블로그를 불러오는 중 오류가 발생하였습니다.');
     }
   };
+
   return (
     <Box style={{ minHeight: '100vh' }} width={'70%'} screen={{ size: 1010, calc: '0px' }}>
       <HeaderText size={22} fontWeight={400} color="rgb(18, 184, 134)">

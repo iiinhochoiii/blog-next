@@ -18,6 +18,7 @@ const ViewBlogComponent = observer((): JSX.Element => {
   const [updateState, setUpdateState] = useState<boolean>(false);
 
   useEffect(() => {
+    blogStore.setBlogItem(null);
     getBlogItem();
   }, []);
 
@@ -38,7 +39,12 @@ const ViewBlogComponent = observer((): JSX.Element => {
   const getBlogItem = async () => {
     try {
       const res = await blogStore.getBlogItem(Number(blog_id));
-      blogStore.setBlogItem(res.data);
+      console.log(res);
+      if (res?.status) {
+        blogStore.setBlogItem(res.data);
+      } else {
+        Toaster.showError(res.message);
+      }
     } catch (err) {
       Toaster.showError('데이터를 불러오는 중 에러가 발생하였습니다.');
     }
@@ -74,7 +80,7 @@ const ViewBlogComponent = observer((): JSX.Element => {
   return (
     <Box>
       <Head>
-        <title>{blogStore.blogItem?.title}</title>
+        <title>{blogStore?.blogItem?.title}</title>
       </Head>
       <Background url={'/images/blog_background.jpg'} background="no-repeat center" position="relative">
         <Box
@@ -86,25 +92,25 @@ const ViewBlogComponent = observer((): JSX.Element => {
         >
           <Box width={980} margin={{ left: 'auto', right: 'auto' }}>
             <HeaderText size={26} color="#fff">
-              {blogStore.blogItem?.title}
+              {blogStore?.blogItem?.title}
             </HeaderText>
             <Text margin={{ bottom: '10px' }} padding={{ top: '50px' }} color="#fff" fontWeight="bold">
-              {blogStore.blogItem?.name}
+              {blogStore?.blogItem?.name}
             </Text>
             <Text size={18} fontWeight="bold" color="#fff">
-              {blogStore.blogItem?.created_at && moment(blogStore.blogItem.created_at).format('YYYY-MM-DD')}
+              {blogStore?.blogItem?.created_at && moment(blogStore?.blogItem?.created_at).format('YYYY-MM-DD')}
             </Text>
             {updateState && <PostSettingBox updateHandler={updateHandler} hideHandler={hideHandler} />}
           </Box>
         </Box>
       </Background>
       <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
-        <PostContent>{blogStore.blogItem && Parser(blogStore.blogItem.content)}</PostContent>
+        {blogStore?.blogItem && <PostContent>{Parser(blogStore?.blogItem?.content)}</PostContent>}
         <Box>
           <DiscussionEmbed
             shortname={'choitech-1'}
             config={{
-              url: `https://c-tech.vercel.app/blog/${blogStore.blogItem?.blog_id}`,
+              url: `https://c-tech.vercel.app/blog/${blogStore?.blogItem?.blog_id}`,
               identifier: '',
               title: 'this page title',
             }}

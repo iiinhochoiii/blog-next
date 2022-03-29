@@ -40,7 +40,6 @@ const PostArticle = observer((props: Props) => {
         hideStatus: status,
       };
       const res = await blogStore.hideBlog(params);
-      console.log(res);
       if (res.status) {
         if (doneCallback) {
           doneCallback();
@@ -49,6 +48,23 @@ const PostArticle = observer((props: Props) => {
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const deleteBlog = async (): Promise<void> => {
+    if (window.confirm('블로그를 삭제하시겠습니까?')) {
+      try {
+        const res = await blogStore.deleteBlog(blog.blog_id);
+        if (res?.status) {
+          if (doneCallback) {
+            doneCallback();
+          }
+          Toaster.showSuccess(res?.msg || '게시글이 삭제되었습니다.');
+        }
+      } catch (err) {
+        console.log(err);
+        Toaster.showWarning('블로그를 삭제하는 중 오류가 발생하였습니다.');
+      }
     }
   };
 
@@ -94,10 +110,11 @@ const PostArticle = observer((props: Props) => {
                 },
               });
             }}
+            show_status={blog?.show_status}
             hide={(status: boolean): void => {
               hideBlog(blog.blog_id, status);
             }}
-            show_status={blog?.show_status}
+            deleteBlog={() => deleteBlog()}
           />
         </StyledArticleNameBox>
       </Flex>

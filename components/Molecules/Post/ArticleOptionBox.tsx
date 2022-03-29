@@ -7,10 +7,11 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   routeContact: () => void;
   show_status?: string;
   hide: (status: boolean) => void;
+  deleteBlog?: () => void;
 }
 
 const ArticleOptionBox = (props: Props) => {
-  const { routeBlog, routeContact, show_status, hide } = props;
+  const { routeBlog, routeContact, show_status, hide, deleteBlog } = props;
   const textProps = {
     textAlign: 'center',
     padding: {
@@ -34,10 +35,22 @@ const ArticleOptionBox = (props: Props) => {
         메세지 보내기
       </Text>
       {show_status && (
-        <Text {...textProps} onClick={() => hide(show_status === 'HIDE_STATUS' ? false : true)}>
-          {show_status === 'HIDE_STATUS' && '숨김해제'}
-          {show_status === 'SHOW_STATUS' && '숨김'}
-        </Text>
+        <>
+          <Text {...textProps} onClick={() => hide(show_status === 'HIDE_STATUS' ? false : true)}>
+            {show_status === 'HIDE_STATUS' && '숨김해제'}
+            {show_status === 'SHOW_STATUS' && '숨김'}
+          </Text>
+          <Text
+            {...textProps}
+            onClick={() => {
+              if (deleteBlog) {
+                deleteBlog();
+              }
+            }}
+          >
+            게시글 삭제
+          </Text>
+        </>
       )}
     </StyledArticleOptionBox>
   );
