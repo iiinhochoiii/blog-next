@@ -15,22 +15,11 @@ const ViewBlogComponent = observer((): JSX.Element => {
   const router = useRouter();
   const blog_id = router.query.id;
   const { blogStore, userStore } = useStores();
-  const [updateState, setUpdateState] = useState<boolean>(false);
 
   useEffect(() => {
     blogStore.setBlogItem(null);
     getBlogItem();
   }, []);
-
-  useEffect(() => {
-    if (process.browser) {
-      if (blogStore.blogItem?.user_id === userStore?.userInfo?.user_id) {
-        setUpdateState(true);
-      } else {
-        setUpdateState(false);
-      }
-    }
-  }, [blogStore.blogItem]);
 
   useEffect(() => {
     Prism.highlightAll();
@@ -39,7 +28,6 @@ const ViewBlogComponent = observer((): JSX.Element => {
   const getBlogItem = async () => {
     try {
       const res = await blogStore.getBlogItem(Number(blog_id));
-      console.log(res);
       if (res?.status) {
         blogStore.setBlogItem(res.data);
       } else {
@@ -77,7 +65,7 @@ const ViewBlogComponent = observer((): JSX.Element => {
     });
   };
 
-  return (
+  return blogStore?.blogItem ? (
     <Box>
       <Head>
         <title>{blogStore?.blogItem?.title}</title>
@@ -100,12 +88,12 @@ const ViewBlogComponent = observer((): JSX.Element => {
             <Text size={18} fontWeight="bold" color="#fff">
               {blogStore?.blogItem?.created_at && moment(blogStore?.blogItem?.created_at).format('YYYY-MM-DD')}
             </Text>
-            {updateState && <PostSettingBox updateHandler={updateHandler} hideHandler={hideHandler} />}
+            {blogStore.blogItem?.user_id === userStore?.userInfo?.user_id && <PostSettingBox updateHandler={updateHandler} hideHandler={hideHandler} />}
           </Box>
         </Box>
       </Background>
       <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
-        {blogStore?.blogItem && <PostContent>{Parser(blogStore?.blogItem?.content)}</PostContent>}
+        <PostContent>{Parser(blogStore?.blogItem?.content)}</PostContent>
         <Box>
           <DiscussionEmbed
             shortname={'choitech-1'}
@@ -118,6 +106,8 @@ const ViewBlogComponent = observer((): JSX.Element => {
         </Box>
       </Box>
     </Box>
+  ) : (
+    <Box style={{ minHeight: '100vh' }}></Box>
   );
 });
 
