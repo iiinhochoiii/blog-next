@@ -13,12 +13,7 @@ const Header = observer((): JSX.Element => {
   const router = useRouter();
   const [height, setHeight] = useState<number>(0);
   const [userMenu, setUserMenu] = useState<boolean>(false);
-  const [path, setPath] = useState<string | undefined>(undefined);
   const [menuState, setMenuState] = useState<boolean>(false);
-
-  useEffect(() => {
-    setPath(router?.pathname);
-  }, [router]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -68,7 +63,7 @@ const Header = observer((): JSX.Element => {
               size={16}
               fontWeight={'bold'}
               hover={{ color: 'rgb(18, 184, 134)' }}
-              style={path && path?.indexOf('/blog') > -1 ? { color: 'rgb(18,184,134)' } : {}}
+              style={router.pathname.split('/')[1] === 'blog' ? { color: 'rgb(18,184,134)' } : {}}
             >
               Blog
             </Link>
@@ -78,7 +73,7 @@ const Header = observer((): JSX.Element => {
               size={16}
               fontWeight={'bold'}
               hover={{ color: 'rgb(18, 184, 134)' }}
-              style={path && path?.indexOf('/contact') > -1 ? { color: 'rgb(18,184,134)' } : {}}
+              style={router.pathname.split('/')[1] === 'contact' ? { color: 'rgb(18,184,134)' } : {}}
             >
               Contact
             </Link>
@@ -112,7 +107,7 @@ const Header = observer((): JSX.Element => {
                 <Text margin={{ top: '10px', bottom: '10px' }}>
                   <Link
                     href="/blog"
-                    style={path && path?.indexOf('/blog') > -1 ? { color: 'rgb(18,184,134)' } : {}}
+                    style={router.pathname.split('/')[1] === 'blog' ? { color: 'rgb(18,184,134)' } : {}}
                     size={16}
                     hover={{ color: 'rgb(18, 184, 134)' }}
                     fontWeight={400}
@@ -123,7 +118,7 @@ const Header = observer((): JSX.Element => {
                 <Text margin={{ top: '10px', bottom: '10px' }}>
                   <Link
                     href="/contact"
-                    style={path && path?.indexOf('/contact') > -1 ? { color: 'rgb(18,184,134)' } : {}}
+                    style={router.pathname.split('/')[1] === 'contact' ? { color: 'rgb(18,184,134)' } : {}}
                     size={16}
                     hover={{ color: 'rgb(18, 184, 134)' }}
                     fontWeight={400}

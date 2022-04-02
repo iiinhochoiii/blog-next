@@ -31,9 +31,11 @@ const ArticleOptionBox = (props: Props) => {
       <Text {...textProps} onClick={() => routeBlog()}>
         작성한 글 보기
       </Text>
-      <Text {...textProps} onClick={() => routeContact()}>
-        메세지 보내기
-      </Text>
+      {!show_status && (
+        <Text {...textProps} onClick={() => routeContact()}>
+          메세지 보내기
+        </Text>
+      )}
       {show_status && (
         <>
           <Text {...textProps} onClick={() => hide(show_status === 'HIDE_STATUS' ? false : true)}>

@@ -21,19 +21,28 @@ const MypageMenu = observer((props: Props) => {
       top: '20px',
       bottom: '20px',
     },
-    style: {
-      cursor: 'pointer',
-    },
   };
   return (
     <StyledMypageMenu width={width}>
-      <Text {...textProps} onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/blogs`)}>
+      <Text
+        {...textProps}
+        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/blogs`)}
+        style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'blogs' && { color: 'rgb(18,184,134)' }) }}
+      >
         내가 쓴 글 보기
       </Text>
-      <Text {...textProps} onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/settings`)}>
-        비밀번호 변경
+      <Text
+        {...textProps}
+        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/settings`)}
+        style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'settings' && { color: 'rgb(18,184,134)' }) }}
+      >
+        정보 변경
       </Text>
-      <Text {...textProps} onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/contact`)}>
+      <Text
+        {...textProps}
+        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/contact`)}
+        style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'contact' && { color: 'rgb(18,184,134)' }) }}
+      >
         전달받은 메세지
       </Text>
     </StyledMypageMenu>
