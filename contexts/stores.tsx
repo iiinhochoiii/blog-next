@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContactStore, UserStore, BlogStore, AuthStore } from '@/stores';
+import { ContactStore, UserStore, BlogStore, AuthStore, CategoriesStore } from '@/stores';
 import ContextProps from '@/interfaces/context-props';
 
 const storesContext = React.createContext<ContextProps>({
@@ -7,6 +7,7 @@ const storesContext = React.createContext<ContextProps>({
   userStore: new UserStore(),
   blogStore: new BlogStore(),
   authStore: new AuthStore(),
+  categoriesStore: new CategoriesStore(),
 });
 
 export default storesContext;

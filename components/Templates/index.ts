@@ -5,7 +5,7 @@ export { default as Login } from './Login';
 export { default as MypageContactComponent } from './Mypage/Contact';
 export { default as MypageSettingsComponent } from './Mypage/Settings';
 export { default as MypageBlogComponent } from './Mypage/Blogs';
-export { default as MypageCategoryComponent } from './Mypage/Category';
+export { default as MypageCategoriesComponent } from './Mypage/Categories';
 export { default as BlogComponent } from './Blog';
 export { default as ViewBlogComponent } from './Blog/View/[id]';
 export { default as CreateBlogComponent } from './Blog/Create';

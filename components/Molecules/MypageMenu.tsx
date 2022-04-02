@@ -47,7 +47,7 @@ const MypageMenu = observer((props: Props) => {
       </Text>
       <Text
         {...textProps}
-        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/category`)}
+        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/categories`)}
         style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'category' && { color: 'rgb(18,184,134)' }) }}
       >
         블로그 카테고리 설정
