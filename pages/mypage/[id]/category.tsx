@@ -1,14 +1,14 @@
 import React from 'react';
 import MypageTemplates from '@/components/Layout/MypageTemplates';
-import { MypageBlogComponent } from '@/components/Templates';
+import { MypageCategoryComponent } from '@/components/Templates';
 import authorize from '@/hoc/authorize';
 
-const MypageBlogs = authorize(() => {
+const MypageCategory = authorize(() => {
   return (
     <MypageTemplates title="mypage-contact">
-      <MypageBlogComponent />
+      <MypageCategoryComponent />
     </MypageTemplates>
   );
 });
 
-export default MypageBlogs;
+export default MypageCategory;

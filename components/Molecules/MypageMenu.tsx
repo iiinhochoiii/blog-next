@@ -45,14 +45,20 @@ const MypageMenu = observer((props: Props) => {
       >
         전달받은 메세지
       </Text>
+      <Text
+        {...textProps}
+        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/category`)}
+        style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'category' && { color: 'rgb(18,184,134)' }) }}
+      >
+        블로그 카테고리 설정
+      </Text>
     </StyledMypageMenu>
   );
 });
 
 const StyledMypageMenu = styled.div<Props>`
   width: ${(props) => props.width && (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};
-  position: relative;
-  height: 200px;
+  height: 265px;
   padding: 20px 0;
   background-color: #fff;
   border-radius: 5px;
