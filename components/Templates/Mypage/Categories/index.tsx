@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import useStores from '@/hooks/use-stores';
 import { Toaster } from '@/utils/common';
-import { Box, HeaderText, Form, FormInput, FormSubmit, Flex, Table } from '@/components/Atom';
+import { Box, HeaderText, Form, FormInput, FormSubmit, Flex, Table, Text } from '@/components/Atom';
 import { useForm } from 'react-hook-form';
+import { Categories } from '@/interfaces/models/categories';
+import MypageUpdateCategoryDialog from './Dialog/MypageUpdateCategoryDialog';
 
 const MypageCategoriesComponent = observer((): JSX.Element => {
   const { categoriesStore } = useStores();
   const { register, handleSubmit, reset } = useForm<{ category?: string }>();
+  const [showUpdateCategoryModal, setShowUpdateCategoryModal] = useState(false);
+  const [category, setCategory] = useState<Categories>();
 
   useEffect(() => {
     getCategories();
@@ -19,8 +23,9 @@ const MypageCategoriesComponent = observer((): JSX.Element => {
       if (res?.status) {
         categoriesStore.setCategories(res.data);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
+      Toaster.showError(err?.response?.data?.message || '오류가 발생하였습니다.');
     }
   };
 
@@ -38,11 +43,50 @@ const MypageCategoriesComponent = observer((): JSX.Element => {
           });
         }
       } catch (err: any) {
-        console.log(err?.response);
+        console.log(err);
         Toaster.showError(err?.response?.data?.message || '오류가 발생하였습니다.');
       }
     } else {
       Toaster.showError('카테고리를 입력해주세요.');
+    }
+  };
+
+  const updateCategory = async (category_id: number, name: string): Promise<void> => {
+    try {
+      const params = {
+        category_id: category_id,
+        name: name,
+      };
+      const res = await categoriesStore.updateCategories(params);
+      if (res?.status) {
+        Toaster.showSuccess(res?.message || '변경 되었습니다.');
+        getCategories();
+        setShowUpdateCategoryModal(false);
+      }
+    } catch (err: any) {
+      console.log(err);
+      Toaster.showError(err?.response?.data?.message || '오류가 발생하였습니다.');
+    }
+  };
+
+  const deleteBlog = async (category_id: number): Promise<void> => {
+    const findCategory = categoriesStore.categories.find((category) => category.category_id === category_id);
+
+    if (findCategory?.blog_count === 0) {
+      if (window.confirm('카테고리를 삭제하시겠습니까?')) {
+        try {
+          const res = await categoriesStore.deleteCategories(category_id);
+          if (res?.status) {
+            Toaster.showSuccess(res?.message || '변경 되었습니다.');
+            getCategories();
+          }
+        } catch (err: any) {
+          console.log(err);
+          Toaster.showError(err?.response?.data?.message || '오류가 발생하였습니다.');
+        }
+      }
+    } else {
+      Toaster.showWarning('해당 카테고리로 등록된 게시글이 있어, 삭제를 할 수 없습니다.');
     }
   };
 
@@ -76,14 +120,46 @@ const MypageCategoriesComponent = observer((): JSX.Element => {
                   <td>{index + 1}</td>
                   <td>{category.name}</td>
                   <td>{category.blog_count}개</td>
-                  <td>변경</td>
-                  <td>삭제</td>
+                  <td>
+                    <Text
+                      textAlign="center"
+                      size={14}
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        setCategory(category);
+                        setShowUpdateCategoryModal(true);
+                      }}
+                    >
+                      변경
+                    </Text>
+                  </td>
+                  <td>
+                    <Text
+                      textAlign="center"
+                      size={14}
+                      style={category.blog_count === 0 ? { cursor: 'pointer' } : { color: '#ff0000' }}
+                      onClick={() => {
+                        if (category.blog_count === 0) {
+                          deleteBlog(category.category_id);
+                        }
+                      }}
+                    >
+                      {category.blog_count === 0 ? '삭제' : '삭제 불가능'}
+                    </Text>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </Box>
       </Box>
+      {showUpdateCategoryModal && (
+        <MypageUpdateCategoryDialog
+          onClose={() => setShowUpdateCategoryModal(false)}
+          category={category}
+          updateCategory={(category_id: number, name: string) => updateCategory(category_id, name)}
+        />
+      )}
     </Box>
   );
 });
