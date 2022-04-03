@@ -77,9 +77,9 @@ class BlogStore {
     }
   };
 
-  createBlog = async (title: string, summary: string, content: string, type: string, markdown: string) => {
+  createBlog = async (title: string, summary: string, content: string, category_id: number, markdown: string) => {
     try {
-      const res = await axios.post(`/${this.modelName}`, { title: title, summary: summary, content: content, type: type, markdown: markdown });
+      const res = await axios.post(`/${this.modelName}`, { title: title, summary: summary, content: content, category_id: category_id, markdown: markdown });
       return res.data;
     } catch (e) {
       console.log(e);

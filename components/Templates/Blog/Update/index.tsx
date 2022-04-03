@@ -29,11 +29,6 @@ const UpdateBlogComponent = observer((): JSX.Element => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (process.browser) {
-      if (userStore?.userInfo?.user_id !== 1) {
-        router.push('/');
-      }
-    }
     if (router.query.blog_id) {
       getBlogItem(Number(router.query.blog_id));
     }

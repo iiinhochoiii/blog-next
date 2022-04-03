@@ -39,14 +39,6 @@ const Header = observer((): JSX.Element => {
     }
   };
 
-  const blogWriteHandler = () => {
-    if (userStore?.userInfo?.user_id === 1) {
-      router.push('/blog/create');
-    } else {
-      Toaster.showWarning('현재 관리자만 글 작성이 가능합니다.');
-    }
-  };
-
   return (
     <StyledHeader style={height > 0 ? { position: 'fixed', top: '0' } : {}}>
       <Box width={980} margin={{ left: 'auto', right: 'auto' }} screen={{ size: 1010, calc: '30px' }}>
@@ -85,7 +77,13 @@ const Header = observer((): JSX.Element => {
               </Text>
               {userMenu && (
                 <Box className="header-after-login-menu">
-                  <Text onClick={blogWriteHandler}>글쓰기</Text>
+                  <Text
+                    onClick={() => {
+                      router.push('/blog/create');
+                    }}
+                  >
+                    글쓰기
+                  </Text>
                   <Text onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/blogs`)}>마이페이지</Text>
                   <Text onClick={logout}>로그아웃</Text>
                 </Box>
@@ -136,7 +134,9 @@ const Header = observer((): JSX.Element => {
                       margin={{ top: '10px', bottom: '10px' }}
                       fontWeight={400}
                       style={{ cursor: 'pointer' }}
-                      onClick={blogWriteHandler}
+                      onClick={() => {
+                        router.push('/blog/create');
+                      }}
                     >
                       글쓰기
                     </Text>

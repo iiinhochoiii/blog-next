@@ -9,6 +9,7 @@ export type blogs = {
   name: string;
   markdown: string;
   show_status?: string;
+  category_id?: number;
 };
 
 export type pageType = {
@@ -28,6 +29,7 @@ export interface Blog {
   title?: string;
   user_id?: number;
   show_status?: string;
+  category_id?: number;
 }
 
 export interface SearchKeywordForm {
@@ -42,7 +44,7 @@ export interface PostType {
 export interface BlogForm {
   title: string;
   summary: string;
-  type: string;
   content?: string;
   markdown?: string;
+  category_id?: number;
 }

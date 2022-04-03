@@ -9,12 +9,12 @@ import { Box, Text, FormInput, Form, FormSubmit, FormTextArea } from '@/componen
 import { PostSelectBox } from '@/components/Molecules';
 import { TUIEditor } from '@/components/Organisms';
 import { useForm } from 'react-hook-form';
-import { postType, replacePostContent } from '@/utils/post';
+import { replacePostContent } from '@/utils/post';
 import { BlogForm } from '@/interfaces/models/blog';
 
 const CreateBlogComponent = observer((): JSX.Element => {
   const router = useRouter();
-  const { blogStore, userStore } = useStores();
+  const { blogStore, categoriesStore } = useStores();
   const [content, setContent] = useState<any>('');
   const [markDown, setMarkDown] = useState<string>('');
 
@@ -26,12 +26,20 @@ const CreateBlogComponent = observer((): JSX.Element => {
   } = useForm<BlogForm>();
 
   useEffect(() => {
-    if (process.browser) {
-      if (userStore?.userInfo?.user_id !== 1) {
-        router.push('/');
-      }
-    }
+    getCategories();
   }, []);
+
+  const getCategories = async (): Promise<void> => {
+    try {
+      const res = await categoriesStore.getCategoriesList();
+      if (res?.status) {
+        categoriesStore.setCategories(res.data);
+      }
+    } catch (err: any) {
+      console.log(err);
+      Toaster.showError(err?.response?.data?.message || '오류가 발생하였습니다.');
+    }
+  };
 
   const handleChange = React.useCallback(() => {
     if (!editorRef.current) {
@@ -56,14 +64,13 @@ const CreateBlogComponent = observer((): JSX.Element => {
   }, [editorRef]);
 
   const create = async (data: BlogForm): Promise<void> => {
-    const { title, summary, type } = data;
-
+    const { title, summary, category_id } = data;
     if (!content || !markDown) {
       Toaster.showWarning('콘텐트를 입력해주세요.');
       return;
     }
     try {
-      const res = await blogStore.createBlog(title, summary, replacePostContent(content), type, replacePostContent(markDown));
+      const res = await blogStore.createBlog(title, summary, replacePostContent(content), category_id || 0, replacePostContent(markDown));
 
       if (res.status) {
         router.push('/blog');
@@ -105,7 +112,7 @@ const CreateBlogComponent = observer((): JSX.Element => {
           <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
             타입
           </Text>
-          <PostSelectBox {...register('type')} options={postType} />
+          <PostSelectBox {...register('category_id')} options={categoriesStore.categories} />
         </Box>
         <Box margin={{ top: '30px' }}>
           <FormSubmit type="submit" width="150px" radius={10} value="저장" />
