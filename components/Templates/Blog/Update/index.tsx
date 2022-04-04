@@ -10,11 +10,11 @@ import { PostSelectBox } from '@/components/Molecules';
 import { TUIEditor } from '@/components/Organisms';
 import { useForm } from 'react-hook-form';
 import { BlogForm } from '@/interfaces/models/blog';
-import { postType, replacePostContent } from '@/utils/post';
+import { replacePostContent } from '@/utils/post';
 
 const UpdateBlogComponent = observer((): JSX.Element => {
   const router = useRouter();
-  const { blogStore, userStore } = useStores();
+  const { blogStore, categoriesStore } = useStores();
 
   const editorRef = React.useRef<Editor>();
   const {
@@ -35,6 +35,22 @@ const UpdateBlogComponent = observer((): JSX.Element => {
   }, []);
 
   useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories = async (): Promise<void> => {
+    try {
+      const res = await categoriesStore.getCategoriesList();
+      if (res?.status) {
+        categoriesStore.setCategories(res.data);
+      }
+    } catch (err: any) {
+      console.log(err);
+      Toaster.showError(err?.response?.data?.message || '오류가 발생하였습니다.');
+    }
+  };
+
+  useEffect(() => {
     const item = blogStore.blogItem;
     if (item) {
       setContent(item.content);
@@ -42,7 +58,7 @@ const UpdateBlogComponent = observer((): JSX.Element => {
       reset({
         title: item.title,
         summary: item.summary,
-        type: item.blog_type,
+        category_id: item.category_id || 0,
       });
 
       setInitialized(true);
@@ -83,7 +99,7 @@ const UpdateBlogComponent = observer((): JSX.Element => {
   }, [editorRef, initialized]);
 
   const update = async (data: BlogForm): Promise<void> => {
-    const { title, summary, type } = data;
+    const { title, summary, category_id } = data;
 
     if (!content || !markDown) {
       Toaster.showWarning('콘텐트를 입력해주세요.');
@@ -92,15 +108,23 @@ const UpdateBlogComponent = observer((): JSX.Element => {
 
     if (window.confirm('게시글을 수정 하시겠습니까?')) {
       try {
-        const res = await blogStore.updateBlog(Number(router.query.blog_id), title, summary, replacePostContent(content), type, replacePostContent(markDown));
+        const res = await blogStore.updateBlog(
+          Number(router.query.blog_id),
+          title,
+          summary,
+          replacePostContent(content),
+          category_id || 0,
+          replacePostContent(markDown),
+        );
         if (res?.status) {
           Toaster.showSuccess(res?.msg || '게시글이 변경되었습니다.');
           router.back();
         } else {
           Toaster.showWarning(res?.message || res?.msg);
         }
-      } catch (err) {
-        Toaster.showError('데이터를 변경 중 에러가 발생하였습니다.');
+      } catch (err: any) {
+        console.log(err);
+        Toaster.showError(err?.response?.data?.message || '데이터를 변경 중 에러가 발생하였습니다.');
       }
     }
   };
@@ -138,7 +162,7 @@ const UpdateBlogComponent = observer((): JSX.Element => {
               <Text margin={{ top: '10px', bottom: '5px' }} size={12}>
                 타입
               </Text>
-              <PostSelectBox {...register('type')} options={postType} />
+              <PostSelectBox {...register('category_id')} options={categoriesStore.categories} />
             </Box>
             <Box margin={{ top: '30px' }}>
               <FormSubmit type="submit" width="150px" radius={10} value="변경" />

@@ -24,6 +24,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
   color?: string;
   fontWeight?: number;
   className?: string;
+  disabled?: boolean;
 }
 const Button = (props: Props) => {
   const { children } = props;
@@ -35,7 +36,7 @@ const Button = (props: Props) => {
 };
 
 const StyledButton = styled.button<Props>`
-  cursor: pointer;
+  cursor: ${(props) => !props.disabled && 'pointer'};
   outline: none;
   border: none;
 

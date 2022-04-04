@@ -95,14 +95,14 @@ class BlogStore {
     }
   };
 
-  updateBlog = async (blog_id: number, title: string, summary: string, content: string, blog_type: string, markdown: string) => {
+  updateBlog = async (blog_id: number, title: string, summary: string, content: string, category_id: number, markdown: string) => {
     try {
       const res = await axios.post(`/${this.modelName}/update`, {
         blog_id: blog_id,
         title: title,
         summary: summary,
         content: content,
-        blog_type: blog_type,
+        category_id: category_id,
         markdown: markdown,
       });
       return res.data;

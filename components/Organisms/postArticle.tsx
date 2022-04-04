@@ -83,7 +83,7 @@ const PostArticle = observer((props: Props) => {
           <TextTruncate line={2} element="span" truncateText="…" text={blog?.summary} />
         </Text>
       </Link>
-      <Button onClick={() => moveBlogTypeHandler(blog?.blog_type)} radius={10} className="-btn_post_article">
+      <Button disabled={true} radius={10} className="-btn_post_article">
         # {blog?.blog_type}
       </Button>
       <Flex justify="space-between" margin={{ top: '15px' }}>

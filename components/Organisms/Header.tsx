@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import useStores from '@/hooks/use-stores';
 import { removeToken } from '@/utils/auth';
-import { Toaster } from '@/utils/common';
 import { Box, Flex, Link, Text } from '@/components/Atom';
 import MenuIcon from '@material-ui/icons/Menu';
 
