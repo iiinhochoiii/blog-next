@@ -21,18 +21,6 @@ const PostArticle = observer((props: Props) => {
   const { blogStore } = useStores();
   const router = useRouter();
 
-  const moveBlogTypeHandler = (type?: string) => {
-    const { userId } = router.query;
-
-    router.push({
-      pathname: userId ? `/blog/${userId}` : '/blog',
-      query: {
-        title: type,
-        page: 1,
-      },
-    });
-  };
-
   const hideBlog = async (blog_id: number, status: boolean): Promise<void> => {
     try {
       const params = {
