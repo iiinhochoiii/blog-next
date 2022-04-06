@@ -20,8 +20,10 @@ const BlogComponent = observer((): JSX.Element => {
   const [user, setUser] = useState<UserInfo>({});
 
   useEffect(() => {
-    if (paging) {
+    if (router.query.page) {
       initBlog();
+    } else {
+      setPaging(1);
     }
   }, [router]);
 
