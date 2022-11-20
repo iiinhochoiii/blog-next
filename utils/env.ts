@@ -27,14 +27,14 @@ export const isProductionEnv = (): boolean => {
 };
 
 export const getProtocolHost = (): string => {
-  let protocolHost = 'http://localhost:5000';
+  let protocolHost = 'http://localhost:5001';
 
   switch (process.env.NEXT_PUBLIC_ENV) {
     case 'development':
-      protocolHost = 'http://localhost:5000';
+      protocolHost = 'http://localhost:5001';
       break;
     case 'production':
-      protocolHost = 'https://c-tech.herokuapp.com';
+      protocolHost = 'https://c-tech-iiinhochoiii.koyeb.app';
       break;
   }
 
