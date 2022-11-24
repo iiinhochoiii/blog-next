@@ -66,7 +66,7 @@ const HomeComponent = observer((): JSX.Element => {
           {loading ? (
             <CircularProgress />
           ) : (
-            <Box margin={{ top: '20px' }}>{blogStore?.blogs.map((item, index) => index < 3 && <PostArticle key={item?.blog_id} blog={item} />)}</Box>
+            <Box margin={{ top: '20px' }}>{blogStore?.blogs?.map((item, index) => index < 3 && <PostArticle key={item?.blog_id} blog={item} />)}</Box>
           )}
           <Flex margin={{ top: '30px' }}>
             <Button onClick={() => router.push('/blog')} width={150} margin={{ left: 'auto' }}>
