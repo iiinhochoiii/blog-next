@@ -1,54 +1,11 @@
-import React, { useState } from 'react';
-import { observer } from 'mobx-react';
-import { useRouter } from 'next/router';
-import useStores from '@/hooks/use-stores';
-import { Toaster } from '@/utils/common';
-import { setToken } from '@/utils/auth';
+'use client';
+
 import { Text, Box, Form, Link, FormSubmit, FormInput, Flex } from '@/components/Atom';
-import { useForm } from 'react-hook-form';
-import { LoginForm } from '@/interfaces/models/user';
 import FindPasswordDioalog from './Dialog/FindPasswordDialog';
+import { useLogin } from './login.hook';
 
-const LoginComponent = observer((): JSX.Element => {
-  const router = useRouter();
-  const { userStore, authStore } = useStores();
-  const { register, handleSubmit } = useForm<LoginForm>();
-  const [showModal, setShowModal] = useState(false);
-
-  const login = async (data: LoginForm): Promise<void> => {
-    const { email, password } = data;
-
-    if (!email || !password) {
-      Toaster.showError('아이디 및 패스워드를 입력해주세요.');
-      return;
-    }
-
-    try {
-      const res = await authStore.login(email, password);
-      if (res.status) {
-        setToken(res?.token);
-        const userInfo = await authStore.getTokenData(res?.token);
-        if (userInfo.status) {
-          userStore.setUserInfo({
-            user_id: userInfo?.data?.user_id,
-            name: userInfo?.data?.name,
-            email: userInfo?.data?.email,
-            phone: userInfo?.data?.phone,
-          });
-        }
-        if (router.query?.redirect) {
-          router.push(String(router.query.redirect));
-        } else {
-          router.push('/');
-        }
-      } else {
-        Toaster.showWarning(res?.msg);
-      }
-    } catch (err) {
-      console.log(err);
-      Toaster.showError('로그인 API 요청 실패 하였습니다. 다시 요청 해주세요');
-    }
-  };
+const LoginComponent = (): JSX.Element => {
+  const { register, onSubmit, isLoggingIn, showFindPasswordModal, onOpenFindPassword, onCloseFindPassword } = useLogin();
 
   return (
     <Box>
@@ -58,7 +15,7 @@ const LoginComponent = observer((): JSX.Element => {
             Choi Tech
           </Link>
         </Box>
-        <Form margin={{ top: '30px' }} onSubmit={handleSubmit(login)}>
+        <Form margin={{ top: '30px' }} onSubmit={onSubmit}>
           <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
             Email or Id
           </Text>
@@ -87,12 +44,7 @@ const LoginComponent = observer((): JSX.Element => {
             enabled={true}
           />
           <Flex justify="right" margin={{ bottom: '20px' }}>
-            <Text
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                setShowModal(true);
-              }}
-            >
+            <Text style={{ cursor: 'pointer' }} onClick={onOpenFindPassword}>
               비밀번호 찾기
             </Text>
             <Link href="/join" size={12} margin={{ left: '10px' }}>
@@ -100,7 +52,7 @@ const LoginComponent = observer((): JSX.Element => {
             </Link>
           </Flex>
           <Box>
-            <FormSubmit type="submit" width="100%" radius={5} value="로그인" />
+            <FormSubmit type="submit" width="100%" radius={5} value="로그인" loading={isLoggingIn} />
           </Box>
         </Form>
         <Box margin={{ top: '30px' }}>
@@ -108,9 +60,9 @@ const LoginComponent = observer((): JSX.Element => {
         </Box>
       </Box>
 
-      {showModal && <FindPasswordDioalog onClose={() => setShowModal(false)} />}
+      {showFindPasswordModal && <FindPasswordDioalog onClose={onCloseFindPassword} />}
     </Box>
   );
-});
+};
 
 export default LoginComponent;

@@ -1,19 +1,16 @@
-import React, { ReactNode } from 'react';
-import Head from 'next/head';
+'use client';
+
+import { ReactNode } from 'react';
 import { Footer, Header } from '@/components/Organisms';
 import { Flex, Box } from '@/components/Atom';
 import { MypageMenu } from '@/components/Molecules';
 
 type props = {
   children?: ReactNode;
-  title?: string;
 };
-const MypageTemplates = ({ children, title = '' }: props) => {
+const MypageTemplates = ({ children }: props) => {
   return (
     <Box width={'100%'}>
-      <Head>
-        <title>{title && `${title} -`} Choi Tech Blog</title>
-      </Head>
       <Box>
         <Header />
       </Box>

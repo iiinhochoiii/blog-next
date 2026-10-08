@@ -1,54 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { observer } from 'mobx-react';
-import useStores from '@/hooks/use-stores';
-import { Toaster } from '@/utils/common';
+'use client';
+
 import moment from 'moment';
 import TextTruncate from 'react-text-truncate'; // recommend
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, HeaderText, Text, Table } from '@/components/Atom';
 import { EmptyDataBox } from '@/components/Molecules';
-import { contacts } from '@/interfaces/models/contact';
 import MypageContactDialog from './Dialog/MypageContactDialog';
+import { useMypageContact } from './contact.hook';
 
-const MypageContactComponent = observer((): JSX.Element => {
-  const { contactStore } = useStores();
-  const [loading, setLoading] = useState(false);
-  const [contact, setContact] = useState<contacts>();
-  const [showContactModal, setShowContactModal] = useState(false);
+const MypageContactComponent = (): JSX.Element => {
+  const { isLoading, contactList, contact, showContactModal, onOpenContact, onCloseContact, onDelete } = useMypageContact();
 
-  useEffect(() => {
-    search();
-  }, []);
-
-  const search = async (): Promise<void> => {
-    try {
-      setLoading(true);
-      const res = await contactStore.getContactList();
-      contactStore.setContacts(res.data);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      console.log(false);
-    }
-  };
-  const deleteContact = async (contact_id: number): Promise<void> => {
-    try {
-      if (window.confirm('삭제하시겠습니까?')) {
-        await contactStore.deleteContact(contact_id);
-        Toaster.showSuccess('삭제 되었습니다.');
-        search();
-
-        if (showContactModal) {
-          setShowContactModal(false);
-        }
-      }
-    } catch (err) {
-      Toaster.showError('삭제하는 중 오류가 발생하였습니다. 데이터를 확인해주세요');
-      console.log(err);
-    }
-  };
-
-  if (loading) {
+  if (isLoading) {
     return <CircularProgress />;
   }
 
@@ -58,7 +21,7 @@ const MypageContactComponent = observer((): JSX.Element => {
         Received Message
       </HeaderText>
 
-      {contactStore.contacts.length > 0 ? (
+      {contactList.length > 0 ? (
         <Box>
           <Table>
             <thead>
@@ -71,7 +34,7 @@ const MypageContactComponent = observer((): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {contactStore.contacts.map((item, index) => (
+              {contactList.map((item, index) => (
                 <tr key={item.contact_id}>
                   <td>{index + 1}</td>
                   <td style={{ textAlign: 'left' }}>
@@ -79,20 +42,12 @@ const MypageContactComponent = observer((): JSX.Element => {
                   </td>
                   <td className="td_date">{moment(item.created_at).format('YYYY-MM-DD HH:mm:ss')}</td>
                   <td>
-                    <Text
-                      style={{ cursor: 'pointer' }}
-                      textAlign="center"
-                      size={14}
-                      onClick={() => {
-                        setContact(contactStore?.contacts[index]);
-                        setShowContactModal(true);
-                      }}
-                    >
+                    <Text style={{ cursor: 'pointer' }} textAlign="center" size={14} onClick={() => onOpenContact(item)}>
                       보기
                     </Text>
                   </td>
                   <td>
-                    <Text style={{ cursor: 'pointer' }} textAlign="center" size={14} onClick={() => deleteContact(item.contact_id)}>
+                    <Text style={{ cursor: 'pointer' }} textAlign="center" size={14} onClick={() => onDelete(item.contact_id)}>
                       삭제
                     </Text>
                   </td>
@@ -105,11 +60,9 @@ const MypageContactComponent = observer((): JSX.Element => {
         <EmptyDataBox>전송된 메세지가 없습니다.</EmptyDataBox>
       )}
 
-      {showContactModal && (
-        <MypageContactDialog onClose={() => setShowContactModal(false)} contact={contact} onDelete={(value: number) => deleteContact(value)} />
-      )}
+      {showContactModal && <MypageContactDialog onClose={onCloseContact} contact={contact} onDelete={onDelete} />}
     </Box>
   );
-});
+};
 
 export default MypageContactComponent;

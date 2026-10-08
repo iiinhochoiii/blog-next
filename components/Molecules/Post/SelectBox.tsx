@@ -1,6 +1,6 @@
-import React, { HTMLAttributes, forwardRef } from 'react';
+import { HTMLAttributes, forwardRef } from 'react';
 import styled from 'styled-components';
-import { Categories } from '@/interfaces/models/categories';
+import { Categories } from '@/types/categories';
 
 interface Props extends HTMLAttributes<HTMLSelectElement> {
   options?: Categories[];

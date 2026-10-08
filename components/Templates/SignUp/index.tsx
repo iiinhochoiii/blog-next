@@ -1,58 +1,12 @@
-import React, { useEffect } from 'react';
-import { observer } from 'mobx-react';
-import { useRouter } from 'next/router';
-import useStores from '@/hooks/use-stores';
-import { Toaster } from '@/utils/common';
+'use client';
+
 import { Box, Text, Link, Flex, Button, Form, FormInput, FormSubmit } from '@/components/Atom';
 import { regExpEmail, regPassword, regPhone } from '@/utils/regExp';
-import { useForm } from 'react-hook-form';
-import { SignUpForm } from '@/interfaces/models/user';
+import { useSignUp } from './sign-up.hook';
 
-const SignUpComponent = observer((): JSX.Element => {
-  const router = useRouter();
-  const { userStore } = useStores();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<SignUpForm>();
+const SignUpComponent = (): JSX.Element => {
+  const { register, errors, checkIdStatus, onCheckEmail, onSubmit, validatePasswordConfirm } = useSignUp();
 
-  useEffect(() => {
-    userStore.setCheckIdStatus(undefined);
-  }, []);
-
-  const emailCheckHandler = async (): Promise<void> => {
-    const form = watch();
-
-    if (!regExpEmail.test(form.email)) {
-      Toaster.showWarning('이메일을 정확히 입력해주세요.');
-    } else {
-      try {
-        const res = await userStore.checkId(form.email);
-
-        userStore.setCheckIdStatus(res);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
-
-  const createUser = async (data: SignUpForm): Promise<void> => {
-    const { email, password, name, phone } = data;
-    if (userStore.checkIdStatus?.status) {
-      try {
-        await userStore.createUser(email, password, name, phone);
-        Toaster.showSuccess('회원가입이 완료되었습니다.');
-        router.push('/login');
-      } catch (err) {
-        console.log(err);
-        Toaster.showError('회원가입에 실패하였습니다. 다시한번 시도 해주세요');
-      }
-    } else {
-      Toaster.showError('이메일 중복확인이 되지 않았습니다.');
-    }
-  };
   return (
     <Box>
       <Box width="360px" margin={{ top: '150px', bottom: '150px', left: 'auto', right: 'auto' }}>
@@ -61,7 +15,7 @@ const SignUpComponent = observer((): JSX.Element => {
             Choi Tech
           </Link>
         </Box>
-        <Form margin={{ top: '30px' }} onSubmit={handleSubmit(createUser)}>
+        <Form margin={{ top: '30px' }} onSubmit={onSubmit}>
           <Text size={16} fontWeight={400} textAlign="center">
             회원 정보를 입력해주세요.
           </Text>
@@ -75,11 +29,11 @@ const SignUpComponent = observer((): JSX.Element => {
               padding={{ left: '10px', right: '10px' }}
               type="text"
               placeholder="E-mail을 입력해주세요."
-              readonly={userStore.checkIdStatus?.status && true}
+              readonly={checkIdStatus?.status && true}
               style={{
                 background: 'none',
                 ...(errors.email && { border: '1px solid #ff0000' }),
-                ...(userStore.checkIdStatus && !userStore.checkIdStatus.status && { border: '1px solid #ff0000' }),
+                ...(checkIdStatus && !checkIdStatus.status && { border: '1px solid #ff0000' }),
               }}
               {...register('email', {
                 required: {
@@ -92,14 +46,14 @@ const SignUpComponent = observer((): JSX.Element => {
                 },
               })}
             />
-            <Button onClick={emailCheckHandler} width="25%" radius={5}>
+            <Button onClick={onCheckEmail} width="25%" radius={5}>
               중복확인
             </Button>
           </Flex>
           {errors.email ? (
             <Text style={{ color: '#ff0000' }}>{errors.email.message}</Text>
           ) : (
-            <Text style={userStore.checkIdStatus?.status ? { color: '#333333' } : { color: 'red' }}>{userStore.checkIdStatus?.massage}</Text>
+            <Text style={checkIdStatus?.status ? { color: '#333333' } : { color: 'red' }}>{checkIdStatus?.massage}</Text>
           )}
           <Text size={10} margin={{ top: '10px', bottom: '5px' }}>
             password
@@ -140,11 +94,7 @@ const SignUpComponent = observer((): JSX.Element => {
                 value: true,
                 message: '패스워드 확인을 입력해주세요.',
               },
-              validate: (value) => {
-                if (value !== watch('password')) {
-                  return '패스워드가 일치하지 않습니다.';
-                }
-              },
+              validate: validatePasswordConfirm,
             })}
             error={errors.passwordConfirm}
           />
@@ -200,6 +150,6 @@ const SignUpComponent = observer((): JSX.Element => {
       </Box>
     </Box>
   );
-});
+};
 
 export default SignUpComponent;

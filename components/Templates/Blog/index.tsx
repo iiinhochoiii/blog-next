@@ -1,83 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { observer } from 'mobx-react';
-import useStores from '@/hooks/use-stores';
-import { Toaster } from '@/utils/common';
+'use client';
+
 import { Box, Background, HeaderText, Text, Flex } from '@/components/Atom';
 import { Pagination } from '@/components/Organisms';
-import { useRouter } from 'next/router';
 import { EmptyDataBox, SearchForm } from '@/components/Molecules';
 import { PostArticle } from '@/components/Organisms';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Head from 'next/head';
-import { UserInfo } from '@/interfaces/models/user';
+import { useBlogList } from './blog.hook';
 
-const BlogComponent = observer((): JSX.Element => {
-  const router = useRouter();
-  const { title, page, userId } = router.query;
-  const { blogStore, userStore } = useStores();
-  const [loading, setLoading] = useState(false);
-  const [paging, setPaging] = useState(Number(page) || 1);
-  const [user, setUser] = useState<UserInfo>({});
-
-  useEffect(() => {
-    if (router.query.page) {
-      initBlog();
-    } else {
-      setPaging(1);
-    }
-  }, [router]);
-
-  useEffect(() => {
-    router.push({
-      pathname: userId ? `/blog/${userId}` : '/blog',
-      query: {
-        page: paging,
-        ...(title && { title: title }),
-      },
-    });
-    scrollTo(0, 0);
-  }, [paging]);
-
-  const initBlog = async () => {
-    try {
-      setLoading(true);
-      if (userId) {
-        const user = await userStore.getUser(Number(userId));
-        setUser(user);
-      }
-      const params = {
-        page: paging,
-        ...(title && { title: String(title) }),
-        ...(userId && { userId: String(userId) }),
-      };
-
-      const res = await blogStore.getSearchBlogList(params);
-      blogStore.setBlogs(res.data);
-      blogStore.setPage(res.page);
-
-      setLoading(false);
-    } catch (err) {
-      Toaster.showWarning('블로그를 불러오는 중 오류가 발생하였습니다.');
-    }
-  };
-
-  const search = (value?: string) => {
-    setPaging(1);
-    router.push({
-      pathname: userId ? `/blog/${userId}` : '/blog',
-      query: {
-        page: 1,
-        ...(value && { title: value }),
-      },
-    });
-  };
+const BlogComponent = (): JSX.Element => {
+  const { title, paging, setPaging, onSearch, isLoading, blogs, page } = useBlogList();
 
   return (
     <Box>
-      <Head>
-        <title>{user?.name ? `${user?.name}(${user?.email?.split('@')[0]}) -` : 'blog - '} Choi Tech Blog</title>
-      </Head>
-      <Background url={'./images/blog_background.jpg'} background="no-repeat center" position="relative">
+      <Background url={'/images/blog_background.jpg'} background="no-repeat center" position="relative">
         <Box
           position="absolute"
           backgroundColor="rgba(0, 0, 0, 0.3)"
@@ -103,15 +38,15 @@ const BlogComponent = observer((): JSX.Element => {
           <HeaderText size={26} fontWeight={400} color="rgb(18, 184, 134)">
             Related Posts
           </HeaderText>
-          <SearchForm onSubmit={(value?: string) => search(value)} />
+          <SearchForm onSubmit={onSearch} />
         </Flex>
 
         <Box margin={{ top: '10px', bottom: '30px' }} style={{ minHeight: '60vh' }}>
-          {loading ? (
+          {isLoading ? (
             <CircularProgress />
-          ) : blogStore.blogs?.length > 0 ? (
+          ) : blogs.length > 0 ? (
             <Box>
-              {blogStore.blogs.map((item) => (
+              {blogs.map((item) => (
                 <PostArticle key={item?.blog_id} blog={item} abled={true} />
               ))}
             </Box>
@@ -119,10 +54,10 @@ const BlogComponent = observer((): JSX.Element => {
             <EmptyDataBox>작성된 게시글이 없습니다.</EmptyDataBox>
           )}
         </Box>
-        <Pagination page={blogStore.page} pageNum={paging} setPaging={setPaging} />
+        <Pagination page={page} pageNum={paging} setPaging={setPaging} />
       </Box>
     </Box>
   );
-});
+};
 
 export default BlogComponent;

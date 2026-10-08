@@ -1,131 +1,16 @@
-import { action, observable, makeObservable } from 'mobx';
-import { checkIdStatus, userData, UserInfo } from '@/interfaces/models/user';
-import axios from '@/utils/axios';
+import { createStore } from 'zustand/vanilla';
+import { UserInfo } from '@/types/user';
 
-class UserStore {
-  protected modelName: string;
-
-  constructor() {
-    makeObservable(this);
-    this.modelName = 'users';
-  }
-
-  @observable
-  checkIdStatus?: checkIdStatus = undefined;
-
-  @observable
-  userData?: userData = undefined;
-
-  @observable
-  userInfo?: UserInfo = undefined;
-
-  @action
-  setUserInfo = (data?: UserInfo) => {
-    this.userInfo = data;
-  };
-
-  @action
-  setCheckIdStatus = (value: checkIdStatus | undefined) => {
-    this.checkIdStatus = value;
-  };
-
-  @action
-  setUserData = (value: userData | undefined) => {
-    this.userData = value;
-  };
-
-  checkId = async (email: string) => {
-    this.checkIdStatus = undefined;
-    try {
-      const res = await axios.post(`/${this.modelName}/checkId`, { email: email });
-      // this.checkIdStatus = await res.data;
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  createUser = async (email: string, password: string, name: string, phone: string) => {
-    try {
-      await axios.post(`/${this.modelName}`, { email: email, password: password, name: name, phone: phone });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  getUser = async (id: number) => {
-    try {
-      const res = await axios.get(`/${this.modelName}/${id}`);
-      return res.data.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  sendMail = async (email: string) => {
-    try {
-      const res = await axios.post(`/${this.modelName}/sendMail`, { email: email });
-
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  verifyCertCode = async (params: { email: string; certificationCode: string }) => {
-    try {
-      const res = await axios.post(`/${this.modelName}/verify-certCode`, params);
-
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  updatePassowrd = async (password: string, token?: string) => {
-    try {
-      const res = await axios.post(
-        `/${this.modelName}/update-password`,
-        { password: password },
-        {
-          ...(token && {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }),
-        },
-      );
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  verifyPassword = async (id: number, password: string) => {
-    try {
-      const res = await axios.post(`/${this.modelName}/verify-password`, {
-        id: id,
-        password: password,
-      });
-
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  updateUserInfo = async (id: number, name: string, phone: string) => {
-    try {
-      const res = await axios.post(`/${this.modelName}/update-user`, {
-        id: id,
-        name: name,
-        phone: phone,
-      });
-
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+export interface UserState {
+  userInfo?: UserInfo;
+  setUserInfo: (userInfo?: UserInfo) => void;
 }
 
-export default UserStore;
+export type UserStore = ReturnType<typeof createUserStore>;
+
+// SSR 에서 요청 간 상태가 공유되지 않도록 전역 싱글톤 대신 요청(앱 인스턴스)마다 스토어를 생성한다.
+export const createUserStore = (initState: Pick<UserState, 'userInfo'> = {}) =>
+  createStore<UserState>()((set) => ({
+    ...initState,
+    setUserInfo: (userInfo) => set({ userInfo }),
+  }));

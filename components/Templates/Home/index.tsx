@@ -1,37 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { observer } from 'mobx-react';
-import useStores from '@/hooks/use-stores';
-import { Toaster } from '@/utils/common';
+'use client';
+
 import { Box, HeaderText, Flex, Text, Background, Button } from '@/components/Atom';
 import { PostArticle } from '@/components/Organisms';
 import { CircularProgress } from '@material-ui/core';
-import { useRouter } from 'next/router';
+import { useHome } from './home.hook';
 
-const HomeComponent = observer((): JSX.Element => {
-  const router = useRouter();
-  const { blogStore } = useStores();
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    getBlogList();
-  }, []);
-
-  const getBlogList = async (): Promise<void> => {
-    try {
-      setLoading(true);
-      const res = await blogStore.getSearchBlogList({
-        page: 1,
-      });
-      blogStore.setBlogs(res.data);
-      setLoading(false);
-    } catch (err) {
-      Toaster.showError('정보를 불러오는중 에러가 발생하였습니다.');
-    }
-  };
+const HomeComponent = (): JSX.Element => {
+  const { isLoading, recentBlogs, onClickMore } = useHome();
 
   return (
     <Box>
-      <Background url={'./images/main_background.jpg'}>
+      <Background url={'/images/main_background.jpg'}>
         <HeaderText position="relative" textAlign="center">
           최인호의 Dev Blog 입니다.
         </HeaderText>
@@ -63,13 +42,17 @@ const HomeComponent = observer((): JSX.Element => {
               Recently Posts
             </HeaderText>
           </Box>
-          {loading ? (
+          {isLoading ? (
             <CircularProgress />
           ) : (
-            <Box margin={{ top: '20px' }}>{blogStore?.blogs?.map((item, index) => index < 3 && <PostArticle key={item?.blog_id} blog={item} />)}</Box>
+            <Box margin={{ top: '20px' }}>
+              {recentBlogs.map((item) => (
+                <PostArticle key={item?.blog_id} blog={item} />
+              ))}
+            </Box>
           )}
           <Flex margin={{ top: '30px' }}>
-            <Button onClick={() => router.push('/blog')} width={150} margin={{ left: 'auto' }}>
+            <Button onClick={onClickMore} width={150} margin={{ left: 'auto' }}>
               더보기
             </Button>
           </Flex>
@@ -77,6 +60,6 @@ const HomeComponent = observer((): JSX.Element => {
       </Box>
     </Box>
   );
-});
+};
 
 export default HomeComponent;
