@@ -1,6 +1,5 @@
-import React from 'react';
 import { Modal } from '@/components/Organisms';
-import { contacts } from '@/interfaces/models/contact';
+import { contacts } from '@/types/contact';
 import { Text, FormUnderlineInput, FormTextArea, Button } from '@/components/Atom';
 import moment from 'moment';
 

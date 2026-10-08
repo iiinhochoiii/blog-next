@@ -1,51 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { observer } from 'mobx-react';
-import useStores from '@/hooks/use-stores';
+'use client';
+
 import { Pagination, PostArticle } from '@/components/Organisms';
 import { EmptyDataBox } from '@/components/Molecules';
 import { Box, HeaderText } from '@/components/Atom';
-import { Toaster } from '@/utils/common';
+import { useMypageBlogs } from './blogs.hook';
 
-const MypageBlogComponent = observer(() => {
-  const { blogStore, userStore } = useStores();
-  const [paging, setPaging] = useState(1);
-
-  useEffect(() => {
-    blogStore.setBlogs([]);
-    if (userStore.userInfo?.user_id) {
-      initBlog();
-    }
-  }, [userStore.userInfo, paging]);
-
-  const initBlog = async () => {
-    try {
-      const params = {
-        page: paging,
-        userId: String(userStore.userInfo?.user_id),
-        showStatus: true,
-      };
-
-      const res = await blogStore.getSearchBlogList(params);
-      blogStore.setBlogs(res.data);
-      blogStore.setPage(res.page);
-    } catch (err) {
-      console.log(err);
-      Toaster.showWarning('블로그를 불러오는 중 오류가 발생하였습니다.');
-    }
-  };
+const MypageBlogComponent = () => {
+  const { blogs, page, paging, setPaging } = useMypageBlogs();
 
   return (
     <Box style={{ minHeight: '100vh' }} width={'70%'} screen={{ size: 1010, calc: '0px' }}>
       <HeaderText size={22} fontWeight={400} color="rgb(18, 184, 134)">
         내가 쓴 글 보기
       </HeaderText>
-      {blogStore.blogs?.length > 0 ? (
+      {blogs.length > 0 ? (
         <Box>
-          {blogStore.blogs.map((item) => (
-            <PostArticle key={item?.blog_id} blog={item} abled={true} doneCallback={() => initBlog()} />
+          {blogs.map((item) => (
+            <PostArticle key={item?.blog_id} blog={item} abled={true} />
           ))}
           <Box margin={{ top: '20px' }}>
-            <Pagination page={blogStore.page} pageNum={paging} setPaging={setPaging} />
+            <Pagination page={page} pageNum={paging} setPaging={setPaging} />
           </Box>
         </Box>
       ) : (
@@ -53,6 +27,6 @@ const MypageBlogComponent = observer(() => {
       )}
     </Box>
   );
-});
+};
 
 export default MypageBlogComponent;

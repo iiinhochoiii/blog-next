@@ -1,5 +1,6 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 interface Props extends HTMLAttributes<HTMLInputElement> {
   radius?: string | number;
@@ -25,9 +26,22 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   type?: string;
   value?: string;
   disabled?: boolean;
+  // true 이면 텍스트 대신 로딩 스피너를 표시하고 버튼을 비활성화한다.
+  loading?: boolean;
 }
 
-const FormSubmit = (props: Props) => {
+const FormSubmit = ({ loading, ...props }: Props) => {
+  if (loading) {
+    // <input> 은 자식 요소를 가질 수 없어 로딩 중에는 동일한 스타일의 <button> 으로 렌더링
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { value, ...buttonProps } = props;
+    return (
+      <StyledFormSubmitButton {...buttonProps} type="submit" disabled aria-busy="true">
+        <CircularProgress size={20} color="inherit" />
+      </StyledFormSubmitButton>
+    );
+  }
+
   return <StyledFormSubmit {...props} />;
 };
 // #8adbc3
@@ -67,6 +81,12 @@ const StyledFormSubmit = styled.input<Props>`
       height: ${height};
     `;
   }}
+`;
+
+const StyledFormSubmitButton = styled(StyledFormSubmit).attrs({ as: 'button' })`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default FormSubmit;

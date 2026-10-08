@@ -1,5 +1,5 @@
 // 블로그 상세보기 화면에서, 본인이 쓴 게시글일 경우에, 정보 수정 및 삭제를 할수 있는 컴포넌트
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Box } from '@/components/Atom';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Box, Text, Link } from '@/components/Atom';
 import GitHubIcon from '@material-ui/icons/GitHub';

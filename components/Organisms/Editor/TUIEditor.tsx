@@ -1,4 +1,4 @@
-import React, { MutableRefObject, forwardRef } from 'react';
+import { MutableRefObject, forwardRef } from 'react';
 import dynamic from 'next/dynamic';
 import { Editor, EditorProps } from '@toast-ui/react-editor';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';

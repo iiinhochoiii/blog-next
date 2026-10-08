@@ -1,17 +1,16 @@
-import React from 'react';
 import { Text } from '@/components/Atom';
 import styled from 'styled-components';
-import { observer } from 'mobx-react';
-import { useRouter } from 'next/router';
-import useStores from '@/hooks/use-stores';
+import { usePathname, useRouter } from 'next/navigation';
+import { useUserStore } from '@/stores/user-store-provider';
 
 interface Props {
   width?: string | number;
 }
-const MypageMenu = observer((props: Props) => {
+const MypageMenu = (props: Props) => {
   const { width } = props;
   const router = useRouter();
-  const { userStore } = useStores();
+  const pathname = usePathname();
+  const userId = useUserStore((state) => state.userInfo?.user_id);
 
   const textProps = {
     size: 16,
@@ -26,35 +25,35 @@ const MypageMenu = observer((props: Props) => {
     <StyledMypageMenu width={width}>
       <Text
         {...textProps}
-        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/blogs`)}
-        style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'blogs' && { color: 'rgb(18,184,134)' }) }}
+        onClick={() => router.push(`/mypage/${userId}/blogs`)}
+        style={{ cursor: 'pointer', ...(pathname.split('/')[3] === 'blogs' && { color: 'rgb(18,184,134)' }) }}
       >
         내가 쓴 글 보기
       </Text>
       <Text
         {...textProps}
-        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/settings`)}
-        style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'settings' && { color: 'rgb(18,184,134)' }) }}
+        onClick={() => router.push(`/mypage/${userId}/settings`)}
+        style={{ cursor: 'pointer', ...(pathname.split('/')[3] === 'settings' && { color: 'rgb(18,184,134)' }) }}
       >
         정보 변경
       </Text>
       <Text
         {...textProps}
-        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/contact`)}
-        style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'contact' && { color: 'rgb(18,184,134)' }) }}
+        onClick={() => router.push(`/mypage/${userId}/contact`)}
+        style={{ cursor: 'pointer', ...(pathname.split('/')[3] === 'contact' && { color: 'rgb(18,184,134)' }) }}
       >
         전달받은 메세지
       </Text>
       <Text
         {...textProps}
-        onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/categories`)}
-        style={{ cursor: 'pointer', ...(router.pathname.split('/')[3] === 'categories' && { color: 'rgb(18,184,134)' }) }}
+        onClick={() => router.push(`/mypage/${userId}/categories`)}
+        style={{ cursor: 'pointer', ...(pathname.split('/')[3] === 'categories' && { color: 'rgb(18,184,134)' }) }}
       >
         블로그 카테고리 설정
       </Text>
     </StyledMypageMenu>
   );
-});
+};
 
 const StyledMypageMenu = styled.div<Props>`
   width: ${(props) => props.width && (typeof props.width === 'string' ? props.width : `${props.width}px` || '100%')};

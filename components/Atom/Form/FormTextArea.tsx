@@ -1,5 +1,6 @@
-import React, { HTMLAttributes, forwardRef } from 'react';
+import { HTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
+import { FieldError } from 'react-hook-form';
 
 interface Props extends HTMLAttributes<HTMLTextAreaElement> {
   className?: string;
@@ -11,11 +12,7 @@ interface Props extends HTMLAttributes<HTMLTextAreaElement> {
   placeholder?: string;
   readonly?: boolean;
   enabled?: boolean; // enterkey에 대한 활성화
-  error?: {
-    type?: string;
-    message?: string;
-    ref?: any;
-  };
+  error?: FieldError;
 }
 
 // eslint-disable-next-line react/display-name

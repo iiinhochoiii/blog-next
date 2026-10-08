@@ -1,12 +1,12 @@
-import React, { useState, useEffect, SetStateAction, Dispatch } from 'react';
+import { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import styled from 'styled-components';
 import { Flex, Text } from '@/components/Atom';
-import { pageType } from '@/interfaces/models/blog';
+import { pageType } from '@/types/blog';
 
 interface Props {
   page?: pageType;
   pageNum?: string | number | string[];
-  setPaging: Dispatch<SetStateAction<any>>;
+  setPaging: Dispatch<SetStateAction<number>>;
 }
 
 const Pagination = (props: Props) => {

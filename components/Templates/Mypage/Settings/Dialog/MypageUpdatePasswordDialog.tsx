@@ -1,51 +1,19 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import useStores from '@/hooks/use-stores';
 import { Modal } from '@/components/Organisms';
 import { Form, FormInput, FormSubmit, Text } from '@/components/Atom';
-import { useForm } from 'react-hook-form';
 import { regPassword } from '@/utils/regExp';
-import { Toaster } from '@/utils/common';
-import { UpdatePasswordForm } from '@/interfaces/models/user';
+import { useMypageUpdatePassword } from './update-password.hook';
 
 interface Props {
   onClose: () => void;
 }
 
-const MypageUpdatePasswordDialog = observer((props: Props) => {
+const MypageUpdatePasswordDialog = (props: Props) => {
   const { onClose } = props;
-  const { userStore } = useStores();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    reset,
-  } = useForm<UpdatePasswordForm>();
-
-  const updatePassword = async (data: UpdatePasswordForm): Promise<void> => {
-    try {
-      const { password } = data;
-
-      const res = await userStore.updatePassowrd(password);
-      if (res?.status) {
-        onClose();
-        reset({
-          password: '',
-          passwordConfirm: '',
-        });
-        Toaster.showSuccess(res?.message || '비밀번호가 변경 되었습니다.');
-      }
-    } catch (err) {
-      console.log(err);
-      Toaster.showError('비밀번호가 변경되지 않았습니다. 다시 시도해주세요.');
-    }
-  };
+  const { register, errors, onSubmit, validatePasswordConfirm } = useMypageUpdatePassword(onClose);
 
   return (
     <Modal title="비밀번호 변경" onClose={onClose} width={600} height={400}>
-      <Form onSubmit={handleSubmit(updatePassword)}>
+      <Form onSubmit={onSubmit}>
         <Text size={12} margin={{ top: '10px', bottom: '5px' }}>
           비밀번호
         </Text>
@@ -78,11 +46,7 @@ const MypageUpdatePasswordDialog = observer((props: Props) => {
               value: true,
               message: '비밀번호 확인을 입력해주세요.',
             },
-            validate: (value) => {
-              if (value !== watch('password')) {
-                return '패스워드가 일치하지 않습니다.';
-              }
-            },
+            validate: validatePasswordConfirm,
           })}
           error={errors.passwordConfirm}
         />
@@ -90,6 +54,6 @@ const MypageUpdatePasswordDialog = observer((props: Props) => {
       </Form>
     </Modal>
   );
-});
+};
 
 export default MypageUpdatePasswordDialog;

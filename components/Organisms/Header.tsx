@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
-import { observer } from 'mobx-react';
-import useStores from '@/hooks/use-stores';
+import { useUserStore } from '@/stores/user-store-provider';
 import { removeToken } from '@/utils/auth';
 import { Box, Flex, Link, Text } from '@/components/Atom';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const Header = observer((): JSX.Element => {
-  const { userStore } = useStores();
+const Header = (): JSX.Element => {
+  const userInfo = useUserStore((state) => state.userInfo);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [height, setHeight] = useState<number>(0);
   const [userMenu, setUserMenu] = useState<boolean>(false);
   const [menuState, setMenuState] = useState<boolean>(false);
@@ -26,15 +28,17 @@ const Header = observer((): JSX.Element => {
 
   const logout = () => {
     removeToken();
-    userStore.setUserInfo(undefined);
+    setUserInfo(undefined);
     window.location.href = '/';
   };
 
   const login = () => {
-    if (router.asPath === '/') {
+    const query = searchParams.toString();
+    const currentPath = query ? `${pathname}?${query}` : pathname;
+    if (currentPath === '/') {
       router.push('/login');
     } else {
-      router.push(`/login?redirect=${encodeURIComponent(router.asPath)}`);
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
     }
   };
 
@@ -54,7 +58,7 @@ const Header = observer((): JSX.Element => {
               size={16}
               fontWeight={'bold'}
               hover={{ color: 'rgb(18, 184, 134)' }}
-              style={router.pathname.split('/')[1] === 'blog' ? { color: 'rgb(18,184,134)' } : {}}
+              style={pathname.split('/')[1] === 'blog' ? { color: 'rgb(18,184,134)' } : {}}
             >
               Blog
             </Link>
@@ -64,15 +68,15 @@ const Header = observer((): JSX.Element => {
               size={16}
               fontWeight={'bold'}
               hover={{ color: 'rgb(18, 184, 134)' }}
-              style={router.pathname.split('/')[1] === 'contact' ? { color: 'rgb(18,184,134)' } : {}}
+              style={pathname.split('/')[1] === 'contact' ? { color: 'rgb(18,184,134)' } : {}}
             >
               Contact
             </Link>
           </Flex>
-          {userStore?.userInfo ? (
+          {userInfo ? (
             <Box position="relative" className="header-after-login">
               <Text onClick={() => setUserMenu(!userMenu)} size={16} style={{ cursor: 'pointer' }}>
-                {userStore?.userInfo?.name}
+                {userInfo?.name}
               </Text>
               {userMenu && (
                 <Box className="header-after-login-menu">
@@ -83,7 +87,7 @@ const Header = observer((): JSX.Element => {
                   >
                     글쓰기
                   </Text>
-                  <Text onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/blogs`)}>마이페이지</Text>
+                  <Text onClick={() => router.push(`/mypage/${userInfo?.user_id}/blogs`)}>마이페이지</Text>
                   <Text onClick={logout}>로그아웃</Text>
                 </Box>
               )}
@@ -104,7 +108,7 @@ const Header = observer((): JSX.Element => {
                 <Text margin={{ top: '10px', bottom: '10px' }}>
                   <Link
                     href="/blog"
-                    style={router.pathname.split('/')[1] === 'blog' ? { color: 'rgb(18,184,134)' } : {}}
+                    style={pathname.split('/')[1] === 'blog' ? { color: 'rgb(18,184,134)' } : {}}
                     size={16}
                     hover={{ color: 'rgb(18, 184, 134)' }}
                     fontWeight={400}
@@ -115,7 +119,7 @@ const Header = observer((): JSX.Element => {
                 <Text margin={{ top: '10px', bottom: '10px' }}>
                   <Link
                     href="/contact"
-                    style={router.pathname.split('/')[1] === 'contact' ? { color: 'rgb(18,184,134)' } : {}}
+                    style={pathname.split('/')[1] === 'contact' ? { color: 'rgb(18,184,134)' } : {}}
                     size={16}
                     hover={{ color: 'rgb(18, 184, 134)' }}
                     fontWeight={400}
@@ -125,7 +129,7 @@ const Header = observer((): JSX.Element => {
                 </Text>
               </Box>
               <Box margin={{ left: '15px', right: '15px' }}>
-                {userStore?.userInfo ? (
+                {userInfo ? (
                   <>
                     <Text
                       size={16}
@@ -145,7 +149,7 @@ const Header = observer((): JSX.Element => {
                       margin={{ top: '10px', bottom: '10px' }}
                       fontWeight={400}
                       style={{ cursor: 'pointer' }}
-                      onClick={() => router.push(`/mypage/${userStore?.userInfo?.user_id}/blogs`)}
+                      onClick={() => router.push(`/mypage/${userInfo?.user_id}/blogs`)}
                     >
                       마이페이지
                     </Text>
@@ -179,7 +183,7 @@ const Header = observer((): JSX.Element => {
       </Box>
     </StyledHeader>
   );
-});
+};
 
 const StyledHeader = styled.div`
   background: #ffffff;

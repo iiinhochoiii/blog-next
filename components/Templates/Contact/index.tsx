@@ -1,72 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import useStores from '@/hooks/use-stores';
-import { Toaster } from '@/utils/common';
+'use client';
+
 import { Box, Background, HeaderText, Text, IconLink, Form, FormUnderlineInput, FormSubmit, FormTextArea } from '@/components/Atom';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import { regExpEmail } from '@/utils/regExp';
-import { useForm } from 'react-hook-form';
-import { ContactForm } from '@/interfaces/models/contact';
-import { useRouter } from 'next/router';
-import { UserInfo } from '@/interfaces/models/user';
+import { useContact } from './contact.hook';
 
-const ContactComponent = observer((): JSX.Element => {
-  const { contactStore, userStore } = useStores();
-  const router = useRouter();
-  const [receiverUser, setReceiverUser] = useState<UserInfo>();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<ContactForm>();
-
-  useEffect(() => {
-    getUser();
-    if (!router.query?.receiver) {
-      Toaster.showWarning('받는사람이 지정되어있지 않을 시, 관리자에게 전송 됩니다.');
-    }
-
-    if (userStore.userInfo) {
-      reset({
-        name: userStore.userInfo?.name,
-        email: userStore.userInfo?.email,
-        phone: userStore.userInfo?.phone,
-      });
-    }
-  }, [router.query, userStore.userInfo]);
-
-  const getUser = async (): Promise<void> => {
-    try {
-      const params = router.query?.receiver ? Number(router.query.receiver) : 1;
-      const res = await userStore.getUser(params);
-      setReceiverUser(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const create = async (data: ContactForm): Promise<void> => {
-    try {
-      const params = {
-        ...data,
-        receiverUserId: router.query?.receiver ? Number(router.query.receiver) : 1,
-      };
-      await contactStore.createContact(params);
-
-      Toaster.showSuccess('메세지가 전송되었습니다.');
-      reset({
-        message: '',
-      });
-    } catch (err) {
-      console.log(err);
-      Toaster.showError('메세지 전송에 실패하였습니다.');
-    }
-  };
+const ContactComponent = (): JSX.Element => {
+  const { register, errors, onSubmit, receiverEmail, receiverName } = useContact();
 
   return (
     <Box>
-      <Background url={'./images/contact_background.jpg'} background="no-repeat center" position="relative">
+      <Background url={'/images/contact_background.jpg'} background="no-repeat center" position="relative">
         <Box
           position="absolute"
           backgroundColor="rgba(0, 0, 0, 0.3)"
@@ -88,15 +32,15 @@ const ContactComponent = observer((): JSX.Element => {
             Contact
           </HeaderText>
           <Box margin={{ bottom: '10px' }}>
-            <IconLink href={`mailto:${receiverUser?.email}`}>
+            <IconLink href={`mailto:${receiverEmail}`}>
               <MailOutlineIcon />
               email
             </IconLink>
           </Box>
           <Text size={22} fontWeight="bold">
-            To. {router.query?.receiver ? receiverUser?.name : '관리자'}님
+            To. {receiverName}님
           </Text>
-          <Form width="50%" screen={{ size: 1010, calc: '0px' }} onSubmit={handleSubmit(create)}>
+          <Form width="50%" screen={{ size: 1010, calc: '0px' }} onSubmit={onSubmit}>
             <Box margin={{ bottom: '10px' }}>
               <FormUnderlineInput
                 type="text"
@@ -155,6 +99,6 @@ const ContactComponent = observer((): JSX.Element => {
       </Box>
     </Box>
   );
-});
+};
 
 export default ContactComponent;

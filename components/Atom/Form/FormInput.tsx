@@ -1,5 +1,6 @@
 import React, { HTMLAttributes, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
+import { FieldError } from 'react-hook-form';
 
 interface Props extends HTMLAttributes<HTMLInputElement> {
   style?: React.CSSProperties;
@@ -28,11 +29,7 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   fontSize?: number;
   readonly?: boolean;
   enabled?: boolean; // enterkey에 대한 활성화
-  error?: {
-    type?: string;
-    message?: string;
-    ref?: any;
-  };
+  error?: FieldError;
   maxLength?: number;
 }
 

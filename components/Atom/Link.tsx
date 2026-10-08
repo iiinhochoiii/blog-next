@@ -1,10 +1,10 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 
 interface Props {
   children?: React.ReactNode;
-  href?: any;
+  href: LinkProps['href'];
   as?: string;
   margin?: {
     top?: string;
@@ -23,7 +23,7 @@ interface Props {
 
 const Links = (props: Props) => {
   return (
-    <Link href={props.href} passHref as={props.as}>
+    <Link href={props.href} passHref legacyBehavior as={props.as}>
       <StyledLink size={props.size} fontFamily={props.fontFamily} margin={props.margin} hover={props.hover} fontWeight={props.fontWeight} style={props.style}>
         {props.children}
       </StyledLink>
@@ -31,7 +31,7 @@ const Links = (props: Props) => {
   );
 };
 
-const StyledLink = styled.a<Props>`
+const StyledLink = styled.a<Omit<Props, 'href'>>`
   color: #333333;
   text-decoration: none;
   ${(props) =>
