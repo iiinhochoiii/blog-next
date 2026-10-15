@@ -2,6 +2,7 @@ import { useEffect, SetStateAction } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useBlogListQuery } from '@/queries/blog';
 import { Toaster } from '@/utils/common';
+import { BLOG_PAGE_SIZE } from '@/apis/blog';
 
 export const useBlogList = () => {
   const router = useRouter();
@@ -46,6 +47,7 @@ export const useBlogList = () => {
     setPaging,
     onSearch,
     isLoading,
+    skeletonCount: BLOG_PAGE_SIZE,
     blogs: blogList?.data ?? [],
     page: blogList?.page,
   };

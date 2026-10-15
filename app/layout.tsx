@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import StyledComponentsRegistry from './styled-components-registry';
+import MuiStylesRegistry from './mui-styles-registry';
 import Providers from './providers';
 import { getServerUserInfo } from '@/utils/server-auth';
 import 'prismjs/themes/prism-tomorrow.css';
@@ -25,7 +26,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       </head>
       <body>
         <StyledComponentsRegistry>
-          <Providers initialUserInfo={userInfo}>{children}</Providers>
+          <MuiStylesRegistry>
+            <Providers initialUserInfo={userInfo}>{children}</Providers>
+          </MuiStylesRegistry>
         </StyledComponentsRegistry>
       </body>
     </html>

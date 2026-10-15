@@ -1,12 +1,11 @@
 'use client';
 
 import { Box, HeaderText, Flex, Text, Background, Button } from '@/components/Atom';
-import { PostArticle } from '@/components/Organisms';
-import { CircularProgress } from '@material-ui/core';
+import { PostArticle, PostArticleSkeleton } from '@/components/Organisms';
 import { useHome } from './home.hook';
 
 const HomeComponent = (): JSX.Element => {
-  const { isLoading, recentBlogs, onClickMore } = useHome();
+  const { isLoading, skeletonCount, recentBlogs, onClickMore } = useHome();
 
   return (
     <Box>
@@ -43,7 +42,11 @@ const HomeComponent = (): JSX.Element => {
             </HeaderText>
           </Box>
           {isLoading ? (
-            <CircularProgress />
+            <Box margin={{ top: '20px' }} role="status" aria-label="게시글을 불러오는 중">
+              {Array.from({ length: skeletonCount }, (_, index) => (
+                <PostArticleSkeleton key={index} />
+              ))}
+            </Box>
           ) : (
             <Box margin={{ top: '20px' }}>
               {recentBlogs.map((item) => (

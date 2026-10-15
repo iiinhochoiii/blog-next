@@ -2,18 +2,13 @@
 
 import moment from 'moment';
 import TextTruncate from 'react-text-truncate'; // recommend
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, HeaderText, Text, Table } from '@/components/Atom';
-import { EmptyDataBox } from '@/components/Molecules';
+import { EmptyDataBox, TableSkeletonRows } from '@/components/Molecules';
 import MypageContactDialog from './Dialog/MypageContactDialog';
 import { useMypageContact } from './contact.hook';
 
 const MypageContactComponent = (): JSX.Element => {
   const { isLoading, contactList, contact, showContactModal, onOpenContact, onCloseContact, onDelete } = useMypageContact();
-
-  if (isLoading) {
-    return <CircularProgress />;
-  }
 
   return (
     <Box style={{ minHeight: '100vh' }} width={'70%'} screen={{ size: 1010, calc: '0px' }}>
@@ -21,8 +16,8 @@ const MypageContactComponent = (): JSX.Element => {
         Received Message
       </HeaderText>
 
-      {contactList.length > 0 ? (
-        <Box>
+      {isLoading || contactList.length > 0 ? (
+        <Box {...(isLoading && { role: 'status', 'aria-label': '메세지를 불러오는 중' })}>
           <Table>
             <thead>
               <tr>
@@ -34,25 +29,29 @@ const MypageContactComponent = (): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {contactList.map((item, index) => (
-                <tr key={item.contact_id}>
-                  <td>{index + 1}</td>
-                  <td style={{ textAlign: 'left' }}>
-                    <TextTruncate line={1} element="p" truncateText="…" text={item.message} />
-                  </td>
-                  <td className="td_date">{moment(item.created_at).format('YYYY-MM-DD HH:mm:ss')}</td>
-                  <td>
-                    <Text style={{ cursor: 'pointer' }} textAlign="center" size={14} onClick={() => onOpenContact(item)}>
-                      보기
-                    </Text>
-                  </td>
-                  <td>
-                    <Text style={{ cursor: 'pointer' }} textAlign="center" size={14} onClick={() => onDelete(item.contact_id)}>
-                      삭제
-                    </Text>
-                  </td>
-                </tr>
-              ))}
+              {isLoading ? (
+                <TableSkeletonRows cells={[{ width: 20 }, { width: '70%', align: 'left' }, { width: '70%' }, { width: 28 }, { width: 28 }]} />
+              ) : (
+                contactList.map((item, index) => (
+                  <tr key={item.contact_id}>
+                    <td>{index + 1}</td>
+                    <td style={{ textAlign: 'left' }}>
+                      <TextTruncate line={1} element="p" truncateText="…" text={item.message} />
+                    </td>
+                    <td className="td_date">{moment(item.created_at).format('YYYY-MM-DD HH:mm:ss')}</td>
+                    <td>
+                      <Text style={{ cursor: 'pointer' }} textAlign="center" size={14} onClick={() => onOpenContact(item)}>
+                        보기
+                      </Text>
+                    </td>
+                    <td>
+                      <Text style={{ cursor: 'pointer' }} textAlign="center" size={14} onClick={() => onDelete(item.contact_id)}>
+                        삭제
+                      </Text>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </Table>
         </Box>

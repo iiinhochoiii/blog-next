@@ -3,12 +3,11 @@
 import { Box, Background, HeaderText, Text, Flex } from '@/components/Atom';
 import { Pagination } from '@/components/Organisms';
 import { EmptyDataBox, SearchForm } from '@/components/Molecules';
-import { PostArticle } from '@/components/Organisms';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { PostArticle, PostArticleSkeleton } from '@/components/Organisms';
 import { useBlogList } from './blog.hook';
 
 const BlogComponent = (): JSX.Element => {
-  const { title, paging, setPaging, onSearch, isLoading, blogs, page } = useBlogList();
+  const { title, paging, setPaging, onSearch, isLoading, skeletonCount, blogs, page } = useBlogList();
 
   return (
     <Box>
@@ -43,7 +42,11 @@ const BlogComponent = (): JSX.Element => {
 
         <Box margin={{ top: '10px', bottom: '30px' }} style={{ minHeight: '60vh' }}>
           {isLoading ? (
-            <CircularProgress />
+            <Box role="status" aria-label="게시글을 불러오는 중">
+              {Array.from({ length: skeletonCount }, (_, index) => (
+                <PostArticleSkeleton key={index} />
+              ))}
+            </Box>
           ) : blogs.length > 0 ? (
             <Box>
               {blogs.map((item) => (

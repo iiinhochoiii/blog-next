@@ -2,12 +2,17 @@ import { useEffect, useState } from 'react';
 import { useBlogListQuery } from '@/queries/blog';
 import { useUserStore } from '@/stores/user-store-provider';
 import { Toaster } from '@/utils/common';
+import { BLOG_PAGE_SIZE } from '@/apis/blog';
 
 export const useMypageBlogs = () => {
   const userId = useUserStore((state) => state.userInfo?.user_id);
   const [paging, setPaging] = useState(1);
 
-  const { data: blogList, error } = useBlogListQuery(
+  const {
+    data: blogList,
+    isLoading,
+    error,
+  } = useBlogListQuery(
     {
       page: paging,
       userId: String(userId),
@@ -24,6 +29,8 @@ export const useMypageBlogs = () => {
   }, [error]);
 
   return {
+    isLoading,
+    skeletonCount: BLOG_PAGE_SIZE,
     blogs: blogList?.data ?? [],
     page: blogList?.page,
     paging,

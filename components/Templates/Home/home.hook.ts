@@ -18,6 +18,7 @@ export const useHome = () => {
 
   return {
     isLoading,
+    skeletonCount: RECENT_POST_COUNT,
     recentBlogs: data?.data?.slice(0, RECENT_POST_COUNT) ?? [],
     onClickMore: () => router.push('/blog'),
   };

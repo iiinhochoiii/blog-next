@@ -4,6 +4,9 @@ import { blogs } from '@/types/blog';
 
 const modelName = 'blogs';
 
+// 블로그 목록 API 의 페이지당 게시글 수(응답의 page.limit)
+export const BLOG_PAGE_SIZE = 10;
+
 export interface BlogSearchParams {
   title?: string;
   page: number;

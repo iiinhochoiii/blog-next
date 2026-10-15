@@ -16,3 +16,4 @@ export { default as FormSubmit } from './Form/FormSubmit';
 export { default as FormInput } from './Form/FormInput';
 export { default as FormUnderlineInput } from './Form/FormUnderlineInput';
 export { default as FormTextArea } from './Form/FormTextArea';
+export { default as Skeleton } from './Skeleton';
