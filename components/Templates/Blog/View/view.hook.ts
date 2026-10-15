@@ -9,7 +9,7 @@ export const useBlogView = () => {
   const router = useRouter();
   const { id: blog_id } = useParams<{ id: string }>();
   const userInfo = useUserStore((state) => state.userInfo);
-  const { data, isError } = useBlogItemQuery(Number(blog_id), { enabled: !!blog_id });
+  const { data, isLoading, isError } = useBlogItemQuery(Number(blog_id), { enabled: !!blog_id });
   const { mutateAsync: hideBlog } = useHideBlogMutation();
   const blogItem = data?.status ? data.data : undefined;
 
@@ -53,6 +53,7 @@ export const useBlogView = () => {
   };
 
   return {
+    isLoading,
     blogItem,
     isOwner: !!blogItem && blogItem.user_id === userInfo?.user_id,
     onHide,

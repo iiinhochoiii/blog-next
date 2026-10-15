@@ -1,8 +1,8 @@
 'use client';
 
 import { Box, HeaderText, Form, FormInput, FormSubmit, Flex, Table, Text } from '@/components/Atom';
+import { TableSkeletonRows } from '@/components/Molecules';
 import MypageUpdateCategoryDialog from './Dialog/MypageUpdateCategoryDialog';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { useMypageCategories } from './categories.hook';
 
 const MypageCategoriesComponent = (): JSX.Element => {
@@ -19,10 +19,6 @@ const MypageCategoriesComponent = (): JSX.Element => {
     onUpdateCategory,
   } = useMypageCategories();
 
-  if (isLoading) {
-    return <CircularProgress />;
-  }
-
   return (
     <Box style={{ minHeight: '100vh' }} width={'70%'} screen={{ size: 1010, calc: '0px' }}>
       <HeaderText size={22} fontWeight={400} color="rgb(18, 184, 134)">
@@ -36,7 +32,7 @@ const MypageCategoriesComponent = (): JSX.Element => {
           </Flex>
         </Form>
 
-        <Box margin={{ top: '30px' }}>
+        <Box margin={{ top: '30px' }} {...(isLoading && { role: 'status', 'aria-label': '카테고리를 불러오는 중' })}>
           <Table>
             <thead>
               <tr>
@@ -48,7 +44,9 @@ const MypageCategoriesComponent = (): JSX.Element => {
               </tr>
             </thead>
             <tbody>
-              {categories.length > 0 ? (
+              {isLoading ? (
+                <TableSkeletonRows cells={[{ width: 20 }, { width: '60%' }, { width: 36 }, { width: 28 }, { width: 28 }]} />
+              ) : categories.length > 0 ? (
                 categories.map((category, index) => (
                   <tr key={category.category_id}>
                     <td>{index + 1}</td>

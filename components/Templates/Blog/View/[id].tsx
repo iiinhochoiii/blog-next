@@ -6,9 +6,14 @@ import moment from 'moment';
 import { Box, Background, HeaderText, Text, PostContent } from '@/components/Atom';
 import { PostSettingBox } from '@/components/Molecules';
 import { useBlogView } from './view.hook';
+import BlogViewSkeleton from './BlogViewSkeleton';
 
 const ViewBlogComponent = (): JSX.Element => {
-  const { blogItem, isOwner, onHide, onUpdate } = useBlogView();
+  const { isLoading, blogItem, isOwner, onHide, onUpdate } = useBlogView();
+
+  if (isLoading) {
+    return <BlogViewSkeleton />;
+  }
 
   return blogItem ? (
     <Box>

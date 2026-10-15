@@ -4,3 +4,4 @@ export { default as PostSettingBox } from './Post/SettingBox';
 export { default as PostSelectBox } from './Post/SelectBox';
 export { default as MypageMenu } from './MypageMenu';
 export { default as ArticleOptionBox } from './Post/ArticleOptionBox';
+export { default as TableSkeletonRows } from './TableSkeletonRows';
