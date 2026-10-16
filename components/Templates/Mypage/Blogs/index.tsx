@@ -22,7 +22,7 @@ const MypageBlogComponent = () => {
       ) : blogs.length > 0 ? (
         <Box>
           {blogs.map((item) => (
-            <PostArticle key={item?.blog_id} blog={item} abled={true} />
+            <PostArticle key={item?.blog_id} blog={item} authorAction="menu" manageable={true} />
           ))}
           <Box margin={{ top: '20px' }}>
             <Pagination page={page} pageNum={paging} setPaging={setPaging} />
