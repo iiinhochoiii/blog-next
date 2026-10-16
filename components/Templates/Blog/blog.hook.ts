@@ -1,6 +1,8 @@
 import { useEffect, SetStateAction } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useBlogListQuery } from '@/queries/blog';
+import { useUserQuery } from '@/queries/user';
+import { useUserStore } from '@/stores/user-store-provider';
 import { Toaster } from '@/utils/common';
 import { BLOG_PAGE_SIZE } from '@/apis/blog';
 
@@ -12,6 +14,9 @@ export const useBlogList = () => {
   // 현재 페이지는 URL(?page=) 을 단일 기준으로 사용 (Blog 메뉴 재클릭, 뒤로가기 시에도 URL 과 일치)
   const paging = Number(searchParams.get('page')) || 1;
   const basePath = userId ? `/blog/${userId}` : '/blog';
+  const loginUserId = useUserStore((state) => state.userInfo?.user_id);
+  // 작성자별 목록이면 배너 제목에 쓸 작성자 정보 조회
+  const { data: author, isLoading: isAuthorLoading } = useUserQuery(Number(userId), { enabled: !!userId });
 
   const {
     data: blogList,
@@ -42,6 +47,14 @@ export const useBlogList = () => {
   };
 
   return {
+    // 작성자별 목록(/blog/{userId}) 여부
+    isUserBlog: !!userId,
+    // 배너 제목: 전체 목록은 'Blog', 작성자별 목록은 '{작성자}'s Blog' (조회 실패 시 'Blog')
+    bannerTitle: author?.name ? `${author.name}'s Blog` : 'Blog',
+    isBannerTitleLoading: !!userId && isAuthorLoading,
+    // 작성자별 목록에서, 본인 목록이 아닐 때만 작성자에게 메세지 보내기 노출
+    canSendMessage: !!userId && String(loginUserId) !== String(userId),
+    onSendMessage: () => router.push(`/contact?receiver=${userId}`),
     title,
     paging,
     setPaging,

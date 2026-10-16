@@ -1,6 +1,7 @@
 import { HTMLAttributes } from 'react';
 import { useDeleteBlogMutation, useHideBlogMutation } from '@/queries/blog';
-import styled, { css } from 'styled-components';
+import { useUserStore } from '@/stores/user-store-provider';
+import styled from 'styled-components';
 import { Blog } from '@/types/blog';
 import { Link, Text, Button, Flex } from '@/components/Atom';
 import { ArticleOptionBox } from '@/components/Molecules';
@@ -10,16 +11,26 @@ import moment from 'moment';
 import { Toaster } from '@/utils/common';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  abled?: boolean; // 글쓴이를 클릭 했을 때 메뉴 활성화 여부
+  // 작성자 이름 영역 동작
+  // - link: 클릭 시 작성자 글 목록(/blog/{user_id})으로 이동 (전체 목록)
+  // - menu: hover 시 메뉴 노출 (마이페이지 관리 목록)
+  // - none: 텍스트만 표시 (기본값, 홈 / 작성자별 목록)
+  authorAction?: 'link' | 'menu' | 'none';
+  manageable?: boolean; // menu 에서 숨김/삭제 관리 메뉴 노출 여부 (마이페이지 내가 쓴 글 목록에서만 사용)
   blog: Blog;
 }
 
 // 숨김/삭제 성공 시 mutation 에서 blogs 쿼리를 무효화하므로 목록이 자동으로 갱신된다.
 const PostArticle = (props: Props) => {
-  const { blog } = props;
+  const { blog, authorAction = 'none', manageable } = props;
   const { mutateAsync: hideBlogMutate } = useHideBlogMutation();
   const { mutateAsync: deleteBlogMutate } = useDeleteBlogMutation();
   const router = useRouter();
+  const loginUserId = useUserStore((state) => state.userInfo?.user_id);
+  // 로그인한 사용자가 작성한 글인지
+  const isOwner = loginUserId !== undefined && blog?.user_id !== undefined && String(loginUserId) === String(blog.user_id);
+  // 관리 메뉴는 관리용 목록(manageable)에서 본인 글일 때만
+  const canManage = !!manageable && isOwner;
 
   const hideBlog = async (blog_id: number, status: boolean): Promise<void> => {
     try {
@@ -70,25 +81,35 @@ const PostArticle = (props: Props) => {
       </Button>
       <Flex justify="space-between" margin={{ top: '15px' }}>
         <Text size={14}>{moment(blog?.created_at).format('YYYY-MM-DD')}</Text>
-        <StyledArticleNameBox {...props}>
-          <Text className="article-user-name" size={14}>
+        {authorAction === 'link' && (
+          <Link href={`/blog/${blog?.user_id}?page=1`} size={14} hover={{ color: '#0085a1' }}>
             {blog?.name}
-          </Text>
-          <ArticleOptionBox
-            className="article-option-box"
-            routeBlog={(): void => {
-              router.push(`/blog/${blog?.user_id}?page=1`);
-            }}
-            routeContact={(): void => {
-              router.push(`/contact?receiver=${blog.user_id}`);
-            }}
-            show_status={blog?.show_status}
-            hide={(status: boolean): void => {
-              hideBlog(blog.blog_id, status);
-            }}
-            deleteBlog={() => deleteBlog()}
-          />
-        </StyledArticleNameBox>
+          </Link>
+        )}
+        {authorAction === 'menu' && (
+          <StyledArticleNameBox>
+            <Text className="article-user-name" size={14}>
+              {blog?.name}
+            </Text>
+            <ArticleOptionBox
+              className="article-option-box"
+              routeBlog={(): void => {
+                router.push(`/blog/${blog?.user_id}?page=1`);
+              }}
+              routeContact={(): void => {
+                router.push(`/contact?receiver=${blog.user_id}`);
+              }}
+              show_status={blog?.show_status}
+              isOwner={isOwner}
+              canManage={canManage}
+              hide={(status: boolean): void => {
+                hideBlog(blog.blog_id, status);
+              }}
+              deleteBlog={() => deleteBlog()}
+            />
+          </StyledArticleNameBox>
+        )}
+        {authorAction === 'none' && <Text size={14}>{blog?.name}</Text>}
       </Flex>
     </StyledArticle>
   );
@@ -100,23 +121,16 @@ const StyledArticle = styled.article`
   padding: 15px 0px;
 `;
 
-const StyledArticleNameBox = styled.div<Props>`
+const StyledArticleNameBox = styled.div`
+  cursor: pointer;
+
   .article-option-box {
     display: none;
   }
 
-  ${(props) => {
-    if (props.abled) {
-      return css`
-        cursor: pointer;
-        &:hover {
-          & > .article-option-box {
-            display: block;
-          }
-        }
-      `;
-    }
-  }}
+  &:hover > .article-option-box {
+    display: block;
+  }
 `;
 
 export default PostArticle;

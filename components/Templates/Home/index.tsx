@@ -50,7 +50,7 @@ const HomeComponent = (): JSX.Element => {
           ) : (
             <Box margin={{ top: '20px' }}>
               {recentBlogs.map((item) => (
-                <PostArticle key={item?.blog_id} blog={item} />
+                <PostArticle key={item?.blog_id} blog={item} authorAction="link" />
               ))}
             </Box>
           )}
